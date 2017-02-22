@@ -12,7 +12,7 @@ public class shootThread extends Thread{
     }
     @Override
     public void run() {
-        robot.miniGun.setPower(0.65);
+        robot.miniGun.setPower(0.58);
         for(int i = 0; i < 3; ++i)
         {
             while(!robot.TCH.isPressed())
@@ -22,6 +22,7 @@ public class shootThread extends Thread{
             {
             }
             robot.isLoaded=false;
+            robot.isReadytoLoad=true;
             while(!robot.TCH.isPressed())
             {
             }

@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwarePushbot
 {
     /* Public OpMode members. */
-    public DcMotor  TMotor1     = null;
+    public DcMotor  Mladder     = null;
     public Servo wrench = null;
     public TouchSensor TCH =null;
     public double powerl = 0.0, powerr = 0.0;
@@ -35,7 +35,10 @@ public class HardwarePushbot
     public DcMotor l1 = null, l2 = null;
     public DcMotor miniGun = null, collector = null;
     public OpticalDistanceSensor eye = null;
+
     public boolean isLoaded = false;
+    public boolean isReleased =false;
+    public boolean isReadytoLoad =false;
     //  public Servo    leftClaw    = null;
   //  public Servo    rightClaw   = null;
 
@@ -62,6 +65,7 @@ public class HardwarePushbot
         l2 = hwMap.dcMotor.get("L2");
         r1 = hwMap.dcMotor.get("R1");
         r2 = hwMap.dcMotor.get("R2");
+        Mladder = hwMap.dcMotor.get("ladder");
         wrench = hwMap.servo.get("wrench");
         collector = hwMap.dcMotor.get("collector");
         miniGun = hwMap.dcMotor.get("shooter");
@@ -77,9 +81,10 @@ public class HardwarePushbot
         l2.setPower(0);
         r1.setPower(0);
         r2.setPower(0);
+        Mladder.setPower(0);
         miniGun.setPower(0);
         eye.enableLed(true);
-        wrench.scaleRange(0.45,0.95);
+        wrench.scaleRange(0.45,1);
         wrench.setPosition(1.0);
 //        rightMotor.setPower(0);
 //        armMotor.setPower(0);
@@ -198,6 +203,7 @@ public class HardwarePushbot
         r2.setPower(0);
         l1.setPower(0);
         l2.setPower(0);
+        Mladder.setPower(0);
         miniGun.setPower(0);
         collector.setPower(0);
         wrench.setPosition(1.0);//0.4

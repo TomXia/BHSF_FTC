@@ -53,11 +53,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class myPushbotTeleopTank_Iterative extends OpMode{
 
     /* Declare OpMode members. */
-    final private double obsThreshold =0.25;
+    final private double obsThreshold =0.15;
+
     private HardwarePushbot robot       = new HardwarePushbot(); // use the class created to define a Pushbot's hardware
+
     private shootThread shoot;
     private collector collect;
     private shoot_servo reloader;
+    private releaseLadder dropper = new releaseLadder(robot);
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
 //    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
@@ -110,10 +113,23 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             collect.start();
         }
 
-        if(robot.eye.getLightDetected() >= obsThreshold && !robot.isLoaded && (reloader == null || !reloader.isAlive()) )        {
+        if(gamepad1.x||((robot.eye.getLightDetected() >= obsThreshold || robot.isReadytoLoad) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
             reloader = new shoot_servo(robot);
             reloader.start();
         }
+
+        if(gamepad1.dpad_up || gamepad1.dpad_down)
+        {
+            if(!robot.isReleased && !dropper.isAlive()){
+                dropper.start();
+            }
+            if(!dropper.isAlive()) {
+                if(gamepad1.dpad_up)    robot.Mladder.setPower(-1.0);
+                if(gamepad1.dpad_down)  robot.Mladder.setPower(1.0);
+            }
+        }
+        if(!dropper.isAlive() && !gamepad1.dpad_down && !gamepad1.dpad_up)
+            robot.Mladder.setPower(0.0);
 
         telemetry.addData("servo", "%.2f", robot.wrench.getPosition());
         telemetry.addData("ODS", "%.2f", robot.eye.getLightDetected());
