@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.IrSeekerSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -35,7 +34,8 @@ public class HardwarePushbot
     public DcMotor r1 = null, r2 = null;
     public DcMotor l1 = null, l2 = null;
     public DcMotor miniGun = null, collector = null;
-    public IrSeekerSensor eye = null;
+    public OpticalDistanceSensor eye = null;
+    public boolean isLoaded = false;
     //  public Servo    leftClaw    = null;
   //  public Servo    rightClaw   = null;
 
@@ -44,7 +44,7 @@ public class HardwarePushbot
 //    public static final double ARM_DOWN_POWER  = -0.45 ;
 
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
+    private HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
@@ -66,7 +66,7 @@ public class HardwarePushbot
         collector = hwMap.dcMotor.get("collector");
         miniGun = hwMap.dcMotor.get("shooter");
         TCH = hwMap.touchSensor.get("TCH");
-        eye = hwMap.irSeekerSensor.get("eye");
+        eye = hwMap.opticalDistanceSensor.get("eye");
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
 //        TMotor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -78,8 +78,9 @@ public class HardwarePushbot
         r1.setPower(0);
         r2.setPower(0);
         miniGun.setPower(0);
+        eye.enableLed(true);
+        wrench.scaleRange(0.45,0.95);
         wrench.setPosition(1.0);
-
 //        rightMotor.setPower(0);
 //        armMotor.setPower(0);
 
@@ -102,12 +103,8 @@ public class HardwarePushbot
 //        rightClaw.setPosition(MID_SERVO);
     }
 
-    public double getTCH()
-    {
-        return TCH.getValue();
-    }
 
-    public void checkl()
+    private void checkl()
     {
         if(powerl > 1.0)
         {
@@ -120,7 +117,7 @@ public class HardwarePushbot
             powerl = 1.0;
         }
     }
-    public void checkr()
+    private void checkr()
     {
         if(powerr > 1.0)
         {

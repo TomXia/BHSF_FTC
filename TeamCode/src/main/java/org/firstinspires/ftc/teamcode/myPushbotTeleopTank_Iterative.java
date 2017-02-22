@@ -31,17 +31,8 @@ TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
-
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
-
-import org.firstinspires.ftc.teamcode.shootThread;
-import org.firstinspires.ftc.teamcode.collector;
-import org.firstinspires.ftc.teamcode.HardwarePushbot;
-
 /**
  * This file provides basic Telop driving for a Pushbot robot.
  * The code is structured as an Iterative OpMode
@@ -62,12 +53,14 @@ import org.firstinspires.ftc.teamcode.HardwarePushbot;
 public class myPushbotTeleopTank_Iterative extends OpMode{
 
     /* Declare OpMode members. */
-    HardwarePushbot robot       = new HardwarePushbot(); // use the class created to define a Pushbot's hardware
-    shootThread shoot;
-    collector collect;
+    final private double obsThreshold =0.25;
+    private HardwarePushbot robot       = new HardwarePushbot(); // use the class created to define a Pushbot's hardware
+    private shootThread shoot;
+    private collector collect;
+    private shoot_servo reloader;
                                                          // could also use HardwarePushbotMatrix class.
-    double          clawOffset  = 0.0 ;                  // Servo mid position
-    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
+//    double          clawOffset  = 0.0 ;                  // Servo mid position
+//    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
 
 
     /*
@@ -112,12 +105,18 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             shoot = new shootThread(robot);
             shoot.start();
         }
-        if( gamepad1.b && (collect == null || !collect.isAlive()) ){
+        if( gamepad1.b && (collect == null || !collect.isAlive()) ) {
             collect = new collector(robot, gamepad1);
             collect.start();
         }
-        robot.wrench.setPosition(gamepad1.right_stick_y);
+
+        if(robot.eye.getLightDetected() >= obsThreshold && !robot.isLoaded && (reloader == null || !reloader.isAlive()) )        {
+            reloader = new shoot_servo(robot);
+            reloader.start();
+        }
+
         telemetry.addData("servo", "%.2f", robot.wrench.getPosition());
+        telemetry.addData("ODS", "%.2f", robot.eye.getLightDetected());
         telemetry.addData("left",  "%.2f", robot.powerl);
         telemetry.addData("right",  "%.2f", robot.powerr);
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)

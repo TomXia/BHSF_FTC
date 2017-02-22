@@ -21,6 +21,7 @@ public class shootThread extends Thread{
             while (robot.TCH.isPressed())
             {
             }
+            robot.isLoaded=false;
             while(!robot.TCH.isPressed())
             {
             }
