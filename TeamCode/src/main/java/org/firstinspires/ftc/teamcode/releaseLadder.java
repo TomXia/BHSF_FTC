@@ -18,6 +18,7 @@ public class releaseLadder extends Thread {
         }catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         robot.Mladder.setPower(0.4);
         try {
             Thread.sleep(275);

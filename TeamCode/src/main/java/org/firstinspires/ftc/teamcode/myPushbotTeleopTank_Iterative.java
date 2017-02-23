@@ -104,7 +104,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
         telemetry.addData("y",  "%.2f", gamepad1.left_stick_y);
         robot.pushGamepad(gamepad1.left_stick_x, gamepad1.left_stick_y);
 
-        if( gamepad1.a && (shoot == null || !shoot.isAlive()) ){
+        if( gamepad1.right_bumper && (shoot == null || !shoot.isAlive()) ){
             shoot = new shootThread(robot);
             shoot.start();
         }
@@ -132,6 +132,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             robot.Mladder.setPower(0.0);
 
         telemetry.addData("servo", "%.2f", robot.wrench.getPosition());
+        telemetry.addData("gamepad_RB", "%b", gamepad1.right_bumper);
         telemetry.addData("ODS", "%.2f", robot.eye.getLightDetected());
         telemetry.addData("left",  "%.2f", robot.powerl);
         telemetry.addData("right",  "%.2f", robot.powerr);
