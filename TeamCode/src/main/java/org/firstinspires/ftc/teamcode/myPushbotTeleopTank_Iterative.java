@@ -63,6 +63,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
     private shoot_servo reloader;
     private releaseLadder dropper = new releaseLadder(robot);
     private double rx,ry,x,y;
+    private boolean is_Up;
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
 //    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
@@ -132,12 +133,12 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
                 dropper.start();
             }
             if(!dropper.isAlive()) {
-                if(gamepad1.dpad_up)    robot.Mladder.setPower(-1.0);
-                if(gamepad1.dpad_down)  robot.Mladder.setPower(1.0);
+                if(gamepad1.dpad_up)    {robot.Mladder.setPower(-1.0);is_Up=true;}
+                if(gamepad1.dpad_down)  {robot.Mladder.setPower(1.0);is_Up=false;}
             }
         }
         if(!dropper.isAlive() && !gamepad1.dpad_down && !gamepad1.dpad_up)
-            robot.Mladder.setPower(0.0);
+            robot.Mladder.setPower(is_Up?-0.07:0.0);
 
         telemetry.addData("servo", "%.2f", robot.wrench.getPosition());
         telemetry.addData("gamepad_RB", "%b", gamepad1.right_bumper);
