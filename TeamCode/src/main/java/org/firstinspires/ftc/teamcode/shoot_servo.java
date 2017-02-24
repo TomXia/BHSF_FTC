@@ -11,8 +11,6 @@ public class shoot_servo extends Thread {
     }
     @Override
     public void run() {
-        if(robot.eye.getLightDetected() > 0.15) robot.isLoaded=true;
-        robot.isReadytoLoad=false;
 
         robot.wrench.setPosition(0);
         try {
@@ -22,9 +20,10 @@ public class shoot_servo extends Thread {
         }
         robot.wrench.setPosition(1);
         try {
-            if(robot.LOP==2)Thread.sleep(550);else Thread.sleep(50);
+            if(robot.LOP==2)Thread.sleep(650);else Thread.sleep(90);
         }catch (InterruptedException e) {
             e.printStackTrace();
         }
+        robot.isLoaded=true;
     }
 }

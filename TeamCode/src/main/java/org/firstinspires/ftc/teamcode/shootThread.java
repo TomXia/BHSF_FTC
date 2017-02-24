@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.HardwarePushbot;
 
 public class shootThread extends Thread{
     public HardwarePushbot robot;
+    long t;
     public shootThread(HardwarePushbot rob){
         robot=rob;
     }
@@ -16,12 +17,16 @@ public class shootThread extends Thread{
         for(int i = 0; i < 3; ++i)
         {
             robot.LOP=i;
-            while(!robot.TCH.isPressed())
-            {
+            t=System.currentTimeMillis();
+            while(!robot.isLoaded){
+                robot.miniGun.setPower(0.0);
+                if(System.currentTimeMillis()-t > 5000) return ;
             }
+            robot.miniGun.setPower(0.58);
+            while(!robot.TCH.isPressed()){}
             try {
                 robot.miniGun.setPower(0);
-                if(i==2) Thread.sleep(450);
+                if(i==2) Thread.sleep(200);
             }catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -30,7 +35,6 @@ public class shootThread extends Thread{
             {
             }
             robot.isLoaded=false;
-            robot.isReadytoLoad=true;
             while(!robot.TCH.isPressed())
             {
             }

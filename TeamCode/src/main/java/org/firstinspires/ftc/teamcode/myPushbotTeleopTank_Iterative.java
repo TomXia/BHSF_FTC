@@ -102,7 +102,6 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-
         rx=gamepad1.left_stick_x;
         ry=gamepad1.left_stick_y;
         x=(rx==0)?1:Math.abs(rx)/rx;
@@ -122,7 +121,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             collect.start();
         }
 
-        if(gamepad1.x||((robot.eye.getLightDetected() >= obsThreshold || robot.isReadytoLoad) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
+        if(gamepad1.x||((robot.eye.getLightDetected() >= obsThreshold) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
             reloader = new shoot_servo(robot);
             reloader.start();
         }

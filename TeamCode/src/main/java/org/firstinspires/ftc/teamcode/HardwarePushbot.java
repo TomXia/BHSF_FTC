@@ -39,7 +39,6 @@ public class HardwarePushbot
 
     public boolean isLoaded = false;
     public boolean isReleased =false;
-    public boolean isReadytoLoad =false;
     public int LOP=-1;
     //  public Servo    leftClaw    = null;
   //  public Servo    rightClaw   = null;
