@@ -33,6 +33,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import java.lang.Math;
 /**
  * This file provides basic Telop driving for a Pushbot robot.
  * The code is structured as an Iterative OpMode
@@ -61,6 +62,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
     private collector collect;
     private shoot_servo reloader;
     private releaseLadder dropper = new releaseLadder(robot);
+    private double rx,ry,x,y;
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
 //    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
@@ -100,9 +102,16 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
      */
     @Override
     public void loop() {
-        telemetry.addData("x",  "%.2f", gamepad1.left_stick_x);
-        telemetry.addData("y",  "%.2f", gamepad1.left_stick_y);
-        robot.pushGamepad(gamepad1.left_stick_x, gamepad1.left_stick_y);
+
+        rx=gamepad1.left_stick_x;
+        ry=gamepad1.left_stick_y;
+        x=(rx==0)?1:Math.abs(rx)/rx;
+        y=(ry==0)?1:Math.abs(ry)/ry;
+        x*=1-Math.sqrt(1-(rx*rx));
+        y*=1-Math.sqrt(1-(ry*ry));
+        robot.pushGamepad(x, y);
+        telemetry.addData("x",  "%.2f", x);
+        telemetry.addData("y",  "%.2f", y);
 
         if( gamepad1.right_bumper && (shoot == null || !shoot.isAlive()) ){
             shoot = new shootThread(robot);

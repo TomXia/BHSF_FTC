@@ -15,12 +15,13 @@ public class shootThread extends Thread{
         robot.miniGun.setPower(0.58);
         for(int i = 0; i < 3; ++i)
         {
+            robot.LOP=i;
             while(!robot.TCH.isPressed())
             {
             }
             try {
                 robot.miniGun.setPower(0);
-                Thread.sleep(450);
+                if(i==2) Thread.sleep(450);
             }catch (InterruptedException e) {
                 e.printStackTrace();
             }

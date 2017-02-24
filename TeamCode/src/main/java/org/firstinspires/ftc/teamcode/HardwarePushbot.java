@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
+
 /**
  * This is NOT an opmode.
  *
@@ -39,6 +40,7 @@ public class HardwarePushbot
     public boolean isLoaded = false;
     public boolean isReleased =false;
     public boolean isReadytoLoad =false;
+    public int LOP=-1;
     //  public Servo    leftClaw    = null;
   //  public Servo    rightClaw   = null;
 
@@ -134,7 +136,6 @@ public class HardwarePushbot
 
     public void pushGamepad(double x, double y)
     {
-
         powerl = x-y;
         powerr = x+y;
 

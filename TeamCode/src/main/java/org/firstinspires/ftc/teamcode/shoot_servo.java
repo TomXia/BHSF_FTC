@@ -22,7 +22,7 @@ public class shoot_servo extends Thread {
         }
         robot.wrench.setPosition(1);
         try {
-            Thread.sleep(650);
+            if(robot.LOP==2)Thread.sleep(550);else Thread.sleep(50);
         }catch (InterruptedException e) {
             e.printStackTrace();
         }
