@@ -32,8 +32,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.util.concurrent.BlockingQueue;
 
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -51,7 +57,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name="Pushbot: Teleop Tank Rec", group="Pushbot")
-//@Disabled
+@Disabled
 public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
 
     /* Declare OpMode members. */
@@ -65,6 +71,11 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
     private releaseLadder dropper = new releaseLadder(robot);
     private double rx,ry,x,y;
     private boolean is_Up;
+    private BlockingQueue que;
+    private FileManager fm = new FileManager(true,gamepad1,que);
+    private Gamepad bgp;
+    private CommandInfo ci = new CommandInfo();
+    private ElapsedTime et;
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
 //    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
@@ -97,6 +108,8 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void start() {
+        fm.start();
+        et.reset();
     }
 
     /*
@@ -104,6 +117,12 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void loop() {
+        if(gamepad1.left_stick_x != bgp.left_stick_x){
+            bgp.left_stick_x=gamepad1.left_stick_x;
+            ci.cmd="lsx1";
+        }
+
+
         rx=gamepad1.left_stick_x;
         ry=gamepad1.left_stick_y;
         x=(rx==0)?1:Math.abs(rx)/rx;

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 
@@ -30,6 +31,7 @@ public class HardwarePushbot
     /* Public OpMode members. */
     public DcMotor  Mladder     = null;
     public Servo wrench = null;
+    public Servo serv2 = null;
     public TouchSensor TCH =null;
     public double powerl = 0.0, powerr = 0.0;
     public DcMotor r1 = null, r2 = null;
@@ -55,6 +57,27 @@ public class HardwarePushbot
     public HardwarePushbot(){
 
     }
+    public  void setRunMode(DcMotor.RunMode mode)
+    {
+        l1.setMode(mode);
+        l2.setMode(mode);
+        r1.setMode(mode);
+        r2.setMode(mode);
+    }
+    public  void TargetPosition(Telemetry TP)
+    {
+        TP.addData("P of L1","%d",l1.getCurrentPosition());
+        TP.addData("P of L2","%d",l2.getCurrentPosition());
+        TP.addData("P of R1","%d",r1.getCurrentPosition());
+        TP.addData("P of R2","%d",r2.getCurrentPosition());
+    }
+    public  void TargetPosition(int TP)
+    {
+        l1.setTargetPosition(-TP);
+        l2.setTargetPosition(TP);
+        r1.setTargetPosition(TP);
+        r2.setTargetPosition(-TP);
+    }
 
     /* Initialize standard Hardware interfaces */
     public void init(HardwareMap ahwMap) {
@@ -68,6 +91,7 @@ public class HardwarePushbot
         r2 = hwMap.dcMotor.get("R2");
         Mladder = hwMap.dcMotor.get("ladder");
         wrench = hwMap.servo.get("wrench");
+        serv2 = hwMap.servo.get("serv2");
         collector = hwMap.dcMotor.get("collector");
         miniGun = hwMap.dcMotor.get("shooter");
         TCH = hwMap.touchSensor.get("TCH");
@@ -87,6 +111,8 @@ public class HardwarePushbot
         eye.enableLed(true);
         wrench.scaleRange(0.45,1);
         wrench.setPosition(1.0);
+        serv2.scaleRange(0,0.46);
+        serv2.setPosition(1.0);
 //        rightMotor.setPower(0);
 //        armMotor.setPower(0);
 
@@ -204,6 +230,7 @@ public class HardwarePushbot
         miniGun.setPower(0);
         collector.setPower(0);
         wrench.setPosition(1.0);//0.4
+        serv2.setPosition(1.0);
     }
 }
 

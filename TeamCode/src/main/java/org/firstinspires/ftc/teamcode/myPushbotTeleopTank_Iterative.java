@@ -64,6 +64,8 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
     private releaseLadder dropper = new releaseLadder(robot);
     private double rx,ry,x,y;
     private boolean is_Up;
+    private boolean servo2P=true;
+    private boolean ba = true;
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
 //    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
@@ -104,7 +106,8 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
     @Override
     public void loop() {
         rx=gamepad1.left_stick_x;
-        ry=gamepad1.left_stick_y;
+//        ry=gamepad1.left_stick_y;
+        ry=gamepad1.left_trigger-gamepad1.right_trigger;
         x=(rx==0)?1:Math.abs(rx)/rx;
         y=(ry==0)?1:Math.abs(ry)/ry;
         x*=1-Math.sqrt(1-(rx*rx));
@@ -112,6 +115,19 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
         robot.pushGamepad(x, y);
         telemetry.addData("x",  "%.2f", x);
         telemetry.addData("y",  "%.2f", y);
+
+        //robot.serv2.setPosition(gamepad1.right_stick_y);
+        //telemetry.addData("SERV2","%.2f",robot.serv2.getPosition());
+
+        if(gamepad1.a)
+        {
+            if(ba)
+            {
+                robot.serv2.setPosition(servo2P?0.0:1.0);
+                servo2P = !servo2P;
+                ba=false;
+            }
+        }else ba=true;
 
         if( gamepad1.right_bumper && (shoot == null || !shoot.isAlive()) ){
             shoot = new shootThread(robot);
