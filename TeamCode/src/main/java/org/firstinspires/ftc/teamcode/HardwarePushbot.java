@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
+import com.qualcomm.robotcore.hardware.GyroSensor;
 
 
 /**
@@ -33,9 +33,11 @@ public class HardwarePushbot
     public Servo wrench = null;
     public Servo serv2 = null;
     public TouchSensor TCH =null;
+    public GyroSensor gyro = null;
     public double powerl = 0.0, powerr = 0.0;
     public DcMotor r1 = null, r2 = null;
     public DcMotor l1 = null, l2 = null;
+    public DcMotor wipeYellow = null;
     public DcMotor miniGun = null, collector = null;
     public OpticalDistanceSensor eye = null;
 
@@ -89,6 +91,7 @@ public class HardwarePushbot
         l2 = hwMap.dcMotor.get("L2");
         r1 = hwMap.dcMotor.get("R1");
         r2 = hwMap.dcMotor.get("R2");
+        wipeYellow = hwMap.dcMotor.get("wy");
         Mladder = hwMap.dcMotor.get("ladder");
         wrench = hwMap.servo.get("wrench");
         serv2 = hwMap.servo.get("serv2");
@@ -96,16 +99,19 @@ public class HardwarePushbot
         miniGun = hwMap.dcMotor.get("shooter");
         TCH = hwMap.touchSensor.get("TCH");
         eye = hwMap.opticalDistanceSensor.get("eye");
+        gyro = hwMap.gyroSensor.get("gyro");
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
 //        TMotor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
 //        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Set all motors to zero power
+        wipeYellow.setPower(0);
         l1.setPower(0);
         l2.setPower(0);
         r1.setPower(0);
         r2.setPower(0);
+        collector.setPower(0.0);
         Mladder.setPower(0);
         miniGun.setPower(0);
         eye.enableLed(true);
@@ -113,6 +119,7 @@ public class HardwarePushbot
         wrench.setPosition(1.0);
         serv2.scaleRange(0,0.46);
         serv2.setPosition(1.0);
+        gyro.calibrate();
 //        rightMotor.setPower(0);
 //        armMotor.setPower(0);
 
@@ -220,8 +227,31 @@ public class HardwarePushbot
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+
+    public void TurnByGyro(int deg, Telemetry T)
+    {
+        DcMotor.RunMode Temp = l1.getMode();
+        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        pushGamepad(0, 0);
+        if(deg==0 || Math.abs(deg) > 180) return ;
+        gyro.calibrate();
+        while(gyro.isCalibrating()){}
+
+        pushGamepad(0.3 * (Math.abs(deg)/deg), 0);
+
+        while(true) {
+            if ( deg > 0 && (Math.abs(deg) - (gyro.getHeading())) <= 2 ) break;
+            if ( deg < 0 && (Math.abs(deg) - (360 - gyro.getHeading())) % 360 <= 2 ) break;
+            T.addData("Heading: ", "%d : %d", /*Math.abs(deg) - */ (Math.abs(deg) - (Math.abs(deg)/deg * gyro.getHeading())) % 360, gyro.getHeading());
+            T.update();
+        }
+        pushGamepad(0,0);
+        setRunMode(Temp);
+    }
+
     public void stop()
     {
+        wipeYellow.setPower(0);
         r1.setPower(0);
         r2.setPower(0);
         l1.setPower(0);

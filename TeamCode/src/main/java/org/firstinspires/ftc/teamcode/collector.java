@@ -18,6 +18,7 @@ public class collector extends Thread {
     @Override
     public void run() {
         robot.collector.setPower(-1.0);
+        robot.wipeYellow.setPower(-1.0);
         while(gp1.b == true)
         {
         }
@@ -25,6 +26,7 @@ public class collector extends Thread {
         {
         }
         robot.collector.setPower(0.0);
+        robot.wipeYellow.setPower(0.0);
         while(gp1.b == true)
         {
         }

@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.HardwarePushbot;
 
 public class shootThread extends Thread{
     public HardwarePushbot robot;
-    long t;
+    private long t;
     public shootThread(HardwarePushbot rob){
         robot=rob;
     }

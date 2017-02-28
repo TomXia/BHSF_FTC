@@ -33,6 +33,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
+
 import java.lang.Math;
 /**
  * This file provides basic Telop driving for a Pushbot robot.
@@ -66,6 +68,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
     private boolean is_Up;
     private boolean servo2P=true;
     private boolean ba = true;
+
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
 //    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
@@ -119,7 +122,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
         //robot.serv2.setPosition(gamepad1.right_stick_y);
         //telemetry.addData("SERV2","%.2f",robot.serv2.getPosition());
 
-        if(gamepad1.a)
+        if(gamepad2.a)
         {
             if(ba)
             {
@@ -129,40 +132,39 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             }
         }else ba=true;
 
-        if( gamepad1.right_bumper && (shoot == null || !shoot.isAlive()) ){
+        if( gamepad2.right_bumper && (shoot == null || !shoot.isAlive()) ){
             shoot = new shootThread(robot);
             shoot.start();
         }
-        if( gamepad1.b && (collect == null || !collect.isAlive()) ) {
-            collect = new collector(robot, gamepad1);
+        if( gamepad2.b && (collect == null || !collect.isAlive()) ) {
+            collect = new collector(robot, gamepad2);
             collect.start();
         }
 
-        if(gamepad1.x||((robot.eye.getLightDetected() >= obsThreshold) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
+        if(gamepad2.x||((robot.eye.getLightDetected() >= obsThreshold) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
             reloader = new shoot_servo(robot);
             reloader.start();
         }
 
-        if(gamepad1.dpad_up || gamepad1.dpad_down)
+        if(gamepad2.dpad_up || gamepad2.dpad_down)
         {
             if(!robot.isReleased && !dropper.isAlive()){
                 dropper.start();
             }
             if(!dropper.isAlive()) {
-                if(gamepad1.dpad_up)    {robot.Mladder.setPower(-1.0);is_Up=true;}
-                if(gamepad1.dpad_down)  {robot.Mladder.setPower(1.0);is_Up=false;}
+                if(gamepad2.dpad_up)    {robot.Mladder.setPower(-1.0);is_Up=true;}
+                if(gamepad2.dpad_down)  {robot.Mladder.setPower(1.0);is_Up=false;}
             }
         }
-        if(!dropper.isAlive() && !gamepad1.dpad_down && !gamepad1.dpad_up)
-            robot.Mladder.setPower(is_Up?-0.07:0.0);
+        if(!dropper.isAlive() && !gamepad2.dpad_down && !gamepad2.dpad_up)
+            robot.Mladder.setPower(is_Up?-0.2:0.0);
 
         telemetry.addData("servo", "%.2f", robot.wrench.getPosition());
-        telemetry.addData("gamepad_RB", "%b", gamepad1.right_bumper);
         telemetry.addData("ODS", "%.2f", robot.eye.getLightDetected());
         telemetry.addData("left",  "%.2f", robot.powerl);
         telemetry.addData("right",  "%.2f", robot.powerr);
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-//        left = -gamepad1.left_stick_y;
+//        left = -gamepad2.left_stick_y;
 //        right = -gamepad1.right_stick_y;
 //        robot.leftMotor.setPower(left);
 //        robot.rightMotor.setPower(right);

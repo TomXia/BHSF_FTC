@@ -56,8 +56,8 @@ import java.util.concurrent.BlockingQueue;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Pushbot: Teleop Tank Rec", group="Pushbot")
-@Disabled
+@TeleOp(name="Debug: Testor", group="Debug")
+//@Disabled
 public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
 
     /* Declare OpMode members. */
@@ -108,8 +108,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void start() {
-        fm.start();
-        et.reset();
+        robot.gyro.resetZAxisIntegrator();
     }
 
     /*
@@ -117,83 +116,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void loop() {
-        if(gamepad1.left_stick_x != bgp.left_stick_x){
-            bgp.left_stick_x=gamepad1.left_stick_x;
-            ci.cmd="lsx1";
-        }
-
-
-        rx=gamepad1.left_stick_x;
-        ry=gamepad1.left_stick_y;
-        x=(rx==0)?1:Math.abs(rx)/rx;
-        y=(ry==0)?1:Math.abs(ry)/ry;
-        x*=1-Math.sqrt(1-(rx*rx));
-        y*=1-Math.sqrt(1-(ry*ry));
-        robot.pushGamepad(x, y);
-        telemetry.addData("x",  "%.2f", x);
-        telemetry.addData("y",  "%.2f", y);
-
-        if( gamepad1.right_bumper && (shoot == null || !shoot.isAlive()) ){
-            shoot = new shootThread(robot);
-            shoot.start();
-        }
-        if( gamepad1.b && (collect == null || !collect.isAlive()) ) {
-            collect = new collector(robot, gamepad1);
-            collect.start();
-        }
-
-        if(gamepad1.x||((robot.eye.getLightDetected() >= obsThreshold) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
-            reloader = new shoot_servo(robot);
-            reloader.start();
-        }
-
-        if(gamepad1.dpad_up || gamepad1.dpad_down)
-        {
-            if(!robot.isReleased && !dropper.isAlive()){
-                dropper.start();
-            }
-            if(!dropper.isAlive()) {
-                if(gamepad1.dpad_up)    {robot.Mladder.setPower(-1.0);is_Up=true;}
-                if(gamepad1.dpad_down)  {robot.Mladder.setPower(1.0);is_Up=false;}
-            }
-        }
-        if(!dropper.isAlive() && !gamepad1.dpad_down && !gamepad1.dpad_up)
-            robot.Mladder.setPower(is_Up?-0.07:0.0);
-
-        telemetry.addData("servo", "%.2f", robot.wrench.getPosition());
-        telemetry.addData("gamepad_RB", "%b", gamepad1.right_bumper);
-        telemetry.addData("ODS", "%.2f", robot.eye.getLightDetected());
-        telemetry.addData("left",  "%.2f", robot.powerl);
-        telemetry.addData("right",  "%.2f", robot.powerr);
-        // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
-//        left = -gamepad1.left_stick_y;
-//        right = -gamepad1.right_stick_y;
-//        robot.leftMotor.setPower(left);
-//        robot.rightMotor.setPower(right);
-
-        // Use gamepad left & right Bumpers to open and close the claw
-//        if (gamepad1.right_bumper)
-//            clawOffset += CLAW_SPEED;
-//        else if (gamepad1.left_bumper)
-//            clawOffset -= CLAW_SPEED;
-
-        // Move both servos to new position.  Assume servos are mirror image of each other.
-//        clawOffset = Range.clip(clawOffset, -0.5, 0.5);
-//        robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
-//        robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
-
-        // Use gamepad buttons to move the arm up (Y) and down (A)
-//        if (gamepad1.y)
-//            robot.armMotor.setPower(robot.ARM_UP_POWER);
-//        else if (gamepad1.a)
-//            robot.armMotor.setPower(robot.ARM_DOWN_POWER);
-//        else
-//            robot.armMotor.setPower(0.0);
-
-        // Send telemetry message to signify robot running;
-//        telemetry.addData("claw",  "Offset = %.2f", clawOffset);
-//        telemetry.addData("left",  "%.2f", left);
-//        telemetry.addData("right", "%.2f", right);
+        telemetry.addData("Gyro: ","%d", robot.gyro.getHeading());
     }
 
     /*

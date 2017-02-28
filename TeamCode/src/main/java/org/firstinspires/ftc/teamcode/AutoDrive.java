@@ -60,9 +60,9 @@ public class AutoDrive extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     private HardwarePushbot robot = new HardwarePushbot();
-    private collector collect;
+    private shootThread shoot;
     private shoot_servo reloader;
-    private int Tp1=16384;
+    private int Tp1=163;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -92,11 +92,10 @@ public class AutoDrive extends LinearOpMode {
         /*STEP1: go and shoot */
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.TargetPosition(Tp1);
         robot.pushGamepad(0,-0.3);
-
+        robot.TargetPosition(Tp1);
         while (opModeIsActive()) {
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Status L1", "Run Time: " + runtime.toString());
             if(robot.l2.getCurrentPosition()>=Tp1) break;
 
             telemetry.update();
@@ -104,6 +103,45 @@ public class AutoDrive extends LinearOpMode {
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+ /*       robot.isLoaded=true;
+        if( (shoot == null || !shoot.isAlive()) ){
+            shoot = new shootThread(robot);
+            shoot.start();
+        }
+        while (opModeIsActive() && shoot.isAlive() && robot.LOP <=1) {
+            telemetry.addData("Status L2", "Run Time: " + runtime.toString());
+
+            if(((robot.eye.getLightDetected() >= 0.15) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
+                reloader = new shoot_servo(robot);
+                reloader.start();
+            }
+
+            telemetry.update();
+        }
+        robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+*/
+
+        robot.TurnByGyro(90,telemetry);
+        robot.waitForTick(100);
+        robot.TurnByGyro(-90,telemetry);
+        robot.waitForTick(100);
+        robot.TurnByGyro(60,telemetry);
+        robot.waitForTick(100);
+        robot.TurnByGyro(-60,telemetry);
+        robot.waitForTick(100);
+        robot.TurnByGyro(15,telemetry);
+        robot.waitForTick(100);
+        robot.TurnByGyro(-15,telemetry);
+        robot.waitForTick(100);
+        while (opModeIsActive()) {
+
+        }
+        robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        telemetry.addData("Info: ","Finished");
+
         robot.stop();
+        return;
     }
 }
