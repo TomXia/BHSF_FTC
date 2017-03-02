@@ -62,7 +62,8 @@ public class AutoDrive extends LinearOpMode {
     private HardwarePushbot robot = new HardwarePushbot();
     private shootThread shoot;
     private shoot_servo reloader;
-    private int Tp1=163;
+    private int Tp1=4900;
+    private int Tp2=2300;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -85,6 +86,7 @@ public class AutoDrive extends LinearOpMode {
         // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
+        robot.gyro.calibrate();
         waitForStart();
         runtime.reset();
 
@@ -92,56 +94,92 @@ public class AutoDrive extends LinearOpMode {
         /*STEP1: go and shoot */
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.pushGamepad(0,-0.3);
+        robot.pushGamepad(0,-0.5);
         robot.TargetPosition(Tp1);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
             if(robot.l2.getCurrentPosition()>=Tp1) break;
-
             telemetry.update();
         }
+        robot.pushGamepad(0,0);
+//////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-
- /*       robot.isLoaded=true;
-        if( (shoot == null || !shoot.isAlive()) ){
-            shoot = new shootThread(robot);
-            shoot.start();
+        robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.pushGamepad(0.9,0);
+//        robot.TargetPosition(1850);
+        while (opModeIsActive()) {
+            telemetry.addData("Status L1", "Run Time: " + runtime.toString());
+            if(robot.l1.getCurrentPosition()<=-1850) break;
+            telemetry.update();
         }
-        while (opModeIsActive() && shoot.isAlive() && robot.LOP <=1) {
+        robot.pushGamepad(0,0);
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+        robot.isLoaded=true;
+        while (opModeIsActive()) {
             telemetry.addData("Status L2", "Run Time: " + runtime.toString());
 
-            if(((robot.eye.getLightDetected() >= 0.15) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
-                reloader = new shoot_servo(robot);
-                reloader.start();
+            robot.miniGun.setPower(0.58);
+            while (!robot.TCH.isPressed()) {
             }
-
+            while (robot.TCH.isPressed()) {
+            }
+            while (!robot.TCH.isPressed()) {
+            }
+            while (true) {
+                if (((reloader == null || !reloader.isAlive()))) {
+                    reloader = new shoot_servo(robot);
+                    reloader.start();
+                    break;
+                }
+            }
+            robot.miniGun.setPower(0);
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            robot.miniGun.setPower(0.58);
+            while (!robot.TCH.isPressed()) {
+            }
+            while (robot.TCH.isPressed()) {
+            }
+            while (!robot.TCH.isPressed()) {
+            }
+            robot.miniGun.setPower(0);
+            break;
+        }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+        robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.pushGamepad(-0.9,0);
+        while (opModeIsActive()) {
+            telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(),robot.l1.getCurrentPosition());
+            if(robot.l1.getCurrentPosition() >= 900) {
+                robot.pushGamepad(0,0);
+                break;
+            }
             telemetry.update();
         }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////////////////////
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-*/
-
-        robot.TurnByGyro(90,telemetry);
-        robot.waitForTick(100);
-        robot.TurnByGyro(-90,telemetry);
-        robot.waitForTick(100);
-        robot.TurnByGyro(60,telemetry);
-        robot.waitForTick(100);
-        robot.TurnByGyro(-60,telemetry);
-        robot.waitForTick(100);
-        robot.TurnByGyro(15,telemetry);
-        robot.waitForTick(100);
-        robot.TurnByGyro(-15,telemetry);
-        robot.waitForTick(100);
+        robot.pushGamepad(0,-0.8);
         while (opModeIsActive()) {
+            telemetry.addData("Status L1", "Run Time: " + runtime.toString());
+            if(robot.l2.getCurrentPosition()>=Tp2) break;
 
         }
-        robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.pushGamepad(0,0);
+
+
+
         telemetry.addData("Info: ","Finished");
 
         robot.stop();
         return;
     }
 }
+

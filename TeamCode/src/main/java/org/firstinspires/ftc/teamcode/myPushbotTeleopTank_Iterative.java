@@ -66,8 +66,8 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
     private releaseLadder dropper = new releaseLadder(robot);
     private double rx,ry,x,y;
     private boolean is_Up;
-    private boolean servo2P=true;
-    private boolean ba = true;
+    private boolean servo2P=true, servoFo=true;
+    private boolean ba = true, fo = true;
 
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
@@ -131,6 +131,16 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
                 ba=false;
             }
         }else ba=true;
+
+        if(gamepad2.y)
+        {
+            if(fo)
+            {
+                robot.fork.setPosition(servoFo?1.0:0.0);
+                servoFo = !servoFo;
+                fo=false;
+            }
+        }else fo=true;
 
         if( gamepad2.right_bumper && (shoot == null || !shoot.isAlive()) ){
             shoot = new shootThread(robot);

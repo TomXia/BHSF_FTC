@@ -36,6 +36,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -90,6 +91,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
+        robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
@@ -116,7 +118,17 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void loop() {
+        if(gamepad1.right_bumper)
+        {
+            robot.gyro.resetZAxisIntegrator();
+            while(gamepad1.right_bumper){}
+        }
+        robot.pushGamepad(gamepad1.left_stick_x, gamepad1.left_stick_y);
         telemetry.addData("Gyro: ","%d", robot.gyro.getHeading());
+        robot.fork.setPosition(gamepad1.right_stick_y);
+        telemetry.addData("motor: ","%d",robot.l1.getCurrentPosition());
+        telemetry.addData("motor: ","%d",robot.r1.getCurrentPosition());
+
     }
 
     /*
