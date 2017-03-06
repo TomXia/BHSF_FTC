@@ -62,8 +62,9 @@ public class AutoDrive extends LinearOpMode {
     private HardwarePushbot robot = new HardwarePushbot();
     private shootThread shoot;
     private shoot_servo reloader;
-    private int Tp1=4900;
+    private int Tp1=4700;
     private int Tp2=2300;
+    final static boolean isReturn = true;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -148,33 +149,58 @@ public class AutoDrive extends LinearOpMode {
             robot.miniGun.setPower(0);
             break;
         }
+        if(!isReturn) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-        robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.pushGamepad(-0.9,0);
-        while (opModeIsActive()) {
-            telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(),robot.l1.getCurrentPosition());
-            if(robot.l1.getCurrentPosition() >= 900) {
-                robot.pushGamepad(0,0);
-                break;
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.pushGamepad(-0.9, 0);
+            while (opModeIsActive()) {
+                telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
+                if (robot.l1.getCurrentPosition() >= 900) {
+                    robot.pushGamepad(0, 0);
+                    break;
+                }
+                telemetry.update();
             }
-            telemetry.update();
-        }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////////////////////////
-        robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.pushGamepad(0,-0.8);
-        while (opModeIsActive()) {
-            telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(robot.l2.getCurrentPosition()>=Tp2) break;
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.pushGamepad(0, -0.8);
+            while (opModeIsActive()) {
+                telemetry.addData("Status L1", "Run Time: " + runtime.toString());
+                if (robot.l2.getCurrentPosition() >= Tp2) break;
+
+            }
+            robot.pushGamepad(0, 0);
+        }
+        else
+        {//////////////////////////////////////////////////////////////////////////////////////////////////////
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.pushGamepad(-0.9,0);
+//        robot.TargetPosition(1850);
+            while (opModeIsActive()) {
+                telemetry.addData("Status L1", "Run Time: " + runtime.toString());
+                if(robot.l1.getCurrentPosition()>=1850) break;
+                telemetry.update();
+            }
+            robot.pushGamepad(0,0);
+            //////////////////////////////////////////////////////////////////////////////////////////////////////
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.pushGamepad(0,0.5);
+            robot.TargetPosition(-Tp1);
+            while (opModeIsActive()) {
+                telemetry.addData("Status L1", "Run Time: " + runtime.toString());
+                if(robot.l2.getCurrentPosition()<=-Tp1) break;
+                telemetry.update();
+            }
+            robot.pushGamepad(0,0);
 
         }
-        robot.pushGamepad(0,0);
-
-
 
         telemetry.addData("Info: ","Finished");
 
