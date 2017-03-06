@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.LED;
 
 
 /**
@@ -41,6 +42,7 @@ public class HardwarePushbot
     public DcMotor wipeYellow = null;
     public DcMotor miniGun = null, collector = null;
     public OpticalDistanceSensor eye = null;
+    public LED led;
 
     public boolean isLoaded = false;
     public boolean isReleased =false;
@@ -102,6 +104,7 @@ public class HardwarePushbot
         eye = hwMap.opticalDistanceSensor.get("eye");
         gyro = hwMap.gyroSensor.get("gyro");
         fork = hwMap.servo.get("fork");
+        led = hwMap.led.get("LED");
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
 //        TMotor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -124,6 +127,7 @@ public class HardwarePushbot
         fork.scaleRange(0,1.0);
         fork.setPosition(0.0);
         gyro.calibrate();
+        led.enable(false);
 //        rightMotor.setPower(0);
 //        armMotor.setPower(0);
 
@@ -264,6 +268,7 @@ public class HardwarePushbot
         wrench.setPosition(1.0);//0.4
         serv2.setPosition(1.0);
         fork.setPosition(0.0);
+        led.enable(false);
     }
 }
 
