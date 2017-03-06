@@ -19,15 +19,15 @@ public class collector extends Thread {
     public void run() {
         robot.collector.setPower(-1.0);
         robot.wipeYellow.setPower(-1.0);
-        while(gp1.b == true)
+        while(gp1.y)
         {
         }
-        while(gp1.b == false)
+        while(!gp1.y)
         {
         }
         robot.collector.setPower(0.0);
         robot.wipeYellow.setPower(0.0);
-        while(gp1.b == true)
+        while(gp1.y)
         {
         }
     }

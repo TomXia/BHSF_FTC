@@ -126,7 +126,6 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         robot.led.enable(gamepad1.left_bumper);
         robot.pushGamepad(gamepad1.left_stick_x, gamepad1.left_stick_y);
         telemetry.addData("Gyro: ","%d", robot.gyro.getHeading());
-        robot.fork.setPosition(gamepad1.right_stick_y);
         telemetry.addData("motor: ","%d",robot.l1.getCurrentPosition());
         telemetry.addData("motor: ","%d",robot.r1.getCurrentPosition());
 

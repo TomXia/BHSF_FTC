@@ -32,8 +32,6 @@ public class HardwarePushbot
     /* Public OpMode members. */
     public DcMotor  Mladder     = null;
     public Servo wrench = null;
-    public Servo serv2 = null;
-    public Servo fork = null;
     public TouchSensor TCH =null;
     public GyroSensor gyro = null;
     public double powerl = 0.0, powerr = 0.0;
@@ -97,13 +95,11 @@ public class HardwarePushbot
         wipeYellow = hwMap.dcMotor.get("wy");
         Mladder = hwMap.dcMotor.get("ladder");
         wrench = hwMap.servo.get("wrench");
-        serv2 = hwMap.servo.get("serv2");
         collector = hwMap.dcMotor.get("collector");
         miniGun = hwMap.dcMotor.get("shooter");
         TCH = hwMap.touchSensor.get("TCH");
         eye = hwMap.opticalDistanceSensor.get("eye");
         gyro = hwMap.gyroSensor.get("gyro");
-        fork = hwMap.servo.get("fork");
         led = hwMap.led.get("LED");
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
@@ -122,10 +118,6 @@ public class HardwarePushbot
         eye.enableLed(true);
         wrench.scaleRange(0.45,1);
         wrench.setPosition(1.0);
-        serv2.scaleRange(0,0.46);
-        serv2.setPosition(1.0);
-        fork.scaleRange(0,1.0);
-        fork.setPosition(0.0);
         gyro.calibrate();
         led.enable(false);
 //        rightMotor.setPower(0);
@@ -266,8 +258,6 @@ public class HardwarePushbot
         miniGun.setPower(0);
         collector.setPower(0);
         wrench.setPosition(1.0);//0.4
-        serv2.setPosition(1.0);
-        fork.setPosition(0.0);
         led.enable(false);
     }
 }

@@ -65,9 +65,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
     private shoot_servo reloader;
     private releaseLadder dropper = new releaseLadder(robot);
     private double rx,ry,x,y;
-    private boolean is_Up;
-    private boolean servo2P=true, servoFo=true;
-    private boolean ba = true, fo = true;
+    private boolean is_Up = false, invert = false, bj = false;
 
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
@@ -113,8 +111,17 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
         ry=gamepad1.left_trigger-gamepad1.right_trigger;
         x=(rx==0)?1:Math.abs(rx)/rx;
         y=(ry==0)?1:Math.abs(ry)/ry;
-        x*=1-Math.sqrt(1-(rx*rx));
-        y*=1-Math.sqrt(1-(ry*ry));
+        if(invert)
+        {
+            x=0.2*rx*rx*rx+0.2*rx;
+            y=0.2*ry*ry*ry+0.2*ry;
+            y*=-1;
+        }
+        else
+        {
+            x*=1-Math.sqrt(1-(rx*rx));
+            y*=1-Math.sqrt(1-(ry*ry));
+        }
         robot.pushGamepad(x, y);
         telemetry.addData("x",  "%.2f", x);
         telemetry.addData("y",  "%.2f", y);
@@ -122,31 +129,12 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
         //robot.serv2.setPosition(gamepad1.right_stick_y);
         //telemetry.addData("SERV2","%.2f",robot.serv2.getPosition());
 
-        if(gamepad2.a)
-        {
-            if(ba)
-            {
-                robot.serv2.setPosition(servo2P?0.0:1.0);
-                servo2P = !servo2P;
-                ba=false;
-            }
-        }else ba=true;
-
-        if(gamepad2.y)
-        {
-            if(fo)
-            {
-                robot.fork.setPosition(servoFo?1.0:0.0);
-                servoFo = !servoFo;
-                fo=false;
-            }
-        }else fo=true;
 
         if( gamepad2.right_bumper && (shoot == null || !shoot.isAlive()) ){
             shoot = new shootThread(robot);
             shoot.start();
         }
-        if( gamepad2.b && (collect == null || !collect.isAlive()) ) {
+        if( gamepad2.y && (collect == null || !collect.isAlive()) ) {
             collect = new collector(robot, gamepad2);
             collect.start();
         }
@@ -168,6 +156,13 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
         }
         if(!dropper.isAlive() && !gamepad2.dpad_down && !gamepad2.dpad_up)
             robot.Mladder.setPower(is_Up?-0.2:0.0);
+
+        if(gamepad1.y) {
+            if (!bj) {
+                invert = !invert;
+                bj = true;
+            }
+        }else bj =false;
 
         telemetry.addData("servo", "%.2f", robot.wrench.getPosition());
         telemetry.addData("ODS", "%.2f", robot.eye.getLightDetected());
