@@ -62,9 +62,9 @@ public class AutoDrive extends LinearOpMode {
     private HardwarePushbot robot = new HardwarePushbot();
     private shootThread shoot;
     private shoot_servo reloader;
-    private int Tp1=4700;
+    private int Tp1=4050;
     private int Tp2=2300;
-    final static boolean isReturn = true;
+    final static boolean isReturn = false;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -110,7 +110,7 @@ public class AutoDrive extends LinearOpMode {
 //        robot.TargetPosition(1850);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(robot.l1.getCurrentPosition()<=-1850) break;
+            if(robot.l1.getCurrentPosition()<=-1750) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);
@@ -157,7 +157,7 @@ public class AutoDrive extends LinearOpMode {
             robot.pushGamepad(-0.9, 0);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= 900) {
+                if (robot.l1.getCurrentPosition() >= 1750 /*900*/) {
                     robot.pushGamepad(0, 0);
                     break;
                 }
@@ -184,7 +184,7 @@ public class AutoDrive extends LinearOpMode {
 //        robot.TargetPosition(1850);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if(robot.l1.getCurrentPosition()>=1850) break;
+                if(robot.l1.getCurrentPosition()>=1750) break;
                 telemetry.update();
             }
             robot.pushGamepad(0,0);
