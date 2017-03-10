@@ -115,6 +115,8 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
         {
             x=0.2*rx*rx*rx+0.2*rx;
             y*=1-Math.sqrt(1-(ry*ry));
+            x=x+y*0.5*x;
+            y=y-x*0.75*y;
             y*=-1;
         }
         else

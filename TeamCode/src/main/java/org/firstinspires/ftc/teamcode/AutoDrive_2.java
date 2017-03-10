@@ -32,12 +32,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -53,9 +50,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutoDrive_Sec", group="Auto")  // @Autonomous(...) is the other common choice
+@Autonomous(name="AutoDrive_Main", group="Auto")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class AutoDrive extends LinearOpMode {
+public class AutoDrive_2 extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -157,7 +154,7 @@ public class AutoDrive extends LinearOpMode {
             robot.pushGamepad(-0.9, 0);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= 1750 /*900*/) {
+                if (robot.l1.getCurrentPosition() >= 1500 /*900*/) {
                     robot.pushGamepad(0, 0);
                     break;
                 }
