@@ -172,26 +172,6 @@ public class AutoDrive_2 extends LinearOpMode {
 
             }
             robot.pushGamepad(0, 0);
-
-            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.pushGamepad(0, -0.8);
-            while (opModeIsActive()) {
-                telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if (robot.l2.getCurrentPosition() <= -Tp2) break;
-
-            }
-            robot.pushGamepad(0, 0);
-
-            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.pushGamepad(-0.8, -0.8);
-            while (opModeIsActive()) {
-                telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if (robot.l2.getCurrentPosition() >= 2*Tp2+100) break;
-
-            }
-            robot.pushGamepad(0, 0);
         }
         else
         {//////////////////////////////////////////////////////////////////////////////////////////////////////
