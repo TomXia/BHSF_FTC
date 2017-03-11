@@ -60,7 +60,7 @@ public class AutoDrive_2 extends LinearOpMode {
     private shootThread shoot;
     private shoot_servo reloader;
     private int Tp1=4050;
-    private int Tp2=2300;
+    private int Tp2=2500;//3700;
     final static boolean isReturn = false;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
@@ -154,7 +154,7 @@ public class AutoDrive_2 extends LinearOpMode {
             robot.pushGamepad(-0.9, 0);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= 1500 /*900*/) {
+                if (robot.l1.getCurrentPosition() >= 1700 /*900*/) {
                     robot.pushGamepad(0, 0);
                     break;
                 }
@@ -164,7 +164,7 @@ public class AutoDrive_2 extends LinearOpMode {
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////////////////////////
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.pushGamepad(0, -0.8);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
@@ -178,10 +178,10 @@ public class AutoDrive_2 extends LinearOpMode {
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.pushGamepad(-0.9,0);
-//        robot.TargetPosition(1850);
+//        robot.TargetPosition(1850);3975
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if(robot.l1.getCurrentPosition()>=1750) break;
+                if(robot.l1.getCurrentPosition()>=1050) break;
                 telemetry.update();
             }
             robot.pushGamepad(0,0);

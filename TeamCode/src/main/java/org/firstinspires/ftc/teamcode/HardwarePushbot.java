@@ -40,7 +40,6 @@ public class HardwarePushbot
     public DcMotor wipeYellow = null;
     public DcMotor miniGun = null, collector = null;
     public OpticalDistanceSensor eye = null;
-    public LED led;
 
     public boolean isLoaded = false;
     public boolean isReleased =false;
@@ -100,7 +99,6 @@ public class HardwarePushbot
         TCH = hwMap.touchSensor.get("TCH");
         eye = hwMap.opticalDistanceSensor.get("eye");
         gyro = hwMap.gyroSensor.get("gyro");
-        led = hwMap.led.get("LED");
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
 //        TMotor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -119,7 +117,6 @@ public class HardwarePushbot
         wrench.scaleRange(0.45,1);
         wrench.setPosition(1.0);
         gyro.calibrate();
-        led.enable(false);
 //        rightMotor.setPower(0);
 //        armMotor.setPower(0);
 
@@ -247,8 +244,7 @@ public class HardwarePushbot
         setRunMode(Temp);
     }
 
-    public void stop()
-    {
+    public void stop() {
         wipeYellow.setPower(0);
         r1.setPower(0);
         r2.setPower(0);
@@ -258,7 +254,6 @@ public class HardwarePushbot
         miniGun.setPower(0);
         collector.setPower(0);
         wrench.setPosition(1.0);//0.4
-        led.enable(false);
     }
 }
 

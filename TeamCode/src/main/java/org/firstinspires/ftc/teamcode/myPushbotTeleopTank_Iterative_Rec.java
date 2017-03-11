@@ -118,16 +118,21 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void loop() {
+        rx=gamepad1.left_stick_x;
+        ry=gamepad1.left_trigger-gamepad1.right_trigger;
+        x=(rx==0)?1:Math.abs(rx)/rx;
+        y=(ry==0)?1:Math.abs(ry)/ry;
+        x*=1-Math.sqrt(1-(rx*rx));
+        y*=1-Math.sqrt(1-(ry*ry));
+        robot.pushGamepad(x, y);
+
         if(gamepad1.right_bumper)
         {
-            robot.gyro.resetZAxisIntegrator();
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             while(gamepad1.right_bumper){}
         }
-        robot.led.enable(gamepad1.left_bumper);
         robot.pushGamepad(gamepad1.left_stick_x, gamepad1.left_stick_y);
-        telemetry.addData("Gyro: ","%d", robot.gyro.getHeading());
         telemetry.addData("motor: ","%d",robot.l1.getCurrentPosition());
-        telemetry.addData("motor: ","%d",robot.r1.getCurrentPosition());
 
     }
 

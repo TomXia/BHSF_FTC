@@ -63,7 +63,7 @@ public class AutoDrive extends LinearOpMode {
     private shootThread shoot;
     private shoot_servo reloader;
     private int Tp1=4350;
-    private int Tp2=2500;
+    private int Tp2=3100;
     final static boolean isReturn = false;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
@@ -106,21 +106,21 @@ public class AutoDrive extends LinearOpMode {
 //////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.pushGamepad(0.9,0);
+        robot.pushGamepad(0.6,0);
 //        robot.TargetPosition(1850);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(robot.l1.getCurrentPosition()<=-1850) break;
+            if(robot.l1.getCurrentPosition()<=-1950) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.pushGamepad(0,-0.5);
-        robot.TargetPosition(Tp1/2+200);
+        robot.pushGamepad(0,0.5);
+        robot.TargetPosition(-(Tp1/2+900));
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(robot.l2.getCurrentPosition()>=Tp1/2+200) break;
+            if(robot.l2.getCurrentPosition()<=-(Tp1/2+900)) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);
@@ -167,17 +167,17 @@ public class AutoDrive extends LinearOpMode {
             robot.pushGamepad(-0.9, 0);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= 1800 /*900*/) {
+                if (robot.l1.getCurrentPosition() >= 1950 /*900*/) {
                     robot.pushGamepad(0, 0);
                     break;
                 }
                 telemetry.update();
             }
-
+            robot.pushGamepad(0,0);
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // ////////////////////////////////////////////////////////////////////////////////////////////////
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.pushGamepad(0, -0.8);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
@@ -191,10 +191,10 @@ public class AutoDrive extends LinearOpMode {
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.pushGamepad(-0.9,0);
-//        robot.TargetPosition(1850);
+//        robot.TargetPosition(1850);3550
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if(robot.l1.getCurrentPosition()>=1500) break;
+                if(robot.l1.getCurrentPosition()>=1050) break;
                 telemetry.update();
             }
             robot.pushGamepad(0,0);
