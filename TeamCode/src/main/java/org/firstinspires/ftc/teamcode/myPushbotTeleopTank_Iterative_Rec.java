@@ -91,6 +91,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
+        robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to signify robot waiting;
@@ -131,7 +132,6 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             while(gamepad1.right_bumper){}
         }
-        robot.pushGamepad(gamepad1.left_stick_x, gamepad1.left_stick_y);
         telemetry.addData("motor: ","%d",robot.l1.getCurrentPosition());
 
     }

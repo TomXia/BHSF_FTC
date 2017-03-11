@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-/**
+/** 5000 500 -2500
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
  * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
@@ -60,8 +60,9 @@ public class AutoDrive_2 extends LinearOpMode {
     private shootThread shoot;
     private shoot_servo reloader;
     private int Tp1=4050;
-    private int Tp2=2500;//3700;
+    private int Tp2=-2700;//3700;
     final static boolean isReturn = false;
+    final static int isBlue = 0; //def = 0 blue
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -103,7 +104,7 @@ public class AutoDrive_2 extends LinearOpMode {
 //////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.pushGamepad(0.9,0);
+        robot.pushGamepad(0.5,0);
 //        robot.TargetPosition(1850);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
@@ -146,15 +147,40 @@ public class AutoDrive_2 extends LinearOpMode {
             robot.miniGun.setPower(0);
             break;
         }
+
         if(!isReturn) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.pushGamepad(-0.9, 0);
+            robot.pushGamepad(0, 0.9);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= 1700 /*900*/) {
+                if (robot.l1.getCurrentPosition() >= Math.abs((isBlue-1)*4000)) {
+                    robot.pushGamepad(0, 0);
+                    break;
+                }
+                telemetry.update();
+            }
+
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.pushGamepad(0, -0.6);
+            while (opModeIsActive()) {
+                telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
+                if (Math.abs(robot.l1.getCurrentPosition()) >= Math.abs(isBlue * 3000)) {
+                    robot.pushGamepad(0, 0);
+                    break;
+                }
+                telemetry.update();
+            }
+
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.pushGamepad(-0.5, 0);
+            while (opModeIsActive()) {
+                telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
+                if (robot.l1.getCurrentPosition() >= 575 - isBlue*65 + isBlue*1750 ) {
                     robot.pushGamepad(0, 0);
                     break;
                 }
@@ -168,7 +194,7 @@ public class AutoDrive_2 extends LinearOpMode {
             robot.pushGamepad(0, -0.8);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if (robot.l2.getCurrentPosition() >= Tp2) break;
+                if (Math.abs(robot.l1.getCurrentPosition()) >= Math.abs(Tp2)) break;
 
             }
             robot.pushGamepad(0, 0);
@@ -177,7 +203,7 @@ public class AutoDrive_2 extends LinearOpMode {
         {//////////////////////////////////////////////////////////////////////////////////////////////////////
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.pushGamepad(-0.9,0);
+            robot.pushGamepad(-0.5,0);
 //        robot.TargetPosition(1850);3975
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());

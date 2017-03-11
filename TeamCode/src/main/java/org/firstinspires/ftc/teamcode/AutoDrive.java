@@ -65,6 +65,7 @@ public class AutoDrive extends LinearOpMode {
     private int Tp1=4350;
     private int Tp2=3100;
     final static boolean isReturn = false;
+    final static int isBlue = 1 ;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -106,7 +107,7 @@ public class AutoDrive extends LinearOpMode {
 //////////////////////////////////////////////////////////////////////////////////////////////////////
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.pushGamepad(0.6,0);
+        robot.pushGamepad(0.5,0);
 //        robot.TargetPosition(1850);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
@@ -115,12 +116,11 @@ public class AutoDrive extends LinearOpMode {
         }
         robot.pushGamepad(0,0);
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.pushGamepad(0,0.5);
-        robot.TargetPosition(-(Tp1/2+900));
+        robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.pushGamepad(0,-0.5 + isBlue*1.0);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(robot.l2.getCurrentPosition()<=-(Tp1/2+900)) break;
+            if(Math.abs(robot.l2.getCurrentPosition())>=Tp1/2+900 + (isBlue-1)*200) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);
@@ -164,10 +164,81 @@ public class AutoDrive extends LinearOpMode {
 //////////////////////////////////////////////////////////////////////////////////////////////////////
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.pushGamepad(0, 0.9);
+            while (opModeIsActive()) {
+                telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
+                if (robot.l1.getCurrentPosition() >= Math.abs((isBlue-1)*5000)) {
+                    robot.pushGamepad(0, 0);
+                    break;
+                }
+                telemetry.update();
+            }
+
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.pushGamepad(-0.5, 0);
+            while (opModeIsActive()) {
+                telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
+                if (robot.l1.getCurrentPosition() >= 600 + isBlue*1750 ) {
+                    robot.pushGamepad(0, 0);
+                    break;
+                }
+                telemetry.update();
+            }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// ////////////////////////////////////////////////////////////////////////////////////////////////
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.pushGamepad(0, -0.8);
+            while (opModeIsActive()) {
+                telemetry.addData("Status L1", "Run Time: " + runtime.toString());
+                if (Math.abs(robot.l1.getCurrentPosition()) >= Math.abs(Tp2)) break;
+
+            }
+            robot.pushGamepad(0, 0);
+        }
+        else
+        {//////////////////////////////////////////////////////////////////////////////////////////////////////
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.pushGamepad(-0.5,0);
+//        robot.TargetPosition(1850);3975
+            while (opModeIsActive()) {
+                telemetry.addData("Status L1", "Run Time: " + runtime.toString());
+                if(robot.l1.getCurrentPosition()>=1050) break;
+                telemetry.update();
+            }
+            robot.pushGamepad(0,0);
+            //////////////////////////////////////////////////////////////////////////////////////////////////////
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.pushGamepad(0,0.5);
+            robot.TargetPosition(-Tp1);
+            while (opModeIsActive()) {
+                telemetry.addData("Status L1", "Run Time: " + runtime.toString());
+                if(robot.l2.getCurrentPosition()<=-Tp1) break;
+                telemetry.update();
+            }
+            robot.pushGamepad(0,0);
+
+        }
+
+        telemetry.addData("Info: ","Finished");
+
+        robot.stop();
+    }
+}
+        /*
+        if(!isReturn) {
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+            robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
             robot.pushGamepad(-0.9, 0);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= 1950 /*900*/) {
+                if (robot.l1.getCurrentPosition() >= 1950 /*900) {
                     robot.pushGamepad(0, 0);
                     break;
                 }
@@ -216,5 +287,5 @@ public class AutoDrive extends LinearOpMode {
 
         robot.stop();
     }
-}
+}*/
 
