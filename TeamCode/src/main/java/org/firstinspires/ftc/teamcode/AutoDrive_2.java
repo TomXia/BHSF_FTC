@@ -44,7 +44,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * class is instantiated on the Robot Controller and executed.
  *
  * This particular OpMode just executes a basic Tank Drive Teleop for a PushBot
- * It includes all the skeletal structure that all linear OpModes contain.
+ * It includes all the skeletal structure that all  linear OpModes contain.
  *
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
@@ -59,8 +59,8 @@ public class AutoDrive_2 extends LinearOpMode {
     private HardwarePushbot robot = new HardwarePushbot();
     private shootThread shoot;
     private shoot_servo reloader;
-    private int Tp1=4050;
-    private int Tp2=-2700;//3700;
+    private int Tp1=3900;
+    private int Tp2=-3300;//3700;
     final static boolean isReturn = false;
     final static int isBlue = 0; //def = 0 blue
     // DcMotor leftMotor = null;
@@ -180,7 +180,7 @@ public class AutoDrive_2 extends LinearOpMode {
             robot.pushGamepad(-0.5, 0);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= 575 - isBlue*65 + isBlue*1750 ) {
+                if (robot.l1.getCurrentPosition() >= 610 - isBlue*65 + isBlue*1750 ) {
                     robot.pushGamepad(0, 0);
                     break;
                 }

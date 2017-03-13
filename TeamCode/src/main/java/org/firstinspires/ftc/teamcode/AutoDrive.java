@@ -62,10 +62,10 @@ public class AutoDrive extends LinearOpMode {
     private HardwarePushbot robot = new HardwarePushbot();
     private shootThread shoot;
     private shoot_servo reloader;
-    private int Tp1=4350;
-    private int Tp2=3100;
+    private int Tp1=4200;
+    private int Tp2=3600;
     final static boolean isReturn = false;
-    final static int isBlue = 1 ;
+    final static int isBlue = 0 ;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
