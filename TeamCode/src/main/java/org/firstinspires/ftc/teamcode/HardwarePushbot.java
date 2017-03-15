@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.GyroSensor;
-import com.qualcomm.robotcore.hardware.LED;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+import com.qualcomm.robotcore.hardware.LightSensor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 
 /**
@@ -39,11 +40,15 @@ public class HardwarePushbot
     public DcMotor l1 = null, l2 = null;
     public DcMotor wipeYellow = null;
     public DcMotor miniGun = null, collector = null;
-    public OpticalDistanceSensor eye = null;
+    public UltrasonicSensor eye = null;
+    public UltrasonicSensor uls = null;
+    public LightSensor ls = null;
+    public ColorSensor cs = null;
 
     public boolean isLoaded = false;
     public boolean isReleased =false;
     public int LOP=-1;
+
     //  public Servo    leftClaw    = null;
   //  public Servo    rightClaw   = null;
 
@@ -97,8 +102,12 @@ public class HardwarePushbot
         collector = hwMap.dcMotor.get("collector");
         miniGun = hwMap.dcMotor.get("shooter");
         TCH = hwMap.touchSensor.get("TCH");
-        eye = hwMap.opticalDistanceSensor.get("eye");
+        eye = hwMap.ultrasonicSensor.get("eyes");
         gyro = hwMap.gyroSensor.get("gyro");
+        uls = hwMap.ultrasonicSensor.get("uls");
+        ls = hwMap.lightSensor.get("ls");
+        cs = hwMap.colorSensor.get("cs");
+
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
 //        TMotor1.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
@@ -113,10 +122,12 @@ public class HardwarePushbot
         collector.setPower(0.0);
         Mladder.setPower(0);
         miniGun.setPower(0);
-        eye.enableLed(true);
+        miniGun.setPower(0);
         wrench.scaleRange(0.45,1);
         wrench.setPosition(1.0);
         gyro.calibrate();
+        ls.enableLed(true);
+        cs.enableLed(true);
 //        rightMotor.setPower(0);
 //        armMotor.setPower(0);
 
@@ -162,7 +173,14 @@ public class HardwarePushbot
             powerr = -1.0;
         }
     }
-
+    public void pushOnebyOne(double l,double r)
+    {
+        l*=-1.0;
+        l1.setPower(l);
+        r2.setPower(l);
+        l2.setPower(r);
+        r1.setPower(r);
+    }
     public void pushGamepad(double x, double y)
     {
         powerl = x-y;
@@ -170,28 +188,6 @@ public class HardwarePushbot
 
         checkr();
         checkl();
-/*
-        if(powerl > 0)
-        {
-            l1.setDirection(DcMotor.Direction.REVERSE);
-            l2.setDirection(DcMotor.Direction.REVERSE);
-        }
-        else
-        {
-            l1.setDirection(DcMotor.Direction.FORWARD);
-            l2.setDirection(DcMotor.Direction.FORWARD);
-        }
-        if(powerr < 0)
-        {
-            r1.setDirection(DcMotor.Direction.REVERSE);
-            r2.setDirection(DcMotor.Direction.REVERSE);
-        }
-        else
-        {
-            r1.setDirection(DcMotor.Direction.FORWARD);
-            r2.setDirection(DcMotor.Direction.FORWARD);
-        }
-        */
         powerr *= -1;
         powerl *= -1;
         l1.setPower(powerl);

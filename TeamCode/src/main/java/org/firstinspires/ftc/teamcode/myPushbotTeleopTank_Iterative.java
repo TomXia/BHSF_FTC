@@ -56,7 +56,7 @@ import java.lang.Math;
 public class myPushbotTeleopTank_Iterative extends OpMode{
 
     /* Declare OpMode members. */
-    final private double obsThreshold =0.15;
+    final private double obsThreshold =9;
 
     private HardwarePushbot robot       = new HardwarePushbot(); // use the class created to define a Pushbot's hardware
 
@@ -141,7 +141,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             collect.start();
         }
 
-        if(gamepad2.x||((robot.eye.getLightDetected() >= obsThreshold) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
+        if(gamepad2.x||((robot.eye.getUltrasonicLevel() <= obsThreshold) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
             reloader = new shoot_servo(robot);
             reloader.start();
         }
@@ -166,8 +166,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             }
         }else bj =false;
 
-        telemetry.addData("servo", "%.2f", robot.wrench.getPosition());
-        telemetry.addData("ODS", "%.2f", robot.eye.getLightDetected());
+        telemetry.addData("uls", "%.2f", robot.eye.getUltrasonicLevel());
         telemetry.addData("left",  "%.2f", robot.powerl);
         telemetry.addData("right",  "%.2f", robot.powerr);
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
