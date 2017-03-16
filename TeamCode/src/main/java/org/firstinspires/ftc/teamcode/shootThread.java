@@ -24,13 +24,13 @@ public class shootThread extends Thread{
             }
             robot.miniGun.setPower(0.58);
             while(!robot.TCH.isPressed()){}
-            try {
+            /*try {
                 robot.miniGun.setPower(0);
                 if(i==2) Thread.sleep(200);
             }catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-            robot.miniGun.setPower(0.58);
+            }*/
+            //robot.miniGun.setPower(0.58);
             while (robot.TCH.isPressed())
             {
             }

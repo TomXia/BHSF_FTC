@@ -33,6 +33,7 @@ public class HardwarePushbot
     /* Public OpMode members. */
     public DcMotor  Mladder     = null;
     public Servo wrench = null;
+    public Servo pushLight = null;
     public TouchSensor TCH =null;
     public GyroSensor gyro = null;
     public double powerl = 0.0, powerr = 0.0;
@@ -48,6 +49,7 @@ public class HardwarePushbot
     public boolean isLoaded = false;
     public boolean isReleased =false;
     public int LOP=-1;
+    public boolean isLoading = false;
 
     //  public Servo    leftClaw    = null;
   //  public Servo    rightClaw   = null;
@@ -107,6 +109,7 @@ public class HardwarePushbot
         uls = hwMap.ultrasonicSensor.get("uls");
         ls = hwMap.lightSensor.get("ls");
         cs = hwMap.colorSensor.get("cs");
+        pushLight = hwMap.servo.get("push");
 
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
@@ -120,6 +123,7 @@ public class HardwarePushbot
         r1.setPower(0);
         r2.setPower(0);
         collector.setPower(0.0);
+        pushLight.setPosition(1.0);
         Mladder.setPower(0);
         miniGun.setPower(0);
         miniGun.setPower(0);

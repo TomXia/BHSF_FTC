@@ -127,7 +127,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         x*=1-Math.sqrt(1-(rx*rx));
         y*=1-Math.sqrt(1-(ry*ry));
         //robot.pushGamepad(x, y);
-        sua.ultrasonicgo();
+        //sua.ultrasonicgo();
         if(gamepad1.right_bumper)
         {
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -138,7 +138,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         //telemetry.addData("LightSensor: ","%f",robot.ls.getLightDetected());
         telemetry.addData("UltrasonicSensor:","%f",robot.uls.getUltrasonicLevel());
         telemetry.addData("LS","%f",robot.ls.getLightDetected());
-        telemetry.addData("CS","%d",robot.cs.red());
+        telemetry.addData("CS","%d, %d, %d",robot.cs.red(),robot.cs.green(),robot.cs.blue());
 
     }
 

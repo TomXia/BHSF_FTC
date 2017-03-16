@@ -11,7 +11,7 @@ public class shoot_servo extends Thread {
     }
     @Override
     public void run() {
-
+        robot.isLoading = true;
         robot.wrench.setPosition(0);
         try {
             Thread.sleep(250);
@@ -20,10 +20,11 @@ public class shoot_servo extends Thread {
         }
         robot.wrench.setPosition(1);
         try {
-            if(robot.LOP==2)Thread.sleep(650);else Thread.sleep(90);
+            /*if(robot.LOP==2)Thread.sleep(650);else*/Thread.sleep(200);
         }catch (InterruptedException e) {
             e.printStackTrace();
         }
         robot.isLoaded=true;
+        robot.isLoading = false;
     }
 }
