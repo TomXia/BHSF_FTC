@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -143,6 +144,8 @@ public class HardwarePushbot
         l2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         r1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         r2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        r2.setDirection(DcMotorSimple.Direction.FORWARD);
+        l2.setDirection(DcMotorSimple.Direction.FORWARD);
         collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         miniGun.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -159,10 +162,12 @@ public class HardwarePushbot
     {
         if(powerl > 1.0)
         {
+            powerr -= powerl - 1.0;
             powerl = 1.0;
         }
         if(powerl < -1.0)
         {
+            powerr += Math.abs(powerl + 1.0);
             powerl = -1.0;
         }
     }
@@ -170,10 +175,12 @@ public class HardwarePushbot
     {
         if(powerr > 1.0)
         {
+            powerl -= powerr - 1.0;
             powerr = 1.0;
         }
         if(powerr < -1.0)
         {
+            powerl += Math.abs(powerr + 1.0);
             powerr = -1.0;
         }
     }
@@ -181,23 +188,23 @@ public class HardwarePushbot
     {
         l*=-1.0;
         l1.setPower(l);
-        r2.setPower(l);
-        l2.setPower(r);
+        l2.setPower(l);
+        r2.setPower(r);
         r1.setPower(r);
     }
     public void pushGamepad(double x, double y)
     {
-        powerl = x-y;
-        powerr = x+y;
-
+        x*=-1;
+        powerl = x+y;
+        powerr = x-y;
+        powerl *= -1;
         checkr();
         checkl();
-        powerr *= -1;
         powerl *= -1;
         l1.setPower(powerl);
-        l2.setPower(powerr);
+        l2.setPower(powerl);
         r1.setPower(powerr);
-        r2.setPower(powerl);
+        r2.setPower(powerr);
 
     }
     /***
