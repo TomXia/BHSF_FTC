@@ -1,23 +1,17 @@
 /*
 Copyright (c) 2016 Robert Atkinson
-
 All rights reserved.
-
 Redistribution and use in source and binary forms, with or without modification,
 are permitted (subject to the limitations in the disclaimer below) provided that
 the following conditions are met:
-
 Redistributions of source code must retain the above copyright notice, this list
 of conditions and the following disclaimer.
-
 Redistributions in binary form must reproduce the above copyright notice, this
 list of conditions and the following disclaimer in the documentation and/or
 other materials provided with the distribution.
-
 Neither the name of Robert Atkinson nor the names of his contributors may be used to
 endorse or promote products derived from this software without specific prior
 written permission.
-
 NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
 LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -62,7 +56,7 @@ public class AutoDrive_2 extends LinearOpMode {
     private int Tp1=3900;
     private int Tp2=-3300;//3700;
     final static boolean isReturn = false;
-    final static int isBlue = 0; //def = 0 blue
+    final static int isBlue = 1; //def = 0 blue
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -133,7 +127,7 @@ public class AutoDrive_2 extends LinearOpMode {
             }
             robot.miniGun.setPower(0);
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -230,4 +224,3 @@ public class AutoDrive_2 extends LinearOpMode {
         robot.stop();
     }
 }
-

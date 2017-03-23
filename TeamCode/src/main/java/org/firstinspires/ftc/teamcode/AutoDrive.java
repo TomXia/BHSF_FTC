@@ -1,23 +1,17 @@
 /*
 Copyright (c) 2016 Robert Atkinson
-
 All rights reserved.
-
 Redistribution and use in source and binary forms, with or without modification,
 are permitted (subject to the limitations in the disclaimer below) provided that
 the following conditions are met:
-
 Redistributions of source code must retain the above copyright notice, this list
 of conditions and the following disclaimer.
-
 Redistributions in binary form must reproduce the above copyright notice, this
 list of conditions and the following disclaimer in the documentation and/or
 other materials provided with the distribution.
-
 Neither the name of Robert Atkinson nor the names of his contributors may be used to
 endorse or promote products derived from this software without specific prior
 written permission.
-
 NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
 LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -62,10 +56,10 @@ public class AutoDrive extends LinearOpMode {
     private HardwarePushbot robot = new HardwarePushbot();
     private shootThread shoot;
     private shoot_servo reloader;
-    private int Tp1=4200;
+    private int Tp1=4100;
     private int Tp2=3600;
     final static boolean isReturn = false;
-    final static int isBlue = 0 ;
+    final static int isBlue = 1 ;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -111,7 +105,7 @@ public class AutoDrive extends LinearOpMode {
 //        robot.TargetPosition(1850);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(robot.l1.getCurrentPosition()<=-1950) break;
+            if(robot.l1.getCurrentPosition()<=-1860) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);
@@ -145,7 +139,7 @@ public class AutoDrive extends LinearOpMode {
             }
             robot.miniGun.setPower(0);
             try {
-                Thread.sleep(3000);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -179,7 +173,7 @@ public class AutoDrive extends LinearOpMode {
             robot.pushGamepad(-0.5, 0);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= 600 + isBlue*1750 ) {
+                if (robot.l1.getCurrentPosition() >= 600 + isBlue*1675 ) {
                     robot.pushGamepad(0, 0);
                     break;
                 }
@@ -193,7 +187,7 @@ public class AutoDrive extends LinearOpMode {
             robot.pushGamepad(0, -0.8);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if (Math.abs(robot.l1.getCurrentPosition()) >= Math.abs(Tp2)) break;
+                if (Math.abs(robot.l1.getCurrentPosition()) >= Math.abs(Tp2/3)) break;
 
             }
             robot.pushGamepad(0, 0);
@@ -253,7 +247,6 @@ public class AutoDrive extends LinearOpMode {
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
                 if (robot.l2.getCurrentPosition() >= Tp2) break;
-
             }
             robot.pushGamepad(0, 0);
         }
@@ -280,12 +273,8 @@ public class AutoDrive extends LinearOpMode {
                 telemetry.update();
             }
             robot.pushGamepad(0,0);
-
         }
-
         telemetry.addData("Info: ","Finished");
-
         robot.stop();
     }
 }*/
-
