@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 
 /**
@@ -46,6 +47,7 @@ public class HardwarePushbot
     public UltrasonicSensor uls = null;
     public LightSensor ls = null;
     public ColorSensor cs = null;
+    public DigitalChannel dc = null;
 
     public boolean isLoaded = false;
     public boolean isReleased =false;
@@ -102,6 +104,7 @@ public class HardwarePushbot
         wipeYellow = hwMap.dcMotor.get("wy");
         Mladder = hwMap.dcMotor.get("ladder");
         wrench = hwMap.servo.get("wrench");
+        pushLight = hwMap.servo.get("push");
         collector = hwMap.dcMotor.get("collector");
         miniGun = hwMap.dcMotor.get("shooter");
         TCH = hwMap.touchSensor.get("TCH");
@@ -110,7 +113,7 @@ public class HardwarePushbot
         uls = hwMap.ultrasonicSensor.get("uls");
         ls = hwMap.lightSensor.get("ls");
         cs = hwMap.colorSensor.get("cs");
-        pushLight = hwMap.servo.get("push");
+        dc = hwMap.digitalChannel.get("dc");
 
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
@@ -253,6 +256,7 @@ public class HardwarePushbot
 
     public void stop() {
         wipeYellow.setPower(0);
+
         r1.setPower(0);
         r2.setPower(0);
         l1.setPower(0);

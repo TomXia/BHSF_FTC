@@ -33,6 +33,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 
+import android.content.Context;
+import android.provider.Settings;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -40,6 +43,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -77,6 +84,9 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
     private Gamepad bgp;
     private CommandInfo ci = new CommandInfo();
     private ElapsedTime et;
+    private DataOutputStream out;
+    private FileOutputStream fos = null;
+    public Long last = 0l;
     subAuto sua = new subAuto(robot);
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
@@ -94,7 +104,13 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         robot.init(hardwareMap);
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        try {
+            fos = hardwareMap.appContext.openFileOutput("Temp.txt", Context.MODE_WORLD_READABLE);
+        }catch (FileNotFoundException e){
+            telemetry.addData("Failed while","create");
+            e.printStackTrace();
+        }
+        out = new DataOutputStream(fos);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
     }
@@ -120,6 +136,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void loop() {
+
         rx=gamepad1.left_stick_x;
         ry=gamepad1.left_trigger-gamepad1.right_trigger;
         x=(rx==0)?1:Math.abs(rx)/rx;
@@ -143,7 +160,6 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         telemetry.addData("UltrasonicSensor:","%f",robot.uls.getUltrasonicLevel());
         telemetry.addData("LS","%f",robot.ls.getLightDetected());
         telemetry.addData("CS","%d, %d, %d",robot.cs.red(),robot.cs.green(),robot.cs.blue());
-
     }
 
     /*
@@ -151,6 +167,13 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void stop() {
+        try {
+            fos.close();
+            out.close();
+        }catch (IOException e){
+            telemetry.addData("Failed while","close");
+            e.printStackTrace();
+        }
 
         robot.stop();
     }

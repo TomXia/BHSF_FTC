@@ -30,6 +30,7 @@ public class subAuto {
         y=0.4-delta;
         if(lenth==0||lenth>=150||lenth==24){
             robot.pushOnebyOne(0,0);
+
         }
         else{
             robot.pushOnebyOne(x,y);
