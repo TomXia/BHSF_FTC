@@ -165,12 +165,10 @@ public class HardwarePushbot
     {
         if(powerl > 1.0)
         {
-            powerr -= powerl - 1.0;
             powerl = 1.0;
         }
         if(powerl < -1.0)
         {
-            powerr += Math.abs(powerl + 1.0);
             powerl = -1.0;
         }
     }
@@ -178,12 +176,10 @@ public class HardwarePushbot
     {
         if(powerr > 1.0)
         {
-            powerl -= powerr - 1.0;
             powerr = 1.0;
         }
         if(powerr < -1.0)
         {
-            powerl += Math.abs(powerr + 1.0);
             powerr = -1.0;
         }
     }
@@ -198,12 +194,18 @@ public class HardwarePushbot
     public void pushGamepad(double x, double y)
     {
         x*=-1;
-        powerl = x+y;
-        powerr = x-y;
-        powerl *= -1;
+        if(x>0){
+            x=x*((-5.34*x*x*x*x*x)+(13.341*x*x*x*x)-(11.082*x*x*x)+(3.3357*x*x)-(0.0534*x)+1);
+        }
+        else{
+            x=Math.abs(x);
+            x=-1*x*((-5.34*x*x*x*x*x)+(13.341*x*x*x*x)-(11.082*x*x*x)+(3.3357*x*x)-(0.0534*x)+1);
+        }
+        powerl = y+x;
+        powerr = y-x;
+        powerr*=-1;
         checkr();
         checkl();
-        powerl *= -1;
         l1.setPower(powerl);
         l2.setPower(powerl);
         r1.setPower(powerr);

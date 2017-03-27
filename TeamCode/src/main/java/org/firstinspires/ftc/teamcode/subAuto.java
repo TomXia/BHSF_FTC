@@ -20,17 +20,26 @@ public class subAuto {
         double lenth=(robot.uls.getUltrasonicLevel());
         double delta=0.02*(lenth-len);
         double x,y;
-        if(delta>0.2){
-            delta=0.2;
+        if((8*delta-delta*delta)<0){
+            delta=(Math.sqrt(Math.abs(8*delta-delta*delta)))/16*(-1);
         }
-        else if(delta<-0.2){
-            delta=-0.2;
+        else{
+            delta=(Math.sqrt(8*delta-delta*delta))/16;
         }
-        x=0.4+delta;
-        y=0.4-delta;
-        if(lenth==0||lenth>=150||lenth==24){
-            robot.pushOnebyOne(0,0);
 
+        if(delta>0.25){
+            delta=0.25;
+        }
+        else if(delta<-0.25){
+            delta=-0.25;
+        }
+        x=0.6+delta;
+        y=0.6-delta;
+        if(lenth==0||lenth>=150){
+            robot.pushOnebyOne(0,0);
+        }
+        else if(lenth==24){
+            robot.pushOnebyOne(0.6,0.6);
         }
         else{
             robot.pushOnebyOne(x,y);
