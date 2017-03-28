@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -10,7 +11,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.hardware.LightSensor;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 
@@ -46,7 +46,7 @@ public class HardwarePushbot
     public UltrasonicSensor eye = null;
     public UltrasonicSensor uls = null;
     public LightSensor ls = null;
-    public ColorSensor cs = null;
+    public OpticalDistanceSensor ods = null;
     public DigitalChannel dc = null;
 
     public boolean isLoaded = false;
@@ -112,7 +112,7 @@ public class HardwarePushbot
         gyro = hwMap.gyroSensor.get("gyro");
         uls = hwMap.ultrasonicSensor.get("uls");
         ls = hwMap.lightSensor.get("ls");
-        cs = hwMap.colorSensor.get("cs");
+        ods = hwMap.opticalDistanceSensor.get("ods");
         dc = hwMap.digitalChannel.get("dc");
 
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
@@ -127,7 +127,8 @@ public class HardwarePushbot
         r1.setPower(0);
         r2.setPower(0);
         collector.setPower(0.0);
-        pushLight.setPosition(1.0);
+        pushLight.scaleRange(0.08,1.0);
+        pushLight.setPosition(0.0);
         Mladder.setPower(0);
         miniGun.setPower(0);
         miniGun.setPower(0);
@@ -135,7 +136,6 @@ public class HardwarePushbot
         wrench.setPosition(1.0);
         gyro.calibrate();
         ls.enableLed(true);
-        cs.enableLed(true);
 //        rightMotor.setPower(0);
 //        armMotor.setPower(0);
 
@@ -194,13 +194,22 @@ public class HardwarePushbot
     public void pushGamepad(double x, double y)
     {
         x*=-1;
-        if(x>0){
-            x=x*((-5.34*x*x*x*x*x)+(13.341*x*x*x*x)-(11.082*x*x*x)+(3.3357*x*x)-(0.0534*x)+1);
+        /*double k;
+        if(y==0){
+
+        }
+        else{
+           if(x>0){
+            k=(-5.34*x*x*x*x*x)+(13.341*x*x*x*x)-(11.082*x*x*x)+(3.3357*x*x)-(0.0534*x)+1;
+            x=(k-1)/(k+1)*y/2;
         }
         else{
             x=Math.abs(x);
-            x=-1*x*((-5.34*x*x*x*x*x)+(13.341*x*x*x*x)-(11.082*x*x*x)+(3.3357*x*x)-(0.0534*x)+1);
+            k=(-5.34*x*x*x*x*x)+(13.341*x*x*x*x)-(11.082*x*x*x)+(3.3357*x*x)-(0.0534*x)+1;
+            x=(1-k)/(k+1)*y;
         }
+        }
+        */
         powerl = y+x;
         powerr = y-x;
         powerr*=-1;
@@ -267,6 +276,7 @@ public class HardwarePushbot
         miniGun.setPower(0);
         collector.setPower(0);
         wrench.setPosition(1.0);//0.4
+        pushLight.setPosition(0.0);
     }
 }
 

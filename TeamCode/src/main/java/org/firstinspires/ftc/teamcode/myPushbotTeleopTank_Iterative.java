@@ -124,7 +124,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             x*=1-Math.sqrt(1-(rx*rx));
             y*=1-Math.sqrt(1-(ry*ry));
         }
-        robot.pushGamepad(x, y);
+        robot.pushGamepad(rx, y);
         telemetry.addData("x",  "%.2f", x);
         telemetry.addData("y",  "%.2f", y);
 

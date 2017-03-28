@@ -59,7 +59,7 @@ public class AutoDrive extends LinearOpMode {
     private int Tp1=4100;
     private int Tp2=3600;
     final static boolean isReturn = false;
-    final static int isBlue = 1 ;
+    final static int isBlue = 0 ;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -130,6 +130,7 @@ public class AutoDrive extends LinearOpMode {
             }
             while (!robot.TCH.isPressed()) {
             }
+            robot.miniGun.setPower(0);
             while (true) {
                 if (((reloader == null || !reloader.isAlive()))) {
                     reloader = new shoot_servo(robot);
@@ -137,7 +138,6 @@ public class AutoDrive extends LinearOpMode {
                     break;
                 }
             }
-            robot.miniGun.setPower(0);
             try {
                 Thread.sleep(1500);
             } catch (InterruptedException e) {

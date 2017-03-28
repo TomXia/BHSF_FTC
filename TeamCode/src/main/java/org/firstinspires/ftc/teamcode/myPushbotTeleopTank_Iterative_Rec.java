@@ -87,7 +87,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
     private DataOutputStream out;
     private FileOutputStream fos = null;
     public Long last = 0l;
-    subAuto sua = new subAuto(robot);
+    subAuto sua;
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
 //    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
@@ -98,6 +98,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void init() {
+        sua = new subAuto(robot,null,1);
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
@@ -144,7 +145,8 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         x*=1-Math.sqrt(1-(rx*rx));
         y*=1-Math.sqrt(1-(ry*ry));
         //robot.pushGamepad(x, y);
-        sua.ultrasonicgo();
+        sua.ultrasonicgo(false);
+        robot.pushLight.setPosition(gamepad1.right_stick_x);
         if(gamepad1.right_bumper)
         {
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -159,7 +161,8 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         //telemetry.addData("LightSensor: ","%f",robot.ls.getLightDetected());
         telemetry.addData("UltrasonicSensor:","%f",robot.uls.getUltrasonicLevel());
         telemetry.addData("LS","%f",robot.ls.getLightDetected());
-        telemetry.addData("CS","%d, %d, %d",robot.cs.red(),robot.cs.green(),robot.cs.blue());
+        telemetry.addData("ods","%f",robot.ods.getLightDetected());
+        telemetry.addData("servoPush","%f",robot.pushLight.getPosition());
     }
 
     /*

@@ -56,7 +56,7 @@ public class TestAuto extends LinearOpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     HardwarePushbot robot = new HardwarePushbot();
-    subAuto sub = new subAuto(robot);
+    subAuto_right sub = new subAuto_right(robot,this,1.3);
 
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
@@ -83,20 +83,15 @@ public class TestAuto extends LinearOpMode {
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("ls","%f",robot.ls.getLightDetected());
-            telemetry.update();
-            while(robot.ls.getLightDetected()<0.3)
-            {
-                sub.ultrasonicgo();
-            }
-            robot.stop();
-            return;
+        sub.pushLight_goShoot();
+        sub.shootBall(2);
+        sub.pushLight_goLight();
+        //sub.ultrasonicgo(true);
+        robot.stop();
+        return;
 
             // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
             // leftMotor.setPower(-gamepad1.left_stick_y);
             // rightMotor.setPower(-gamepad1.right_stick_y);
-        }
     }
 }

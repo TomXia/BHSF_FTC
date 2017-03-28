@@ -56,7 +56,7 @@ public class AutoDrive_2 extends LinearOpMode {
     private int Tp1=3900;
     private int Tp2=-3300;//3700;
     final static boolean isReturn = false;
-    final static int isBlue = 1; //def = 0 blue
+    final static int isBlue = 0; //def = 0 blue
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
