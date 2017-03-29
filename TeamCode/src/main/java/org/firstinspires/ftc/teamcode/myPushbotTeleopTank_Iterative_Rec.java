@@ -34,11 +34,9 @@ package org.firstinspires.ftc.teamcode;
 
 
 import android.content.Context;
-import android.provider.Settings;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -80,7 +78,6 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
     private double rx,ry,x,y;
     private boolean is_Up;
     private BlockingQueue que;
-    private FileManager fm = new FileManager(true,gamepad1,que);
     private Gamepad bgp;
     private CommandInfo ci = new CommandInfo();
     private ElapsedTime et;
@@ -114,6 +111,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         out = new DataOutputStream(fos);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
+        sua.t=telemetry;
     }
 
     /*
@@ -145,7 +143,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         x*=1-Math.sqrt(1-(rx*rx));
         y*=1-Math.sqrt(1-(ry*ry));
         //robot.pushGamepad(x, y);
-        sua.ultrasonicgo(false);
+        sua.ultrasonicgo(true);
         robot.pushLight.setPosition(gamepad1.right_stick_x);
         if(gamepad1.right_bumper)
         {
@@ -154,15 +152,16 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         }
         //telemetry.addData("motor: ","%d",robot.l1.getCurrentPosition());
         telemetry.addData("speed:","%f",robot.l1.getPower());
-        telemetry.addData("deg L1: ","%d", robot.l1.getCurrentPosition());
-        telemetry.addData("deg L2: ","%d", robot.l2.getCurrentPosition());
-        telemetry.addData("deg R1: ","%d", robot.r1.getCurrentPosition());
-        telemetry.addData("deg R2: ","%d", robot.r2.getCurrentPosition());
+        //telemetry.addData("deg L1: ","%d", robot.l1.getCurrentPosition());
+        //telemetry.addData("deg L2: ","%d", robot.l2.getCurrentPosition());
+        //telemetry.addData("deg R1: ","%d", robot.r1.getCurrentPosition());
+        //telemetry.addData("deg R2: ","%d", robot.r2.getCurrentPosition());
         //telemetry.addData("LightSensor: ","%f",robot.ls.getLightDetected());
-        telemetry.addData("UltrasonicSensor:","%f",robot.uls.getUltrasonicLevel());
-        telemetry.addData("LS","%f",robot.ls.getLightDetected());
-        telemetry.addData("ods","%f",robot.ods.getLightDetected());
-        telemetry.addData("servoPush","%f",robot.pushLight.getPosition());
+        telemetry.addData("UltrasonicSensorf:","%f",robot.ulsf.getUltrasonicLevel());
+        telemetry.addData("UltrasonicSensorb:","%f",robot.ulsb.getUltrasonicLevel());
+        //telemetry.addData("LS","%f",robot.ls.getLightDetected());
+        //telemetry.addData("ods","%f",robot.ods.getLightDetected());
+       // telemetry.addData("servoPush","%f",robot.pushLight.getPosition());
     }
 
     /*

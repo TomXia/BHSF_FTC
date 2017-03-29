@@ -43,8 +43,9 @@ public class HardwarePushbot
     public DcMotor l1 = null, l2 = null;
     public DcMotor wipeYellow = null;
     public DcMotor miniGun = null, collector = null;
-    public UltrasonicSensor eye = null;
-    public UltrasonicSensor uls = null;
+    public ballSeeker eye = null;
+    public UltrasonicSensor ulsf = null;
+    public UltrasonicSensor ulsb = null;
     public LightSensor ls = null;
     public OpticalDistanceSensor ods = null;
     public DigitalChannel dc = null;
@@ -95,7 +96,6 @@ public class HardwarePushbot
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
-
         // Define and Initialize Motors
         l1 = hwMap.dcMotor.get("L1");
         l2 = hwMap.dcMotor.get("L2");
@@ -108,9 +108,11 @@ public class HardwarePushbot
         collector = hwMap.dcMotor.get("collector");
         miniGun = hwMap.dcMotor.get("shooter");
         TCH = hwMap.touchSensor.get("TCH");
-        eye = hwMap.ultrasonicSensor.get("eyes");
+        dc = hwMap.digitalChannel.get("eyes");
+        eye=new ballSeeker(dc);
         gyro = hwMap.gyroSensor.get("gyro");
-        uls = hwMap.ultrasonicSensor.get("uls");
+        ulsf = hwMap.ultrasonicSensor.get("ulsf");
+        ulsb = hwMap.ultrasonicSensor.get("ulsb");
         ls = hwMap.lightSensor.get("ls");
         ods = hwMap.opticalDistanceSensor.get("ods");
         dc = hwMap.digitalChannel.get("dc");
@@ -194,22 +196,20 @@ public class HardwarePushbot
     public void pushGamepad(double x, double y)
     {
         x*=-1;
-        /*double k;
+        double k;
         if(y==0){
-
         }
         else{
            if(x>0){
-            k=(-5.34*x*x*x*x*x)+(13.341*x*x*x*x)-(11.082*x*x*x)+(3.3357*x*x)-(0.0534*x)+1;
+            k=(0.5017*x*x)-(0.0272*x)+1;
             x=(k-1)/(k+1)*y/2;
         }
         else{
             x=Math.abs(x);
-            k=(-5.34*x*x*x*x*x)+(13.341*x*x*x*x)-(11.082*x*x*x)+(3.3357*x*x)-(0.0534*x)+1;
+            k=(0.5017*x*x)-(0.0272*x)+1;
             x=(1-k)/(k+1)*y;
         }
         }
-        */
         powerl = y+x;
         powerr = y-x;
         powerr*=-1;
@@ -244,6 +244,10 @@ public class HardwarePushbot
 
         // Reset the cycle clock for the next pass.
         period.reset();
+    }
+    public void resetMotors() {
+        this.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void TurnByGyro(int deg, Telemetry T)

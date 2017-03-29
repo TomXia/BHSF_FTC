@@ -27,9 +27,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.lasarobotics.vision.opmode.LinearVisionOpMode;
 
 /** 5000 500 -2500
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -46,7 +46,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="AutoDrive_Main", group="Auto")  // @Autonomous(...) is the other common choice
 //@Disabled
-public class AutoDrive_2 extends LinearOpMode {
+public class AutoDrive_2 extends LinearVisionOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -61,7 +61,7 @@ public class AutoDrive_2 extends LinearOpMode {
     // DcMotor rightMotor = null;
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         robot.init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();

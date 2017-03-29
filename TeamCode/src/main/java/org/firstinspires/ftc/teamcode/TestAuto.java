@@ -36,6 +36,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.lasarobotics.vision.android.Cameras;
+import org.lasarobotics.vision.ftc.resq.Beacon;
+import org.lasarobotics.vision.opmode.LinearVisionOpMode;
+import org.lasarobotics.vision.opmode.VisionOpMode;
+import org.lasarobotics.vision.opmode.extensions.CameraControlExtension;
+import org.lasarobotics.vision.util.ScreenOrientation;
+import org.opencv.core.Size;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -51,42 +58,53 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="TestAuto", group="Test")  // @Autonomous(...) is the other common choice
-public class TestAuto extends LinearOpMode {
+public class TestAuto extends LinearVisionOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     HardwarePushbot robot = new HardwarePushbot();
     subAuto_right sub = new subAuto_right(robot,this,1.3);
+    int times;
 
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
     @Override
-    public void runOpMode() {
-        telemetry.addData("Status", "Initialized");
+    public void runOpMode() throws InterruptedException{
+        sub.t=telemetry;
         telemetry.update();
         robot.init(hardwareMap);
-        /* eg: Initialize the hardware variables. Note that the strings used here as parameters
-         * to 'get' must correspond to the names assigned during the robot configuration
-         * step (using the FTC Robot Controller app on the phone).
-         */
-        // leftMotor  = hardwareMap.dcMotor.get("left_drive");
-        // rightMotor = hardwareMap.dcMotor.get("right_drive");
+        waitForVisionStart();
 
-        // eg: Set the drive motor directions:
-        // "Reverse" the motor that runs backwards when connected directly to the battery
-        // leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        telemetry.addData("Status", "Initialized");
+        this.setCamera(Cameras.PRIMARY);
+        this.setFrameSize(new Size(900, 900));
+        enableExtension(Extensions.BEACON);         //Beacon detection
+        enableExtension(Extensions.ROTATION);       //Automatic screen rotation correction
+        enableExtension(Extensions.CAMERA_CONTROL); //Manual camera control
+        beacon.setAnalysisMethod(Beacon.AnalysisMethod.FAST);
+        beacon.setColorToleranceRed(0);
+        beacon.setColorToleranceBlue(0);
+        rotation.setIsUsingSecondaryCamera(false);
+        rotation.disableAutoRotate();
+        rotation.setActivityOrientationFixed(ScreenOrientation.PORTRAIT);
+        cameraControl.setColorTemperature(CameraControlExtension.ColorTemperature.AUTO);
+        cameraControl.setAutoExposureCompensation();
+        sub.setBeacon(beacon);
 
-        // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        // run until the end of the match (driver presses STOP)
-        sub.pushLight_goShoot();
-        sub.shootBall(2);
-        sub.pushLight_goLight();
+        //sub.pushLight_goShoot();
+        //sub.shootBall(2);
+        //sub.pushLight_goLight();
         //sub.ultrasonicgo(true);
+        times=0;
+        do {
+            times++;
+            //'telemetry.addData("times","%d",times);
+            if (sub.Bea_findBeacon())   sub.Bea_pushBeacon();
+        }while(times < 3 && beacon.getAnalysis().isLeftKnown() && beacon.getAnalysis().getConfidence() > 0.80);
         robot.stop();
         return;
 
