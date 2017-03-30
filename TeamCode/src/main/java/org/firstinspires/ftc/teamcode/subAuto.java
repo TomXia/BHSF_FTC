@@ -29,6 +29,7 @@ public class subAuto {
     public LinearVisionOpMode opmode;
     public double qSpeed;
     public BeaconExtension beacon = null;
+    public int scanresault,nores;
     public  subAuto(HardwarePushbot r, LinearVisionOpMode op, double q)
     {
         this.robot = r;
@@ -65,35 +66,74 @@ public class subAuto {
 //            while (opmode.opModeIsActive() && robot.ods.getLightDetected() < 0.2) {
                 double a = (robot.ulsf.getUltrasonicLevel());
                 double b = (robot.ulsb.getUltrasonicLevel());
-                double degree=a-b;
-                double delta=degree/6;
-                double x, y;
+                double degree=(a-b)/3;
+                double delta=(19-a)/2;
+                double deltab=(19-b)/2;
+                double x=0, y=0;
+                if(Math.abs(delta) <= 0.5 && Math.abs(degree) <= 0.35){
+                    x=0.2;
+                    y=0.2;
+                }
+                else{
+                    x = 0.2 - delta + degree;
+                    y = 0.2 + delta - degree;
+                    /*while(Math.abs(delta) > 0.5){
+                        a = (robot.ulsf.getUltrasonicLevel());
+                        b = (robot.ulsb.getUltrasonicLevel());
+                        degree=(a-b)/3;
+                        delta=(19-a)/2;
+                        if(isForward){
+                            if (delta > 0.2) {
+                                delta = 0.2;
+                            } else if (delta < -0.2) {
+                                delta = -0.2;
+                            }
+                            x = 0.2 - delta;
+                            y = 0.2 + delta;
+                        }
+                        else {
+                            if (delta > 0.2) {
+                                delta = 0.2;
+                            } else if (delta < -0.2) {
+                                delta = -0.2;
+                            }
+                            x = -0.2 + delta;
+                            y = -0.2 - delta;
+                        }
+                    }
+                    while(Math.abs(degree) > 0.35){
+                        a = (robot.ulsf.getUltrasonicLevel());
+                        b = (robot.ulsb.getUltrasonicLevel());
+                        degree=(a-b)/3;
+                        delta=(19-a)/2;
+                        if(isForward){
+                            if (degree > 0.2) {
+                                degree = 0.2;
+                            } else if (delta < -0.2) {
+                                degree = -0.2;
+                            }
+                            x = 0.2 + degree;
+                            y = 0.2 - degree;
+                        }
+                        else {
+                            if (degree > 0.2) {
+                                degree = 0.2;
+                            } else if (degree < -0.2) {
+                                degree = -0.2;
+                            }
+                            x = -0.2 - degree;
+                            y = -0.2 + degree;
+                        }
+                    }*/
+                }
 
 
-                if(isForward){
-                    if (delta > 0.2) {
-                        delta = 0.2;
-                    } else if (delta < -0.2) {
-                        delta = -0.2;
-                    }
-                    x = 0.1 + delta;
-                    y = 0.1 - delta;
-                }
-                else {
-                    if (delta > 0.2) {
-                        delta = 0.2;
-                    } else if (delta < -0.2) {
-                        delta = -0.2;
-                    }
-                    x = -0.1 - delta;
-                    y = -0.1 + delta;
-                }
 
 
                 if (a == 0 || a >= 150 || b == 0 || b >= 150) {
                     robot.pushOnebyOne(0, 0);
                 } else if (a == 24 || b == 24) {
-                    robot.pushOnebyOne(0.1, 0.1);
+                    robot.pushOnebyOne(0.2, 0.2);
                 } else {
                     robot.pushOnebyOne(x, y);
                 }
@@ -118,74 +158,102 @@ public class subAuto {
     public boolean Bea_findBeacon(){
 //        t.addData("find","1");
         robot.resetMotors();
-        Boolean Founded = false;
+        Boolean Founded = false, isMotorsRunning = false;
         int deg=0;
-        if(beacon.getAnalysis().isLeftKnown() && beacon.getAnalysis().getConfidence()>=0.80f) {
-            Founded=true;
-        }
-        else{
-            robot.pushGamepad(0, -0.3);
-            while (opmode.opModeIsActive() && (!(beacon.getAnalysis().isLeftKnown() && beacon.getAnalysis().getConfidence() >= 0.80f))) {
-                if (Math.abs(robot.l2.getCurrentPosition()) >= 150) {
+        scanresault=nores=0;
+
+            while(!Founded && opmode.opModeIsActive()) {
+                if (beacon.getAnalysis().isLeftKnown() && beacon.getAnalysis().getConfidence() >= 0.80f)
+                    scanresault += beacon.getAnalysis().isLeftBlue() ? 1 : -1;
+                else
+                    nores++;
+                if (Math.abs(scanresault) >= 1500/*times*/) {
+                    isMotorsRunning = false;
+                    robot.pushGamepad(0, 0);
                     Founded = true;
+                    analysis = scanresault > 0;
                     break;
                 }
+                if (nores > 1500/*times*/ && !isMotorsRunning) {
+                    isMotorsRunning = true;
+                    robot.pushGamepad(0, -0.35);
+                }
+                if (Math.abs(robot.l2.getCurrentPosition()) >= 300 ) {
+                    isMotorsRunning = false;
+                    robot.pushGamepad(0,0);
+                    break;
+                }
+//                t.addData("res","%d",scanresault);
+//                t.addData("nores","%d",nores);
+//                t.update();
             }
-            robot.pushGamepad(0, 0);
             deg += robot.l2.getCurrentPosition();
             robot.resetMotors();
-            if (Founded) {
-                robot.pushGamepad(0, 0.3);
-                while (opmode.opModeIsActive() && (!(beacon.getAnalysis().isLeftKnown() && beacon.getAnalysis().getConfidence() >= 0.80f))) {
-//                    t.addData("find2x", "%d", robot.l2.getCurrentPosition());
-                    if (Math.abs(robot.l2.getCurrentPosition()) >= 550) {
-                        Founded = true;
-                        break;
-                    }
-                }
-                robot.pushGamepad(0, 0);
-            }
-            deg += robot.l2.getCurrentPosition();
-        }
-        if(Founded) {
-            analysis=beacon.getAnalysis().isLeftBlue();
-        }
-        if(Math.abs(deg) >= 50) pushDeg(Math.abs(deg),0,(Math.abs(deg)/deg)*(-0.35));
 
+        while(!Founded && opmode.opModeIsActive()) {
+            if (beacon.getAnalysis().isLeftKnown() && beacon.getAnalysis().getConfidence() >= 0.80f)
+                scanresault += beacon.getAnalysis().isLeftBlue() ? 1 : -1;
+            else
+                nores++;
+           if (Math.abs(scanresault) >= 1500) {
+                isMotorsRunning = false;
+                robot.pushGamepad(0, 0);
+                Founded = true;
+                analysis = scanresault > 0;
+                break;
+            }
+            if (nores > 1500 && !isMotorsRunning) {
+                isMotorsRunning = true;
+                robot.pushGamepad(0, 0.35);
+            }
+            if (Math.abs(robot.l2.getCurrentPosition()) >= 700) {
+                isMotorsRunning = false;
+                robot.pushGamepad(0,0);
+                break;
+            }
+///            t.addData("res","%d",scanresault);
+///            t.addData("nores","%d",nores);
+///            t.update();
+        }
+        robot.pushGamepad(0,0);
+        deg+=robot.l2.getCurrentPosition();
+
+        if(Math.abs(deg) >= 50) pushDeg(Math.abs(deg),0,(Math.abs(deg)/deg)*(-0.35));
         return  Founded;
     }
+
     public void Bea_pushBeacon(){
 //        t.addData("push","1");
         if(analysis == dest){
             robot.pushLight.setPosition(1.0);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }catch (InterruptedException e) {
                 e.printStackTrace();
             }
             robot.pushLight.setPosition(0);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }catch (InterruptedException e) {
                 e.printStackTrace();
             }
 //            t.addData("push","2");
         }
         else{
-            pushDeg(700,0,0.35);
+            pushDeg(600,0,0.4);
             robot.pushLight.setPosition(1.0);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }catch (InterruptedException e) {
                 e.printStackTrace();
             }
             robot.pushLight.setPosition(0);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            pushDeg(700,0,-0.35);
+            pushDeg(600,0,-0.4);
 //            t.addData("push","3");
         }
     }

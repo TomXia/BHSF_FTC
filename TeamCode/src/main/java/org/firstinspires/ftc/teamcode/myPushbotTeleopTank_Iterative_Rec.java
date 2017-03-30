@@ -144,12 +144,12 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         y*=1-Math.sqrt(1-(ry*ry));
         //robot.pushGamepad(x, y);
         sua.ultrasonicgo(true);
-        robot.pushLight.setPosition(gamepad1.right_stick_x);
+        /*robot.pushLight.setPosition(gamepad1.right_stick_x);
         if(gamepad1.right_bumper)
         {
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             while(gamepad1.right_bumper){}
-        }
+        }*/
         //telemetry.addData("motor: ","%d",robot.l1.getCurrentPosition());
         telemetry.addData("speed:","%f",robot.l1.getPower());
         //telemetry.addData("deg L1: ","%d", robot.l1.getCurrentPosition());

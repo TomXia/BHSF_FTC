@@ -91,7 +91,7 @@ public class TestAuto extends LinearVisionOpMode {
         cameraControl.setColorTemperature(CameraControlExtension.ColorTemperature.AUTO);
         cameraControl.setAutoExposureCompensation();
         sub.setBeacon(beacon);
-
+        times=0;
         waitForStart();
         runtime.reset();
 
@@ -99,12 +99,15 @@ public class TestAuto extends LinearVisionOpMode {
         //sub.shootBall(2);
         //sub.pushLight_goLight();
         //sub.ultrasonicgo(true);
-        times=0;
+
         do {
             times++;
             //'telemetry.addData("times","%d",times);
-            if (sub.Bea_findBeacon())   sub.Bea_pushBeacon();
-        }while(times < 3 && beacon.getAnalysis().isLeftKnown() && beacon.getAnalysis().getConfidence() > 0.80);
+            if (sub.Bea_findBeacon())
+                    sub.Bea_pushBeacon();
+            else
+                break;
+        }while(times < 3);
         robot.stop();
         return;
 
