@@ -1,23 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.DigitalChannelController;
+
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
  * Created by Administrator on 2017/2/26.
  */
 
 public class ballSeeker {
-    private DigitalChannel dc;
-    ballSeeker(DigitalChannel d){
-        dc = d;
-        dc.setMode(DigitalChannelController.Mode.INPUT);
+    private TouchSensor  tch = null;
+    final static double threshold = 0.28;
+    ballSeeker(TouchSensor touchSensor){
+        tch = touchSensor;
     }
-   public double getResault(){
-       if(dc.getState())
-           return 4.0;
-       else
-           return 20.0;
+   public boolean getResault(){
+       return  (tch.getValue()==1.0);
    }
 }

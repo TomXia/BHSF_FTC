@@ -65,6 +65,7 @@ public class TestAuto extends LinearVisionOpMode {
     HardwarePushbot robot = new HardwarePushbot();
     subAuto_right sub = new subAuto_right(robot,this,1.3);
     int times;
+    double degree,a,b;
 
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
@@ -95,16 +96,44 @@ public class TestAuto extends LinearVisionOpMode {
         waitForStart();
         runtime.reset();
 
-        //sub.pushLight_goShoot();
-        //sub.shootBall(2);
-        //sub.pushLight_goLight();
-        //sub.ultrasonicgo(true);
+        sub.pushLight_goShoot();
+        sub.shootBall(2);
+        sub.pushLight_goLight();
+        sub.ultrasonicgo(true);
+        sub.findTopline(0.2);
 
         do {
             times++;
             //'telemetry.addData("times","%d",times);
             if (sub.Bea_findBeacon())
                     sub.Bea_pushBeacon();
+            else
+                break;
+        }while(times < 3);
+        sub.pushDeg(400,0,0.8,false);
+        sub.findTopline(0.5);
+        a = (robot.ulsf.getUltrasonicLevel());
+        b = (robot.ulsb.getUltrasonicLevel());
+        degree=a-b;
+        while(Math.abs(degree)!=0 && opModeIsActive()){
+            a = (robot.ulsf.getUltrasonicLevel());
+            b = (robot.ulsb.getUltrasonicLevel());
+            degree=a-b;
+            if (degree > 20) {
+                degree = 20;
+            }
+            else if (degree < -20) {
+                degree = -20;
+            }
+            robot.pushOnebyOne(degree/30,-degree/30);
+        }
+        sub.findTopline(0.3);
+
+        do {
+            times++;
+            //'telemetry.addData("times","%d",times);
+            if (sub.Bea_findBeacon())
+                sub.Bea_pushBeacon();
             else
                 break;
         }while(times < 3);

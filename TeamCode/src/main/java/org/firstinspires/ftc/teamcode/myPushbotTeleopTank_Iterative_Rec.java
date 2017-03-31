@@ -143,7 +143,7 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         x*=1-Math.sqrt(1-(rx*rx));
         y*=1-Math.sqrt(1-(ry*ry));
         //robot.pushGamepad(x, y);
-        sua.ultrasonicgo(true);
+        //sua.ultrasonicgo(true);
         /*robot.pushLight.setPosition(gamepad1.right_stick_x);
         if(gamepad1.right_bumper)
         {
@@ -152,15 +152,16 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         }*/
         //telemetry.addData("motor: ","%d",robot.l1.getCurrentPosition());
         telemetry.addData("speed:","%f",robot.l1.getPower());
-        //telemetry.addData("deg L1: ","%d", robot.l1.getCurrentPosition());
-        //telemetry.addData("deg L2: ","%d", robot.l2.getCurrentPosition());
-        //telemetry.addData("deg R1: ","%d", robot.r1.getCurrentPosition());
-        //telemetry.addData("deg R2: ","%d", robot.r2.getCurrentPosition());
-        //telemetry.addData("LightSensor: ","%f",robot.ls.getLightDetected());
-        telemetry.addData("UltrasonicSensorf:","%f",robot.ulsf.getUltrasonicLevel());
-        telemetry.addData("UltrasonicSensorb:","%f",robot.ulsb.getUltrasonicLevel());
+        telemetry.addData("deg L1: ","%d", robot.l1.getCurrentPosition());
+        telemetry.addData("deg L2: ","%d", robot.l2.getCurrentPosition());
+        telemetry.addData("deg R1: ","%d", robot.r1.getCurrentPosition());
+        telemetry.addData("deg R2: ","%d", robot.r2.getCurrentPosition());
+        telemetry.addData("LightSensorL: ","%f",robot.le.getLightDetected());
+        telemetry.addData("LightSensorR:","%f",robot.re.getLightDetected());
+        //telemetry.addData("UltrasonicSensorf:","%f",robot.ulsf.getUltrasonicLevel());
+        //telemetry.addData("UltrasonicSensorb:","%f",robot.ulsb.getUltrasonicLevel());
         //telemetry.addData("LS","%f",robot.ls.getLightDetected());
-        //telemetry.addData("ods","%f",robot.ods.getLightDetected());
+        telemetry.addData("ods","%f",robot.ods.getLightDetected());
        // telemetry.addData("servoPush","%f",robot.pushLight.getPosition());
     }
 

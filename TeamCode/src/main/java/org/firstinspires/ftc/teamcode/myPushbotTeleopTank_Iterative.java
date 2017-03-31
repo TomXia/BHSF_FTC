@@ -124,7 +124,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             x*=1-Math.sqrt(1-(rx*rx));
             y*=1-Math.sqrt(1-(ry*ry));
         }
-        robot.pushGamepad(rx, y);
+        robot.pushGamepad(x, y);
         telemetry.addData("x",  "%.2f", x);
         telemetry.addData("y",  "%.2f", y);
 
@@ -135,12 +135,12 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             shoot = new shootThread(robot);
             shoot.start();
         }
-        if( gamepad2.y && (collect == null || !collect.isAlive()) ) {
-            collect = new collector(robot, gamepad2);
+        if( (gamepad2.a || gamepad2.y) && (collect == null || !collect.isAlive()) ) {
+            collect = new collector(robot, gamepad2,gamepad2.a);
             collect.start();
         }
 
-        if(gamepad2.x||((!robot.isLoading && (robot.eye.getResault() <= obsThreshold && robot.eye.getResault() != 0)) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
+        if(gamepad2.x||((!robot.isLoading && robot.eye.getResault()) && !robot.isLoaded && (reloader == null || !reloader.isAlive())) )        {
             reloader = new shoot_servo(robot);
             reloader.start();
         }
@@ -165,7 +165,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             }
         }else bj =false;
 
-        telemetry.addData("eye_uls", "%.2f", robot.eye.getResault());
+        telemetry.addData("eyes", "%b", robot.eye.getResault());
         telemetry.addData("left",  "%.2f", robot.powerl);
         telemetry.addData("right",  "%.2f", robot.powerr);
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)

@@ -46,9 +46,11 @@ public class HardwarePushbot
     public ballSeeker eye = null;
     public UltrasonicSensor ulsf = null;
     public UltrasonicSensor ulsb = null;
-    public LightSensor ls = null;
+    public LightSensor le = null;
+    public LightSensor re = null;
     public OpticalDistanceSensor ods = null;
     public DigitalChannel dc = null;
+    public TouchSensor NxtTCH = null;
 
     public boolean isLoaded = false;
     public boolean isReleased =false;
@@ -109,13 +111,15 @@ public class HardwarePushbot
         miniGun = hwMap.dcMotor.get("shooter");
         TCH = hwMap.touchSensor.get("TCH");
         dc = hwMap.digitalChannel.get("eyes");
-        eye=new ballSeeker(dc);
         gyro = hwMap.gyroSensor.get("gyro");
         ulsf = hwMap.ultrasonicSensor.get("ulsf");
         ulsb = hwMap.ultrasonicSensor.get("ulsb");
-        ls = hwMap.lightSensor.get("ls");
+        le = hwMap.lightSensor.get("le");
+        re = hwMap.lightSensor.get("re");
+        NxtTCH = hwMap.touchSensor.get("NxtTCH");
         ods = hwMap.opticalDistanceSensor.get("ods");
         dc = hwMap.digitalChannel.get("dc");
+        eye=new ballSeeker(NxtTCH);
 
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
@@ -137,7 +141,8 @@ public class HardwarePushbot
         wrench.scaleRange(0.45,1);
         wrench.setPosition(1.0);
         gyro.calibrate();
-        ls.enableLed(true);
+        le.enableLed(true);
+        re.enableLed(true);
 //        rightMotor.setPower(0);
 //        armMotor.setPower(0);
 
@@ -196,8 +201,8 @@ public class HardwarePushbot
     public void pushGamepad(double x, double y)
     {
         x*=-1;
-        double k;
-        if(y==0){
+        //double k;
+        /*if(y==0){
         }
         else{
            if(x>0){
@@ -208,8 +213,7 @@ public class HardwarePushbot
             x=Math.abs(x);
             k=(0.5017*x*x)-(0.0272*x)+1;
             x=(1-k)/(k+1)*y;
-        }
-        }
+        }*/
         powerl = y+x;
         powerr = y-x;
         powerr*=-1;
