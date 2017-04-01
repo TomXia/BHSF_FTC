@@ -21,7 +21,9 @@ import org.opencv.core.Size;
  */
 
 public class subAuto {
-    final static int isBlue = 0 ;
+    final static int BEACON_COLOUR_BLUE = 0;
+    final static int BEACON_COLOUR_RED = 1;
+    final static int destColour = BEACON_COLOUR_RED ;
     public Telemetry t;
     Boolean dest,analysis=true;
     HardwarePushbot robot;
@@ -30,13 +32,23 @@ public class subAuto {
     public double qSpeed;
     public BeaconExtension beacon = null;
     public int scanresault,nores;
+    public int distance_pushLight_goShootGo = 4500;
+    public int distance_pushLight_goShootTurn = 1100;
+    public int distance_pushLight_goLightGo = 3300;
+    public int distance_pushLight_goLightTurn = 2755;
+
+    public int RED_distance_pushLight_goShootGo = 3500;
+    public int RED_distance_pushLight_goShootTurn = 1100;
+    public int RED_distance_pushLight_goLightGo = 4800;
+    public int RED_distance_pushLight_goLightTurn = 1200;
+
     public  subAuto(HardwarePushbot r, LinearVisionOpMode op, double q)
     {
         this.robot = r;
         opmode = op;
         reloader = new shoot_servo(robot);
         qSpeed = q;
-        dest = isBlue==0;
+        dest = destColour==0;
     }
     public void shootBall(int times){
         for(int i=0;i<times;++i)
@@ -69,65 +81,86 @@ public class subAuto {
         double delta=(19-a)/4;
         double x=0, y=0;
         double k;
-           while (opmode.opModeIsActive() && robot.ods.getLightDetected() < 0.1) {
-               a = (robot.ulsf.getUltrasonicLevel());
-               b = (robot.ulsb.getUltrasonicLevel());
-               delta=19-a;
-               if(Math.abs(delta)>20){
-                   if(delta>0)
-                       delta=20;
-                   else
-                       delta=-20;
-               }
-               k=Math.sqrt(100-(Math.abs(delta)-10)*(Math.abs(delta)-10))/50;
-        if(isForward){
-            if (k > 0.2) {
-                k = 0.2;
-            }
-            else if (k < -0.2) {
-                k = -0.2;
-            }
-            if(delta>0){
-                x = 0.3 - k;
-                y = 0.3 + k;
-            }
-            else{
-                x = 0.3 + k;
-                y = 0.3 - k;
-            }
+        if(isForward) {
+            while (opmode.opModeIsActive() && robot.ods.getLightDetected() < 0.1) {
+                a = (robot.ulsf.getUltrasonicLevel());
+                b = (robot.ulsb.getUltrasonicLevel());
+                delta = 19 - a;
+                if (Math.abs(delta) > 20) {
+                    if (delta > 0)
+                        delta = 20;
+                    else
+                        delta = -20;
+                }
+                k = Math.sqrt(100 - (Math.abs(delta) - 10) * (Math.abs(delta) - 10)) / 50;
+                if (isForward) {
+                    if (k > 0.2) {
+                        k = 0.2;
+                    } else if (k < -0.2) {
+                        k = -0.2;
+                    }
+                    if (delta > 0) {
+                        x = 0.3 - k;
+                        y = 0.3 + k;
+                    } else {
+                        x = 0.3 + k;
+                        y = 0.3 - k;
+                    }
 
-        }
+                }
 
 
-        if (a == 0 || a >= 150 || b == 0 || b >= 150) {
-            robot.pushOnebyOne(0, 0);
-        } else if (a == 24 || b == 24) {
-            robot.pushOnebyOne(0.2, 0.2);
-        } else {
-            robot.pushOnebyOne(x, y);
+                if (a == 0 || a >= 150 || b == 0 || b >= 150) {
+                    robot.pushOnebyOne(0, 0);
+                } else if (a == 24 || b == 24) {
+                    robot.pushOnebyOne(0.2, 0.2);
+                } else {
+                    robot.pushOnebyOne(x, y);
 
-        }
+                }
             }
-        a = (robot.ulsf.getUltrasonicLevel());
-        b = (robot.ulsb.getUltrasonicLevel());
-        degree=a-b;
-        while(Math.abs(degree)!=0 && opmode.opModeIsActive()){
             a = (robot.ulsf.getUltrasonicLevel());
             b = (robot.ulsb.getUltrasonicLevel());
-            degree=a-b;
-            if (degree > 20) {
-                degree = 20;
+            degree = a - b;
+            while (Math.abs(degree) != 0 && opmode.opModeIsActive()) {
+                a = (robot.ulsf.getUltrasonicLevel());
+                b = (robot.ulsb.getUltrasonicLevel());
+                degree = a - b;
+                if (degree > 20) {
+                    degree = 20;
+                } else if (degree < -20) {
+                    degree = -20;
+                }
+                robot.pushOnebyOne(degree / 30, -degree / 30);
             }
-            else if (degree < -20) {
-                degree = -20;
-            }
-            robot.pushOnebyOne(degree/30,-degree/30);
         }
-    }
+            else{
+                a = (robot.ulsf.getUltrasonicLevel());
+            b = (robot.ulsb.getUltrasonicLevel());
+            degree=a-b;
+            while(robot.ods.getLightDetected()<0.1 && opmode.opModeIsActive()){
+                a = (robot.ulsf.getUltrasonicLevel());
+                b = (robot.ulsb.getUltrasonicLevel());
+                degree=a-b;
+                if (degree > 20) {
+                    degree = 20;
+                }
+                else if (degree < -20) {
+                    degree = -20;
+                }
+                robot.pushOnebyOne(-0.3+degree/30,-0.3-degree/30);
+            }
+            }
+        }
     public void test()
     {
-        CaptureResult r;
-        CaptureRequest q;
+        robot.pushGamepad(0,-0.5);
+        robot.resetMotors();
+        int k=0;
+        while(opmode.opModeIsActive()) {
+            t.addData("deg","%d",robot.l2.getCurrentPosition() - k);
+            k=robot.l2.getCurrentPosition();
+        }
     }
     public void pushDeg(int deg,double x,double y,boolean isStop){
         robot.resetMotors();
@@ -245,11 +278,32 @@ public class subAuto {
     }
 
     public void findTopline(double s){
-        pushDeg(150,0,-0.25,true);
+        pushDeg(150,0,-0.25,false);
         robot.pushGamepad(0,s);
         while(robot.ods.getLightDetected() < 0.05 && opmode.opModeIsActive()){
         }
         robot.pushGamepad(0,0);
+    }
+
+    public void pushLight_goShoot(){
+        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goShootGo : RED_distance_pushLight_goShootGo,0,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*(qSpeed)*(-0.9),true);
+        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goShootTurn : RED_distance_pushLight_goShootTurn ,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*0.4,0,true);
+    }
+
+    public void pushLight_goLight(){
+        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goLightGo : RED_distance_pushLight_goLightGo,0,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*(-0.7)*qSpeed,true);
+        robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        if(destColour == BEACON_COLOUR_BLUE)
+            robot.pushOnebyOne(0,0.4);
+        else
+            robot.pushGamepad(0.4,0);
+
+        while (opmode == null || opmode.opModeIsActive()) {
+            if(Math.abs(robot.r1.getCurrentPosition()) >= (destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goLightTurn : RED_distance_pushLight_goLightTurn) ) break;
+        }
+        if(destColour == BEACON_COLOUR_RED) pushDeg(1200,0,0.6,true);
     }
 
 }

@@ -95,10 +95,43 @@ public class TestAuto extends LinearVisionOpMode {
         times=0;
         waitForStart();
         runtime.reset();
-
+        /*a = (robot.ulsf.getUltrasonicLevel());
+        b = (robot.ulsb.getUltrasonicLevel());
+        degree=a-b;
+        while(robot.ods.getLightDetected()<0.1 && opModeIsActive()){
+            a = (robot.ulsf.getUltrasonicLevel());
+            b = (robot.ulsb.getUltrasonicLevel());
+            degree=a-b;
+            if (degree > 20) {
+                degree = 20;
+            }
+            else if (degree < -20) {
+                degree = -20;
+            }
+            robot.pushOnebyOne(-0.3+degree/30,-0.3-degree/30);
+        }*/
+      //  sub.ultrasonicgo(false);
+      //  Thread.sleep(10000);
         sub.pushLight_goShoot();
         sub.shootBall(2);
         sub.pushLight_goLight();
+
+        a = (robot.ulsf.getUltrasonicLevel());
+        b = (robot.ulsb.getUltrasonicLevel());
+        degree=a-b;
+        while(Math.abs(degree)!=0 && opModeIsActive()){
+            a = (robot.ulsf.getUltrasonicLevel());
+            b = (robot.ulsb.getUltrasonicLevel());
+            degree=a-b;
+            if (degree > 20) {
+                degree = 20;
+            }
+            else if (degree < -20) {
+                degree = -20;
+            }
+            robot.pushOnebyOne(degree/30,-degree/30);
+        }
+
         sub.ultrasonicgo(true);
         sub.findTopline(0.2);
 
@@ -111,7 +144,12 @@ public class TestAuto extends LinearVisionOpMode {
                 break;
         }while(times < 3);
         sub.pushDeg(400,0,0.8,false);
-        sub.findTopline(0.5);
+
+        robot.pushGamepad(0,0.5);
+        while(robot.ods.getLightDetected() < 0.05 && opModeIsActive()){
+        }
+        robot.pushGamepad(0,0);
+
         a = (robot.ulsf.getUltrasonicLevel());
         b = (robot.ulsb.getUltrasonicLevel());
         degree=a-b;

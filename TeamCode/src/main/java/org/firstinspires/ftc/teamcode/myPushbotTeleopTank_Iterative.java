@@ -130,7 +130,6 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
 
         //robot.serv2.setPosition(gamepad1.right_stick_y);
         //telemetry.addData("SERV2","%.2f",robot.serv2.getPosition());
-
         if( gamepad2.right_bumper && (shoot == null || !shoot.isAlive()) ){
             shoot = new shootThread(robot);
             shoot.start();
