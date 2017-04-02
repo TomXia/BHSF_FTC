@@ -23,7 +23,7 @@ import org.opencv.core.Size;
 public class subAuto {
     final static int BEACON_COLOUR_BLUE = 0;
     final static int BEACON_COLOUR_RED = 1;
-    final static int destColour = BEACON_COLOUR_RED ;
+    final static int destColour = BEACON_COLOUR_BLUE ;
     public Telemetry t;
     Boolean dest,analysis=true;
     HardwarePushbot robot;
@@ -38,9 +38,9 @@ public class subAuto {
     public int distance_pushLight_goLightTurn = 2755;
 
     public int RED_distance_pushLight_goShootGo = 3500;
-    public int RED_distance_pushLight_goShootTurn = 1100;
-    public int RED_distance_pushLight_goLightGo = 4800;
-    public int RED_distance_pushLight_goLightTurn = 1200;
+    public int RED_distance_pushLight_goShootTurn = 800;
+    public int RED_distance_pushLight_goLightGo = 6000;
+    public int RED_distance_pushLight_goLightTurn = 800;
 
     public  subAuto(HardwarePushbot r, LinearVisionOpMode op, double q)
     {
@@ -195,7 +195,7 @@ public class subAuto {
                 }
                 if (nores > 1200/*times*/ && !isMotorsRunning) {
                     isMotorsRunning = true;
-                    robot.pushGamepad(0, -0.35);
+                    robot.pushGamepad(0, -0.25);
                 }
                 if (Math.abs(robot.l2.getCurrentPosition()) >= 300 ) {
                     isMotorsRunning = false;
@@ -223,7 +223,7 @@ public class subAuto {
             }
             if (nores > 1200 && !isMotorsRunning) {
                 isMotorsRunning = true;
-                robot.pushGamepad(0, 0.35);
+                robot.pushGamepad(0, 0.25);
             }
             if (Math.abs(robot.l2.getCurrentPosition()) >= 700) {
                 isMotorsRunning = false;

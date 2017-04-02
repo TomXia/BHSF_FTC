@@ -143,8 +143,11 @@ public class TestAuto extends LinearVisionOpMode {
             else
                 break;
         }while(times < 3);
-        sub.pushDeg(400,0,0.8,false);
+        sub.pushDeg(400,0,0.4,false);
 
+        for(double i = 0; i < 0.5; i+=0.001){
+            robot.pushGamepad(0,i);
+        }
         robot.pushGamepad(0,0.5);
         while(robot.ods.getLightDetected() < 0.05 && opModeIsActive()){
         }
