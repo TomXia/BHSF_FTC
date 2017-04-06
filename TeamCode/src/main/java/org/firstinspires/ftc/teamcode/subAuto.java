@@ -102,7 +102,10 @@ public class subAuto {
                     if (delta > 0) {
                         x = 0.3 - k;
                         y = 0.3 + k;
-                    } else {
+                    } else if(delta==0) {
+                        x=0.5;
+                        y=0.5;
+                    }else {
                         x = 0.3 + k;
                         y = 0.3 - k;
                     }
@@ -113,7 +116,7 @@ public class subAuto {
                 if (a == 0 || a >= 150 || b == 0 || b >= 150) {
                     robot.pushOnebyOne(0, 0);
                 } else if (a == 24 || b == 24) {
-                    robot.pushOnebyOne(0.2, 0.2);
+                    robot.pushOnebyOne(0.5, 0.5);
                 } else {
                     robot.pushOnebyOne(x, y);
 
@@ -148,7 +151,12 @@ public class subAuto {
                 else if (degree < -20) {
                     degree = -20;
                 }
-                robot.pushOnebyOne(-0.3+degree/30,-0.3-degree/30);
+                if(degree==0){
+                    robot.pushOnebyOne(-0.5,-0.5);
+                }else{
+                    robot.pushOnebyOne(-0.3+degree/30,-0.3-degree/30);
+                }
+
             }
             }
         }

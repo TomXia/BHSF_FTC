@@ -112,6 +112,12 @@ public class TestAuto extends LinearVisionOpMode {
         }*/
       //  sub.ultrasonicgo(false);
       //  Thread.sleep(10000);
+        sub.ultrasonicgo(false);
+        try {
+             Thread.sleep(20000);
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         sub.pushLight_goShoot();
         sub.shootBall(2);
         sub.pushLight_goLight();
