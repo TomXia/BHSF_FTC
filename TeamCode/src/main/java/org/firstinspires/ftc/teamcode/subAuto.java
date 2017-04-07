@@ -23,7 +23,7 @@ import org.opencv.core.Size;
 public class subAuto {
     final static int BEACON_COLOUR_BLUE = 0;
     final static int BEACON_COLOUR_RED = 1;
-    final static int destColour = BEACON_COLOUR_BLUE ;
+    final static int destColour = BEACON_COLOUR_RED ;
     public Telemetry t;
     Boolean dest,analysis=true;
     HardwarePushbot robot;
@@ -75,10 +75,10 @@ public class subAuto {
 
     public void ultrasonicgo(Boolean isForward)
     {
-        double a = (robot.ulsf.getUltrasonicLevel());
-        double b = (robot.ulsb.getUltrasonicLevel());
-        double degree=a-b;
-        double delta=(19-a)/4;
+        double a;
+        double b;
+        double degree;
+        double delta;
         double x=0, y=0;
         double k;
         if(isForward) {
@@ -86,11 +86,11 @@ public class subAuto {
                 a = (robot.ulsf.getUltrasonicLevel());
                 b = (robot.ulsb.getUltrasonicLevel());
                 delta = 19 - a;
-                if (Math.abs(delta) > 20) {
+                if (Math.abs(delta) > 25) {
                     if (delta > 0)
-                        delta = 20;
+                        delta = 25;
                     else
-                        delta = -20;
+                        delta = -25;
                 }
                 k = Math.sqrt(100 - (Math.abs(delta) - 10) * (Math.abs(delta) - 10)) / 50;
                 if (isForward) {
@@ -103,8 +103,8 @@ public class subAuto {
                         x = 0.3 - k;
                         y = 0.3 + k;
                     } else if(delta==0) {
-                        x=0.5;
-                        y=0.5;
+                        x=0.6;
+                        y=0.6;
                     }else {
                         x = 0.3 + k;
                         y = 0.3 - k;
@@ -134,7 +134,7 @@ public class subAuto {
                 } else if (degree < -20) {
                     degree = -20;
                 }
-                robot.pushOnebyOne(degree / 30, -degree / 30);
+                robot.pushOnebyOne(degree / 25, -degree / 25);
             }
         }
             else{
@@ -152,7 +152,7 @@ public class subAuto {
                     degree = -20;
                 }
                 if(degree==0){
-                    robot.pushOnebyOne(-0.5,-0.5);
+                    robot.pushOnebyOne(-0.6,-0.6);
                 }else{
                     robot.pushOnebyOne(-0.3+degree/30,-0.3-degree/30);
                 }
@@ -174,9 +174,10 @@ public class subAuto {
         robot.resetMotors();
         double k = y==0 ? 0:Math.abs(y)/y;
         double ix;
+        robot.pushGamepad(x,0.1*(y/Math.abs(y)));
         while (opmode == null || opmode.opModeIsActive()) {
             ix=Math.abs((double)robot.l2.getCurrentPosition())/(double)deg;
-            robot.pushGamepad(x,k*Math.min(-4.5*ix*ix+4.5*ix+0.1,Math.abs(y)));
+            robot.pushGamepad(x,k*Math.min(-4.5*ix*ix+4.5*ix,Math.abs(y)));
             if(Math.abs(robot.l2.getCurrentPosition()) >= deg) break;
         }
         if(isStop) robot.pushGamepad(0,0);

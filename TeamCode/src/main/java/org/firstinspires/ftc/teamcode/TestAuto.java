@@ -65,7 +65,7 @@ public class TestAuto extends LinearVisionOpMode {
     HardwarePushbot robot = new HardwarePushbot();
     subAuto_right sub = new subAuto_right(robot,this,1.3);
     int times;
-    double degree,a,b;
+    double degree,a,b,delta;
 
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
@@ -95,21 +95,25 @@ public class TestAuto extends LinearVisionOpMode {
         times=0;
         waitForStart();
         runtime.reset();
-        /*a = (robot.ulsf.getUltrasonicLevel());
+        a = (robot.ulsf.getUltrasonicLevel());
         b = (robot.ulsb.getUltrasonicLevel());
         degree=a-b;
         while(robot.ods.getLightDetected()<0.1 && opModeIsActive()){
             a = (robot.ulsf.getUltrasonicLevel());
             b = (robot.ulsb.getUltrasonicLevel());
             degree=a-b;
-            if (degree > 20) {
-                degree = 20;
+            delta=b-19;
+            if(delta!=0){
+
             }
-            else if (degree < -20) {
-                degree = -20;
+            if (delta > 20) {
+                delta = 20;
             }
-            robot.pushOnebyOne(-0.3+degree/30,-0.3-degree/30);
-        }*/
+            else if (delta < -20) {
+                delta = -20;
+            }
+            robot.pushOnebyOne(-0.3+delta/30,-0.3-delta/30);
+        }
       //  sub.ultrasonicgo(false);
       //  Thread.sleep(10000);
        // sub.ultrasonicgo(false);
@@ -135,7 +139,7 @@ public class TestAuto extends LinearVisionOpMode {
             else if (degree < -20) {
                 degree = -20;
             }
-            robot.pushOnebyOne(degree/30,-degree/30);
+            robot.pushOnebyOne(degree/25,-degree/25);
         }
 
         sub.ultrasonicgo(true);
@@ -172,7 +176,7 @@ public class TestAuto extends LinearVisionOpMode {
             else if (degree < -20) {
                 degree = -20;
             }
-            robot.pushOnebyOne(degree/30,-degree/30);
+            robot.pushOnebyOne(degree/25,-degree/25);
         }
         sub.findTopline(0.3);
 
