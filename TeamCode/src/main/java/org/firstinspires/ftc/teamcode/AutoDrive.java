@@ -55,10 +55,10 @@ public class AutoDrive extends LinearVisionOpMode  {
     private HardwarePushbot robot = new HardwarePushbot();
     private shootThread shoot;
     private shoot_servo reloader;
-    private int Tp1=4100;
-    private int Tp2=3600;
+    private int distance_First_goShoot=4100;
+    private int distance_pushBall_go=3600;
     final static boolean isReturn = false;
-    final static int isBlue = 0 ;
+    final static int destColour = 0 ;
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -90,10 +90,10 @@ public class AutoDrive extends LinearVisionOpMode  {
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.pushGamepad(0,-0.5);
-        robot.TargetPosition(Tp1);
+        robot.TargetPosition(distance_First_goShoot);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(robot.l2.getCurrentPosition()>=Tp1) break;
+            if(robot.l2.getCurrentPosition()>=distance_First_goShoot) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);
@@ -110,10 +110,10 @@ public class AutoDrive extends LinearVisionOpMode  {
         robot.pushGamepad(0,0);
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.pushGamepad(0,-0.5 + isBlue*1.0);
+        robot.pushGamepad(0,-0.5 + destColour*1.0);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(Math.abs(robot.l2.getCurrentPosition())>=Tp1/2+900 + (isBlue-1)*200) break;
+            if(Math.abs(robot.l2.getCurrentPosition())>=distance_First_goShoot/2+900 + (destColour-1)*200) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);
@@ -160,7 +160,7 @@ public class AutoDrive extends LinearVisionOpMode  {
             robot.pushGamepad(0, 0.9);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= Math.abs((isBlue-1)*5000)) {
+                if (robot.l1.getCurrentPosition() >= Math.abs((destColour-1)*5000)) {
                     robot.pushGamepad(0, 0);
                     break;
                 }
@@ -172,7 +172,7 @@ public class AutoDrive extends LinearVisionOpMode  {
             robot.pushGamepad(-0.5, 0);
             while (opModeIsActive()) {
                 telemetry.addData("Status T2", "Run Time: %d " + runtime.toString(), robot.l1.getCurrentPosition());
-                if (robot.l1.getCurrentPosition() >= 600 + isBlue*1675 ) {
+                if (robot.l1.getCurrentPosition() >= 600 + destColour*1675 ) {
                     robot.pushGamepad(0, 0);
                     break;
                 }
@@ -186,7 +186,7 @@ public class AutoDrive extends LinearVisionOpMode  {
             robot.pushGamepad(0, -0.8);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if (Math.abs(robot.l1.getCurrentPosition()) >= Math.abs(Tp2/3)) break;
+                if (Math.abs(robot.l1.getCurrentPosition()) >= Math.abs(distance_pushBall_go/3)) break;
 
             }
             robot.pushGamepad(0, 0);
@@ -207,10 +207,10 @@ public class AutoDrive extends LinearVisionOpMode  {
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.pushGamepad(0,0.5);
-            robot.TargetPosition(-Tp1);
+            robot.TargetPosition(-distance_First_goShoot);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if(robot.l2.getCurrentPosition()<=-Tp1) break;
+                if(robot.l2.getCurrentPosition()<=-distance_First_goShoot) break;
                 telemetry.update();
             }
             robot.pushGamepad(0,0);
@@ -245,7 +245,7 @@ public class AutoDrive extends LinearVisionOpMode  {
             robot.pushGamepad(0, -0.8);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if (robot.l2.getCurrentPosition() >= Tp2) break;
+                if (robot.l2.getCurrentPosition() >= distance_pushBall_go) break;
             }
             robot.pushGamepad(0, 0);
         }
@@ -265,10 +265,10 @@ public class AutoDrive extends LinearVisionOpMode  {
             robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.pushGamepad(0,0.5);
-            robot.TargetPosition(-Tp1);
+            robot.TargetPosition(-distance_First_goShoot);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if(robot.l2.getCurrentPosition()<=-Tp1) break;
+                if(robot.l2.getCurrentPosition()<=-distance_First_goShoot) break;
                 telemetry.update();
             }
             robot.pushGamepad(0,0);

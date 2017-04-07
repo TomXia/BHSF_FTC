@@ -112,12 +112,12 @@ public class TestAuto extends LinearVisionOpMode {
         }*/
       //  sub.ultrasonicgo(false);
       //  Thread.sleep(10000);
-        sub.ultrasonicgo(false);
-        try {
-             Thread.sleep(20000);
-        }catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+       // sub.ultrasonicgo(false);
+        //try {
+        //     Thread.sleep(20000);
+        //}catch (InterruptedException e) {
+        //    e.printStackTrace();
+        //}
         sub.pushLight_goShoot();
         sub.shootBall(2);
         sub.pushLight_goLight();
@@ -149,12 +149,12 @@ public class TestAuto extends LinearVisionOpMode {
             else
                 break;
         }while(times < 3);
-        sub.pushDeg(400,0,0.4,false);
+        sub.pushDeg(300,0,0.25,false);
 
-        for(double i = 0; i < 0.5; i+=0.001){
+        for(double i = 0; i < 0.4; i+=0.001){
             robot.pushGamepad(0,i);
         }
-        robot.pushGamepad(0,0.5);
+        robot.pushGamepad(0,0.4);
         while(robot.ods.getLightDetected() < 0.05 && opModeIsActive()){
         }
         robot.pushGamepad(0,0);

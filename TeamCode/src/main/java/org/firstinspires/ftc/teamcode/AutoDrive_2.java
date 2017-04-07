@@ -79,7 +79,7 @@ public class AutoDrive_2 extends LinearVisionOpMode {
         // rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
         // Wait for the game to start (driver presses PLAY)
-        robot.gyro.calibrate();
+        //robot.gyro.calibrate();
         waitForStart();
         runtime.reset();
 

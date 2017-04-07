@@ -176,7 +176,7 @@ public class subAuto {
         double ix;
         while (opmode == null || opmode.opModeIsActive()) {
             ix=Math.abs((double)robot.l2.getCurrentPosition())/(double)deg;
-            robot.pushGamepad(x,k*Math.min(-4.5*ix*ix+4.5*ix+0.25,Math.abs(y)));
+            robot.pushGamepad(x,k*Math.min(-4.5*ix*ix+4.5*ix+0.1,Math.abs(y)));
             if(Math.abs(robot.l2.getCurrentPosition()) >= deg) break;
         }
         if(isStop) robot.pushGamepad(0,0);
