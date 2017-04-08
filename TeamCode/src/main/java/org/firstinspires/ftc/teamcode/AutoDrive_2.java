@@ -54,7 +54,7 @@ public class AutoDrive_2 extends LinearVisionOpMode {
     private shootThread shoot;
     private shoot_servo reloader;
     private int Tp1=3900;
-    private int Tp2=-3300;//3700;
+    private int Tp2=-6000;//3700;
     final static boolean isReturn = false;
     final static int isBlue = 0; //def = 0 blue
     // DcMotor leftMotor = null;
@@ -86,12 +86,11 @@ public class AutoDrive_2 extends LinearVisionOpMode {
         // run until the end of the match (driver presses STOP)
         /*STEP1: go and shoot */
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.pushGamepad(0,-0.5);
-        robot.TargetPosition(Tp1);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(robot.l2.getCurrentPosition()>=Tp1) break;
+            if(Math.abs(robot.l2.getCurrentPosition())>=Tp1) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);

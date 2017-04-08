@@ -20,7 +20,7 @@ public class shootThread extends Thread{
             t=System.currentTimeMillis();
             while(!robot.isLoaded){
                 robot.miniGun.setPower(0.0);
-                if(System.currentTimeMillis()-t > 5000) return ;
+                if(System.currentTimeMillis()-t > 3000) return ;
             }
             robot.miniGun.setPower(0.58);
             while(!robot.TCH.isPressed()){}

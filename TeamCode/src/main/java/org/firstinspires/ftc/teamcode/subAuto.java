@@ -33,12 +33,12 @@ public class subAuto {
     public BeaconExtension beacon = null;
     public int scanresault,nores;
     public int distance_pushLight_goShootGo = 4500;
-    public int distance_pushLight_goShootTurn = 1100;
+    public int distance_pushLight_goShootTurn = 1300;
     public int distance_pushLight_goLightGo = 3300;
     public int distance_pushLight_goLightTurn = 2755;
 
     public int RED_distance_pushLight_goShootGo = 3500;
-    public int RED_distance_pushLight_goShootTurn = 800;
+    public int RED_distance_pushLight_goShootTurn = 1000;
     public int RED_distance_pushLight_goLightGo = 6000;
     public int RED_distance_pushLight_goLightTurn = 800;
 
@@ -85,7 +85,7 @@ public class subAuto {
             while (opmode.opModeIsActive() && robot.ods.getLightDetected() < 0.1) {
                 a = (robot.ulsf.getUltrasonicLevel());
                 b = (robot.ulsb.getUltrasonicLevel());
-                delta = 19 - a;
+                delta = 17 - a;
                 if (Math.abs(delta) > 25) {
                     if (delta > 0)
                         delta = 25;
@@ -174,10 +174,11 @@ public class subAuto {
         robot.resetMotors();
         double k = y==0 ? 0:Math.abs(y)/y;
         double ix;
-        robot.pushGamepad(x,0.1*(y/Math.abs(y)));
+        robot.pushGamepad(x,0.1*k);
         while (opmode == null || opmode.opModeIsActive()) {
             ix=Math.abs((double)robot.l2.getCurrentPosition())/(double)deg;
-            robot.pushGamepad(x,k*Math.min(-4.5*ix*ix+4.5*ix,Math.abs(y)));
+            if(ix>1) ix=1;
+            robot.pushGamepad(x,k*Math.min(-4.5*ix*ix+4.5*ix+0.09,Math.abs(y)));
             if(Math.abs(robot.l2.getCurrentPosition()) >= deg) break;
         }
         if(isStop) robot.pushGamepad(0,0);
@@ -253,33 +254,37 @@ public class subAuto {
     public void Bea_pushBeacon(){
 //        t.addData("push","1");
         if(analysis == dest){
-            robot.pushLight.setPosition(1.0);
-            try {
-                Thread.sleep(500);
-            }catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            robot.pushLight.setPosition(0);
-            try {
-                Thread.sleep(500);
-            }catch (InterruptedException e) {
-                e.printStackTrace();
+            for(int i=0;i<3;++i) {
+                robot.pushLight.setPosition(1.0);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                robot.pushLight.setPosition(0);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 //            t.addData("push","2");
         }
         else{
             pushDeg(450,0,0.2,true);
-            robot.pushLight.setPosition(1.0);
-            try {
-                Thread.sleep(500);
-            }catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            robot.pushLight.setPosition(0);
-            try {
-                Thread.sleep(500);
-            }catch (InterruptedException e) {
-                e.printStackTrace();
+            for(int i=0;i<3;++i) {
+                robot.pushLight.setPosition(1.0);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                robot.pushLight.setPosition(0);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             pushDeg(450,0,-0.2,true);
 //            t.addData("push","3");
@@ -295,7 +300,12 @@ public class subAuto {
     }
 
     public void pushLight_goShoot(){
-        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goShootGo : RED_distance_pushLight_goShootGo,0,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*(qSpeed)*(-0.9),true);
+        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goShootGo : RED_distance_pushLight_goShootGo,0,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*(qSpeed)*(-0.7),true);
+        try{
+            Thread.sleep(60);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
         pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goShootTurn : RED_distance_pushLight_goShootTurn ,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*0.4,0,true);
     }
 

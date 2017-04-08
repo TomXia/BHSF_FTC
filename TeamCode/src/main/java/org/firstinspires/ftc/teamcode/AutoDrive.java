@@ -88,12 +88,11 @@ public class AutoDrive extends LinearVisionOpMode  {
         // run until the end of the match (driver presses STOP)
         /*STEP1: go and shoot */
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.pushGamepad(0,-0.5);
-        robot.TargetPosition(distance_First_goShoot);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(robot.l2.getCurrentPosition()>=distance_First_goShoot) break;
+            if(Math.abs(robot.l2.getCurrentPosition())>=distance_First_goShoot) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);
@@ -186,7 +185,7 @@ public class AutoDrive extends LinearVisionOpMode  {
             robot.pushGamepad(0, -0.8);
             while (opModeIsActive()) {
                 telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-                if (Math.abs(robot.l1.getCurrentPosition()) >= Math.abs(distance_pushBall_go/3)) break;
+                if (Math.abs(robot.l1.getCurrentPosition()) >= Math.abs(distance_pushBall_go/3+400)) break;
 
             }
             robot.pushGamepad(0, 0);

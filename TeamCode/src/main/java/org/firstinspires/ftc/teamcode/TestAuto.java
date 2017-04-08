@@ -95,6 +95,7 @@ public class TestAuto extends LinearVisionOpMode {
         times=0;
         waitForStart();
         runtime.reset();
+        /*
         a = (robot.ulsf.getUltrasonicLevel());
         b = (robot.ulsb.getUltrasonicLevel());
         degree=a-b;
@@ -113,7 +114,7 @@ public class TestAuto extends LinearVisionOpMode {
                 delta = -20;
             }
             robot.pushOnebyOne(-0.3+delta/30,-0.3-delta/30);
-        }
+        }*/
       //  sub.ultrasonicgo(false);
       //  Thread.sleep(10000);
        // sub.ultrasonicgo(false);
@@ -139,29 +140,32 @@ public class TestAuto extends LinearVisionOpMode {
             else if (degree < -20) {
                 degree = -20;
             }
-            robot.pushOnebyOne(degree/25,-degree/25);
+            robot.pushOnebyOne(degree/30,-degree/30);
         }
 
         sub.ultrasonicgo(true);
         sub.findTopline(0.2);
+        while(Math.abs(degree)!=0 && opModeIsActive()){
+            a = (robot.ulsf.getUltrasonicLevel());
+            b = (robot.ulsb.getUltrasonicLevel());
+            degree=a-b;
+            if (degree > 20) {
+                degree = 20;
+            }
+            else if (degree < -20) {
+                degree = -20;
+            }
+            robot.pushOnebyOne(degree/30,-degree/30);
+        }
 
-        do {
+        /*do {
             times++;
-            //'telemetry.addData("times","%d",times);
+            //'telemetry.addData("times","%d",times);*/
             if (sub.Bea_findBeacon())
                     sub.Bea_pushBeacon();
-            else
+       /*     else
                 break;
-        }while(times < 3);
-        sub.pushDeg(300,0,0.25,false);
-
-        for(double i = 0; i < 0.4; i+=0.001){
-            robot.pushGamepad(0,i);
-        }
-        robot.pushGamepad(0,0.4);
-        while(robot.ods.getLightDetected() < 0.05 && opModeIsActive()){
-        }
-        robot.pushGamepad(0,0);
+        }while(times < 3);*/
 
         a = (robot.ulsf.getUltrasonicLevel());
         b = (robot.ulsb.getUltrasonicLevel());
@@ -176,18 +180,29 @@ public class TestAuto extends LinearVisionOpMode {
             else if (degree < -20) {
                 degree = -20;
             }
-            robot.pushOnebyOne(degree/25,-degree/25);
+            robot.pushOnebyOne(degree/30,-degree/30);
         }
+
+        sub.pushDeg(300,0,0.25,false);
+
+        for(double i = 0; i < 0.4; i+=0.001){
+            robot.pushGamepad(0,i);
+        }
+        robot.pushGamepad(0,0.4);
+        while(robot.ods.getLightDetected() < 0.05 && opModeIsActive()){
+        }
+        robot.pushGamepad(0,0);
+
         sub.findTopline(0.3);
 
-        do {
+        /*do {
             times++;
-            //'telemetry.addData("times","%d",times);
+            //'telemetry.addData("times","%d",times);*/
             if (sub.Bea_findBeacon())
                 sub.Bea_pushBeacon();
-            else
+           /* else
                 break;
-        }while(times < 3);
+        }while(times < 3);*/
         robot.stop();
         return;
 
