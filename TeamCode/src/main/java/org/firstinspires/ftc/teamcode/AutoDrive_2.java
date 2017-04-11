@@ -54,7 +54,7 @@ public class AutoDrive_2 extends LinearVisionOpMode {
     private shootThread shoot;
     private shoot_servo reloader;
     private int Tp1=3900;
-    private int Tp2=-6000;//3700;
+    private int Tp2=-4500;//3700;
     final static boolean isReturn = false;
     final static int isBlue = 0; //def = 0 blue
     // DcMotor leftMotor = null;

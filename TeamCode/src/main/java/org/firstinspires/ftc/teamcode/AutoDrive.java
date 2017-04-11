@@ -56,7 +56,7 @@ public class AutoDrive extends LinearVisionOpMode  {
     private shootThread shoot;
     private shoot_servo reloader;
     private int distance_First_goShoot=4100;
-    private int distance_pushBall_go=3600;
+    private int distance_pushBall_go=3800;
     final static boolean isReturn = false;
     final static int destColour = 0 ;
     // DcMotor leftMotor = null;

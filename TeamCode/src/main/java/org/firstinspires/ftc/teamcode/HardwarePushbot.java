@@ -51,6 +51,7 @@ public class HardwarePushbot
     public OpticalDistanceSensor ods = null;
     public DigitalChannel dc = null;
     public TouchSensor NxtTCH = null;
+    public Servo ultrasonic = null;
 
     public boolean isLoaded = false;
     public boolean isReleased =false;
@@ -120,6 +121,7 @@ public class HardwarePushbot
         ods = hwMap.opticalDistanceSensor.get("ods");
         dc = hwMap.digitalChannel.get("dc");
         eye=new ballSeeker(NxtTCH);
+        ultrasonic = hwMap.servo.get("ultservo");
 
 //        rightMotor  = hwMap.dcMotor.get("right_drive");
 //        armMotor    = hwMap.dcMotor.get("left_arm");
@@ -140,6 +142,8 @@ public class HardwarePushbot
         miniGun.setPower(0);
         wrench.scaleRange(0.45,1);
         wrench.setPosition(1.0);
+        //ultrasonic.scaleRange(0.0,0.27);
+        ultrasonic.setPosition(0.9);
         gyro.calibrate();
         le.enableLed(true);
         re.enableLed(true);
@@ -285,6 +289,7 @@ public class HardwarePushbot
         collector.setPower(0);
         wrench.setPosition(1.0);//0.4
         pushLight.setPosition(0.0);
+        ultrasonic.setPosition(0.9);
     }
 }
 

@@ -95,6 +95,8 @@ public class TestAuto extends LinearVisionOpMode {
         times=0;
         waitForStart();
         runtime.reset();
+        telemetry.addData("ultrasonicf:","%f",robot.ulsf.getUltrasonicLevel());
+        telemetry.addData("ultrasonicb:","%f",robot.ulsb.getUltrasonicLevel());
         /*
         a = (robot.ulsf.getUltrasonicLevel());
         b = (robot.ulsb.getUltrasonicLevel());
@@ -126,47 +128,23 @@ public class TestAuto extends LinearVisionOpMode {
         sub.pushLight_goShoot();
         sub.shootBall(2);
         sub.pushLight_goLight();
+        robot.ultrasonic.setPosition(0.33);
+        Thread.sleep(100);
 
-        a = (robot.ulsf.getUltrasonicLevel());
-        b = (robot.ulsb.getUltrasonicLevel());
-        degree=a-b;
-        while(Math.abs(degree)!=0 && opModeIsActive()){
-            a = (robot.ulsf.getUltrasonicLevel());
-            b = (robot.ulsb.getUltrasonicLevel());
-            degree=a-b;
-            if (degree > 20) {
-                degree = 20;
-            }
-            else if (degree < -20) {
-                degree = -20;
-            }
-            robot.pushOnebyOne(degree/30,-degree/30);
-        }
-
+        sub.degree();
         sub.ultrasonicgo(true);
         sub.findTopline(0.2);
-        while(Math.abs(degree)!=0 && opModeIsActive()){
-            a = (robot.ulsf.getUltrasonicLevel());
-            b = (robot.ulsb.getUltrasonicLevel());
-            degree=a-b;
-            if (degree > 20) {
-                degree = 20;
-            }
-            else if (degree < -20) {
-                degree = -20;
-            }
-            robot.pushOnebyOne(degree/30,-degree/30);
-        }
+        sub.degree();
 
         /*do {
             times++;
-            //'telemetry.addData("times","%d",times);*/
+        'telemetry.addData("times","%d",times);*/
             if (sub.Bea_findBeacon())
                     sub.Bea_pushBeacon();
        /*     else
                 break;
         }while(times < 3);*/
-
+/*
         a = (robot.ulsf.getUltrasonicLevel());
         b = (robot.ulsb.getUltrasonicLevel());
         degree=a-b;
@@ -181,18 +159,19 @@ public class TestAuto extends LinearVisionOpMode {
                 degree = -20;
             }
             robot.pushOnebyOne(degree/30,-degree/30);
-        }
+        }、、、、、、、、、、、、、、、、、、、、、、、、、、、、按完第一个灯之后矫正*/
 
         sub.pushDeg(300,0,0.25,false);
 
-        for(double i = 0; i < 0.4; i+=0.001){
+        /*for(double i = 0; i < 0.4; i+=0.001){
             robot.pushGamepad(0,i);
         }
         robot.pushGamepad(0,0.4);
         while(robot.ods.getLightDetected() < 0.05 && opModeIsActive()){
         }
         robot.pushGamepad(0,0);
-
+        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\已用超声波后退取代*/
+        sub.ultrasonicgo(false);
         sub.findTopline(0.3);
 
         /*do {

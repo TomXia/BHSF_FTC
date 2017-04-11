@@ -109,6 +109,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
         rx=gamepad1.left_stick_x;
 //        ry=gamepad1.left_stick_y;
         ry=gamepad1.left_trigger-gamepad1.right_trigger;
+        if(gamepad1.left_bumper||gamepad2.left_bumper){ry/=1.5;rx/=1.3;}
         x=(rx==0)?1:Math.abs(rx)/rx;
         y=(ry==0)?1:Math.abs(ry)/ry;
         if(invert)
@@ -133,6 +134,11 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
         if( gamepad2.right_bumper && (shoot == null || !shoot.isAlive()) ){
             shoot = new shootThread(robot);
             shoot.start();
+        }
+        if(gamepad2.left_trigger>=0.5){
+            robot.pushLight.setPosition(1.0);
+        }else{
+            robot.pushLight.setPosition(0.0);
         }
         if( (gamepad2.a || gamepad2.y) && (collect == null || !collect.isAlive()) ) {
             collect = new collector(robot, gamepad2,gamepad2.a);
