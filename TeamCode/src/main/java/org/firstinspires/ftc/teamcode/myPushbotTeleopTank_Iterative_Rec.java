@@ -79,7 +79,6 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
     private boolean is_Up;
     private BlockingQueue que;
     private Gamepad bgp;
-    private CommandInfo ci = new CommandInfo();
     private ElapsedTime et;
     private DataOutputStream out;
     private FileOutputStream fos = null;

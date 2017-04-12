@@ -66,6 +66,8 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
     private releaseLadder dropper = new releaseLadder(robot);
     private double rx,ry,x,y;
     private boolean is_Up = false, invert = false, bj = false;
+    private musicPlayer mp = null;
+    final boolean musicplay = false;
 
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
@@ -99,6 +101,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
      */
     @Override
     public void start() {
+        if(musicplay)mp = new musicPlayer(hardwareMap,gamepad2);
     }
 
     /*
@@ -149,7 +152,6 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             reloader = new shoot_servo(robot);
             reloader.start();
         }
-
         if(gamepad2.dpad_up || gamepad2.dpad_down)
         {
             if(!robot.isReleased && !dropper.isAlive()){
@@ -169,6 +171,16 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
                 bj = true;
             }
         }else bj =false;
+
+        if(musicplay && gamepad2.left_stick_button){
+            synchronized (mp) {
+                try {
+                    mp.notify();
+                }catch (IllegalStateException e){
+                    e.printStackTrace();
+                }
+            }
+        }
 
         telemetry.addData("eyes", "%b", robot.eye.getResault());
         telemetry.addData("left",  "%.2f", robot.powerl);
@@ -209,7 +221,17 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
      */
     @Override
     public void stop() {
-
+        if(musicplay) {
+            mp.canRun = false;
+            synchronized (mp) {
+                try {
+                    mp.notify();
+                }catch(IllegalStateException e){
+                    e.printStackTrace();
+                }
+            }
+            if (mp != null) mp.mp.stop();
+        }
         robot.stop();
     }
 

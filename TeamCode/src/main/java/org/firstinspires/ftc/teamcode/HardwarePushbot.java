@@ -223,6 +223,7 @@ public class HardwarePushbot
         powerr*=-1;
         checkr();
         checkl();
+        long time = System.currentTimeMillis();
         l1.setPower(powerl);
         l2.setPower(powerl);
         r1.setPower(powerr);
