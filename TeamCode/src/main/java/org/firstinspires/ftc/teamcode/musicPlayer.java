@@ -23,30 +23,23 @@ public class musicPlayer extends Thread {
             @Override
             public void onCompletion(MediaPlayer mp) {
                 mp.release();
-                mp = MediaPlayer.create(hw.appContext, R.raw.pump_it);
-                mp.setOnCompletionListener(this);
-                mp.start();
+                mp = null;
+                swi();
             }
         };
         hw = hardwaremap;
         gp2 = gamepad;
         mp = MediaPlayer.create(hw.appContext,R.raw.pump_it);
         mp.setOnCompletionListener(lis);
-        mp.seekTo(180000);
         mp.start();
-        start();
+    }
+    public void swi(){
+        mp = MediaPlayer.create(hw.appContext, R.raw.pump_it);
+        mp.setOnCompletionListener(lis);
+        mp.start();
     }
     @Override
     public void run(){
-        while(true) {
-            synchronized (this) {
-                try {
-                    this.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(!canRun) break;
             while(gp2.left_stick_button){};
             if(isPlaying) {
                 mp.pause();
@@ -56,7 +49,5 @@ public class musicPlayer extends Thread {
                 isPlaying=true;
             }
         }
-    }
-
 
 }

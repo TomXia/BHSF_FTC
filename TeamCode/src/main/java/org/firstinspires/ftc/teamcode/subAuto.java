@@ -1,20 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CaptureResult;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.lasarobotics.vision.android.Cameras;
-import org.lasarobotics.vision.ftc.resq.Beacon;
 import org.lasarobotics.vision.opmode.LinearVisionOpMode;
-import org.lasarobotics.vision.opmode.VisionOpMode;
 import org.lasarobotics.vision.opmode.extensions.BeaconExtension;
-import org.lasarobotics.vision.opmode.extensions.CameraControlExtension;
-import org.lasarobotics.vision.util.ScreenOrientation;
-import org.opencv.core.Size;
 
 /**
  * Created by Administrator on 2017/3/14.
@@ -23,7 +13,7 @@ import org.opencv.core.Size;
 public class subAuto {
     final static int BEACON_COLOUR_BLUE = 0;
     final static int BEACON_COLOUR_RED = 1;
-    final static int destColour = BEACON_COLOUR_RED ;
+    final static int destColour = BEACON_COLOUR_RED;
     public Telemetry t;
     Boolean dest,analysis=true;
     HardwarePushbot robot;
@@ -300,7 +290,7 @@ public class subAuto {
 //            t.addData("push","2");
         }
         else{
-            pushDeg(450,0,0.2,true);
+            pushDeg(550,0,0.2,true);
             for(int i=0;i<2;++i) {
                 robot.pushLight.setPosition(1.0);
                 try {

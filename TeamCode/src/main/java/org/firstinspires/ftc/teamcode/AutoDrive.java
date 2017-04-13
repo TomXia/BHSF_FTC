@@ -46,19 +46,20 @@ import org.lasarobotics.vision.opmode.LinearVisionOpMode;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutoDrive_Sec", group="Auto")  // @Autonomous(...) is the other common choice
+@Autonomous(name="AutoDrive", group="Auto")  // @Autonomous(...) is the other common choice
 //@Disabled
 public class AutoDrive extends LinearVisionOpMode  {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     private HardwarePushbot robot = new HardwarePushbot();
-    private shootThread shoot;
+   /* private shootThread shoot;
     private shoot_servo reloader;
     private int distance_First_goShoot=4100;
     private int distance_pushBall_go=3800;
     final static boolean isReturn = false;
-    final static int destColour = 0 ;
+    final static int destColour = 0 ;*/
+    subAuto_tan sub = new subAuto_tan(robot,this,1.0);
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -86,7 +87,7 @@ public class AutoDrive extends LinearVisionOpMode  {
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
-        /*STEP1: go and shoot */
+        /*STEP1: go and shoot *//*
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.pushGamepad(0,-0.5);
@@ -112,7 +113,7 @@ public class AutoDrive extends LinearVisionOpMode  {
         robot.pushGamepad(0,-0.5 + destColour*1.0);
         while (opModeIsActive()) {
             telemetry.addData("Status L1", "Run Time: " + runtime.toString());
-            if(Math.abs(robot.l2.getCurrentPosition())>=distance_First_goShoot/2+900 + (destColour-1)*200) break;
+            if(Math.abs(robot.l2.getCurrentPosition())>=distance_First_goShoot/2+500 + (destColour-1)*200) break;
             telemetry.update();
         }
         robot.pushGamepad(0,0);
@@ -271,8 +272,10 @@ public class AutoDrive extends LinearVisionOpMode  {
                 telemetry.update();
             }
             robot.pushGamepad(0,0);
-        }
+        }*/
+        sub.goShoot();
+        sub.pushBall();
         telemetry.addData("Info: ","Finished");
         robot.stop();
     }
-}*/
+}

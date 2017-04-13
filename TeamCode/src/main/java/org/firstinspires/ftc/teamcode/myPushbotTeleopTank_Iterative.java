@@ -65,9 +65,9 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
     private shoot_servo reloader;
     private releaseLadder dropper = new releaseLadder(robot);
     private double rx,ry,x,y;
-    private boolean is_Up = false, invert = false, bj = false;
+    private boolean is_Up = false, invert = false, bj = false, mlbj = false;
     private musicPlayer mp = null;
-    final boolean musicplay = false;
+    final boolean musicplay = true;
 
                                                          // could also use HardwarePushbotMatrix class.
 //    double          clawOffset  = 0.0 ;                  // Servo mid position
@@ -170,17 +170,20 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
                 invert = !invert;
                 bj = true;
             }
-        }else bj =false;
+        }else bj = false;
 
         if(musicplay && gamepad2.left_stick_button){
-            synchronized (mp) {
-                try {
-                    mp.notify();
-                }catch (IllegalStateException e){
-                    e.printStackTrace();
+            if(!mlbj){
+                if(mp.isPlaying) {
+                    mp.mp.pause();
+                    mp.isPlaying=false;
+                }else{
+                    mp.mp.start();
+                    mp.isPlaying=true;
                 }
+                mlbj=true;
             }
-        }
+        }else mlbj = false;
 
         telemetry.addData("eyes", "%b", robot.eye.getResault());
         telemetry.addData("left",  "%.2f", robot.powerl);
@@ -221,17 +224,8 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
      */
     @Override
     public void stop() {
-        if(musicplay) {
-            mp.canRun = false;
-            synchronized (mp) {
-                try {
-                    mp.notify();
-                }catch(IllegalStateException e){
-                    e.printStackTrace();
-                }
-            }
+        if(musicplay)
             if (mp != null) mp.mp.stop();
-        }
         robot.stop();
     }
 

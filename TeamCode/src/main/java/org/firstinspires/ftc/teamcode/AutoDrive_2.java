@@ -44,7 +44,7 @@ import org.lasarobotics.vision.opmode.LinearVisionOpMode;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutoDrive_Main", group="Auto")  // @Autonomous(...) is the other common choice
+@Autonomous(name="AutoDrive_Sec", group="Auto")  // @Autonomous(...) is the other common choice
 //@Disabled
 public class AutoDrive_2 extends LinearVisionOpMode {
 
@@ -57,6 +57,7 @@ public class AutoDrive_2 extends LinearVisionOpMode {
     private int Tp2=-4500;//3700;
     final static boolean isReturn = false;
     final static int isBlue = 0; //def = 0 blue
+    subAuto_right sub = new subAuto_right(robot,this,1.0);
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
 
@@ -85,7 +86,9 @@ public class AutoDrive_2 extends LinearVisionOpMode {
 
         // run until the end of the match (driver presses STOP)
         /*STEP1: go and shoot */
-        robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        sub.goShoot();
+        sub.pushBall();
+      /*  robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.pushGamepad(0,-0.5);
         while (opModeIsActive()) {
@@ -219,7 +222,7 @@ public class AutoDrive_2 extends LinearVisionOpMode {
         }
 
         telemetry.addData("Info: ","Finished");
-
+*/
         robot.stop();
     }
 }

@@ -57,15 +57,15 @@ import org.opencv.core.Size;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="TestAuto", group="Test")  // @Autonomous(...) is the other common choice
-public class TestAuto extends LinearVisionOpMode {
+@Autonomous(name="PushBeacon", group="AutoDrive")  // @Autonomous(...) is the other common choice
+public class PushBeacon extends LinearVisionOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     HardwarePushbot robot = new HardwarePushbot();
     subAuto_right sub = new subAuto_right(robot,this,1.3);
     int times;
-    double degree,a,b,delta;
+    double a;
 
     // DcMotor leftMotor = null;
     // DcMotor rightMotor = null;
