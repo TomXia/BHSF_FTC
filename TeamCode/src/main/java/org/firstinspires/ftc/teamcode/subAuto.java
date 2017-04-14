@@ -269,7 +269,7 @@ public class subAuto {
         if(Math.abs(deg) >= 50) pushDeg(Math.abs(deg),0,(Math.abs(deg)/deg)*(-0.35),true);
         return  Founded;
     }
-
+    
     public void Bea_pushBeacon(){
 //        t.addData("push","1");
         if(analysis == dest){

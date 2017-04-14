@@ -152,7 +152,7 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             reloader = new shoot_servo(robot);
             reloader.start();
         }
-        if(gamepad2.dpad_up || gamepad2.dpad_down)
+        if(gamepad2.b && (gamepad2.dpad_up || gamepad2.dpad_down))
         {
             if(!robot.isReleased && !dropper.isAlive()){
                 dropper.start();
@@ -185,9 +185,9 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
             }
         }else mlbj = false;
 
-        telemetry.addData("eyes", "%b", robot.eye.getResault());
-        telemetry.addData("left",  "%.2f", robot.powerl);
-        telemetry.addData("right",  "%.2f", robot.powerr);
+        //telemetry.addData("eyes", "%b", robot.eye.getResault());
+        //telemetry.addData("left",  "%.2f", robot.powerl);
+        //telemetry.addData("right",  "%.2f", robot.powerr);
         // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
 //        left = -gamepad2.left_stick_y;
 //        right = -gamepad1.right_stick_y;
