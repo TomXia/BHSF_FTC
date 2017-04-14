@@ -13,7 +13,7 @@ public class musicPlayer extends Thread {
     public MediaPlayer mp = null;
     private Gamepad gp2;
     private HardwareMap hw;
-    public boolean isPlaying = true;
+    public boolean isPlaying = false;
     public boolean canRun = true;
     private MediaPlayer.OnCompletionListener lis = null;
 
@@ -31,7 +31,7 @@ public class musicPlayer extends Thread {
         gp2 = gamepad;
         mp = MediaPlayer.create(hw.appContext,R.raw.pump_it);
         mp.setOnCompletionListener(lis);
-        mp.start();
+        //mp.start();
     }
     public void swi(){
         mp = MediaPlayer.create(hw.appContext, R.raw.pump_it);
