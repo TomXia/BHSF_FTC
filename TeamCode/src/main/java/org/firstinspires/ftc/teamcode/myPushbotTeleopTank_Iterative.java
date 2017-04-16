@@ -109,6 +109,8 @@ public class myPushbotTeleopTank_Iterative extends OpMode{
      */
     @Override
     public void loop() {
+        telemetry.addData("g1lt:","%2f",gamepad1.left_trigger);
+        telemetry.addData("g1rt:","%2f",gamepad1.right_trigger);
         rx=gamepad1.left_stick_x;
 //        ry=gamepad1.left_stick_y;
         ry=gamepad1.left_trigger-gamepad1.right_trigger;
