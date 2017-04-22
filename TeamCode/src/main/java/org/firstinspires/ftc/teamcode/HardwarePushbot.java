@@ -143,7 +143,7 @@ public class HardwarePushbot
         wrench.scaleRange(0.45,1);
         wrench.setPosition(1.0);
         //ultrasonic.scaleRange(0.0,0.27);
-        ultrasonic.setPosition(0.9);
+        ultrasonic.setPosition(1);
         gyro.calibrate();
         le.enableLed(true);
         re.enableLed(true);
@@ -290,7 +290,7 @@ public class HardwarePushbot
         collector.setPower(0);
         wrench.setPosition(1.0);//0.4
         pushLight.setPosition(0.0);
-        ultrasonic.setPosition(0.9);
+        ultrasonic.setPosition(1.0);
     }
 }
 

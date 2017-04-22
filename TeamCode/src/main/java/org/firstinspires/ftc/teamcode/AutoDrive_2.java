@@ -28,6 +28,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.lasarobotics.vision.opmode.LinearVisionOpMode;
 
@@ -45,7 +46,7 @@ import org.lasarobotics.vision.opmode.LinearVisionOpMode;
  */
 
 @Autonomous(name="AutoDrive_Sec", group="Auto")  // @Autonomous(...) is the other common choice
-//@Disabled
+@Disabled
 public class AutoDrive_2 extends LinearVisionOpMode {
 
     /* Declare OpMode members. */

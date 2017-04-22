@@ -23,13 +23,19 @@ public class subAuto_tan extends subAuto {
     public void goShoot(){
         pushDeg(distance_First_goShoot,0,(-0.5)*qSpeed,true);
         pushDeg(distance_Right_goShoot,0.5,0,true);
-        pushDeg(distance_goBucket_goSh,0,-0.5 + destColour*1.0,true);
+       //pushDeg(distance_goBucket_goSh,0,-0.5 + destColour*1.0,true);
+        robot.resetMotors();
+        robot.pushGamepad(0,-0.5 + destColour*1.0);
+        while(opmode == null || opmode.opModeIsActive()){
+            if(Math.abs(robot.l2.getCurrentPosition()) >= distance_goBucket_goSh) break;
+        }
+        robot.pushGamepad(0,0);
         shootBall(2);
     }
 
     void pushBall(){
         pushDeg(Math.abs((destColour-1)*distance_pushBall_back),0,0.9,true);
         pushDeg(distance_pushBall_turn,-0.5,0,true);
-        pushDeg(distance_pushBall_go - destColour * 1000,0,-0.8*qSpeed,false);
+        pushDeg(distance_pushBall_go - destColour * 1600,0,-0.8*qSpeed,false);
     }
 }

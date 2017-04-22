@@ -14,14 +14,14 @@ public class releaseLadder extends Thread {
         robot.isReleased=true;
         robot.Mladder.setPower(-0.4);
         try {
-            Thread.sleep(250);
+            Thread.sleep(325);
         }catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         robot.Mladder.setPower(0.4);
         try {
-            Thread.sleep(275);
+            Thread.sleep(357);
         }catch (InterruptedException e) {
             e.printStackTrace();
         }

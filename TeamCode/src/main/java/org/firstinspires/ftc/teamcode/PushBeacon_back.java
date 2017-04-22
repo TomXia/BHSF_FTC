@@ -32,14 +32,13 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.lasarobotics.vision.android.Cameras;
 import org.lasarobotics.vision.ftc.resq.Beacon;
 import org.lasarobotics.vision.opmode.LinearVisionOpMode;
-import org.lasarobotics.vision.opmode.VisionOpMode;
 import org.lasarobotics.vision.opmode.extensions.CameraControlExtension;
 import org.lasarobotics.vision.util.ScreenOrientation;
 import org.opencv.core.Size;
@@ -56,10 +55,10 @@ import org.opencv.core.Size;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-//BLUE
-//@Disabled
-@Autonomous(name="PushBeaconB", group="AutoDrive")  // @Autonomous(...) is the other common choice
-public class PushBeacon extends LinearVisionOpMode {
+//FOR RED
+@Disabled
+@Autonomous(name="PushBeaconR", group="AutoDrive")  // @Autonomous(...) is the other common choice
+public class PushBeacon_back extends LinearVisionOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -131,57 +130,24 @@ public class PushBeacon extends LinearVisionOpMode {
         sub.pushLight_goLight();
         robot.ultrasonic.setPosition(0.46);
         Thread.sleep(100);
-//////////////////////////////////////////////////////////////////////////////////////////
+
         sub.degree();
-        sub.ultrasonicgo(true);
-        sub.degreee();
-        sub.findTopline(0.2);
-
-        /*do {
-            times++;
-        'telemetry.addData("times","%d",times);*/
-            if (sub.Bea_findBeacon())
-                    sub.Bea_pushBeacon();
-       /*     else
-                break;
-        }while(times < 3);*/
-/*
-        a = (robot.ulsf.getUltrasonicLevel());
-        b = (robot.ulsb.getUltrasonicLevel());
-        degree=a-b;
-        while(Math.abs(degree)!=0 && opModeIsActive()){
-            a = (robot.ulsf.getUltrasonicLevel());
-            b = (robot.ulsb.getUltrasonicLevel());
-            degree=a-b;
-            if (degree > 20) {
-                degree = 20;
-            }
-            else if (degree < -20) {
-                degree = -20;
-            }
-            robot.pushOnebyOne(degree/30,-degree/30);
-        }、、、、、、、、、、、、、、、、、、、、、、、、、、、、按完第一个灯之后矫正*/
-
-        sub.pushDeg(450,0,0.25,false);
-
-        /*for(double i = 0; i < 0.4; i+=0.001){
-            robot.pushGamepad(0,i);
-        }
-        robot.pushGamepad(0,0.4);
-        while(robot.ods.getLightDetected() < 0.05 && opModeIsActive()){
-        }
-        robot.pushGamepad(0,0);
-        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\已用超声波后退取代*/
+        sub.pushDeg(1000,0,0.25,false);
         sub.ultrasonicgo(false);
-        //sub.degreee();
+        sub.degree();
+
+        sub.findTopline(0.2);
+        if (sub.Bea_findBeacon())
+            sub.Bea_pushBeacon();
+
+        sub.pushDeg(350,0,-0.25,false);
+
+        sub.ultrasonicgo(true);
+        sub.degree();
         sub.findTopline(0.3);
 
-        /*do {
-            times++;
-            //'telemetry.addData("times","%d",times);*/
-            if (sub.Bea_findBeacon())
-                sub.Bea_pushBeacon();
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (sub.Bea_findBeacon())
+            sub.Bea_pushBeacon();
 
            /* else
                 break;

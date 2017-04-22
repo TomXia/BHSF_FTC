@@ -273,6 +273,7 @@ public class AutoDrive extends LinearVisionOpMode  {
             }
             robot.pushGamepad(0,0);
         }*/
+        //Thread.sleep(13000);
         sub.goShoot();
         sub.pushBall();
         telemetry.addData("Info: ","Finished");
