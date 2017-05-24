@@ -153,15 +153,11 @@ public class HardwarePushbot
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
 //        TMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        TMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        TMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
         l1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         l2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         r1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         r2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        r2.setDirection(DcMotorSimple.Direction.FORWARD);
-        l2.setDirection(DcMotorSimple.Direction.FORWARD);
-        r2.setDirection(DcMotorSimple.Direction.FORWARD);
-        l2.setDirection(DcMotorSimple.Direction.FORWARD);
         collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         miniGun.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -199,10 +195,10 @@ public class HardwarePushbot
     public void pushOnebyOne(double l,double r)
     {
         l*=-1.0;
-        l1.setPower(l);
-        l2.setPower(l);
-        r2.setPower(r);
-        r1.setPower(r);
+        l1.setPower(-l);
+        l2.setPower(-l);
+        r2.setPower(-r);
+        r1.setPower(-r);
     }
     public void pushGamepad(double x, double y)
     {
@@ -226,10 +222,10 @@ public class HardwarePushbot
         checkr();
         checkl();
         long time = System.currentTimeMillis();
-        l1.setPower(powerl);
-        l2.setPower(powerl);
-        r1.setPower(powerr);
-        r2.setPower(powerr);
+        l1.setPower(-powerl);
+        l2.setPower(-powerl);
+        r1.setPower(-powerr);
+        r2.setPower(-powerr);
 
     }
     /***
