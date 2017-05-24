@@ -160,6 +160,8 @@ public class HardwarePushbot
         r2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         r2.setDirection(DcMotorSimple.Direction.FORWARD);
         l2.setDirection(DcMotorSimple.Direction.FORWARD);
+        r2.setDirection(DcMotorSimple.Direction.FORWARD);
+        l2.setDirection(DcMotorSimple.Direction.FORWARD);
         collector.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         miniGun.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

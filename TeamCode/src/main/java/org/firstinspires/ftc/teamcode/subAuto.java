@@ -55,7 +55,7 @@ public class subAuto{
             robot.miniGun.setPower(0);
             if (i==0 && !reloader.isAlive())            reloader.start();
             try {
-                Thread.sleep((i==0 ? 1:0) * 500);
+                Thread.sleep((i==0 ? 1:0) * 300);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
