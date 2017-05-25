@@ -174,7 +174,7 @@ public class PushBeacon extends LinearVisionOpMode {
         \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\已用超声波后退取代*/
         sub.ultrasonicgo(false);
         //sub.degreee();
-        sub.findTopline(0.3);
+        sub.findTopline(0.18);
 
         /*do {
             times++;

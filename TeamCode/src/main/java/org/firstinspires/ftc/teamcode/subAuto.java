@@ -312,7 +312,7 @@ public class subAuto{
 
     public void findTopline(double s){
         robot.resetMotors();
-        robot.pushGamepad(0,-0.25);
+        robot.pushGamepad(0,-0.18);
         while(opmode == null || opmode.opModeIsActive()){
             if(Math.abs(robot.l2.getCurrentPosition()) >= 150) break;
         }
