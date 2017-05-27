@@ -22,6 +22,7 @@ public class subAuto{
     public double qSpeed;
     public BeaconExtension beacon = null;
     public int scanresault,nores;
+    public final int Q = 1;
     public int distance_pushLight_goShootGo = 4500;
     public int distance_pushLight_goShootTurn = 900;
     public int distance_pushLight_goLightGo = 3700;
@@ -191,6 +192,7 @@ public class subAuto{
     }
     public void pushDeg(int deg,double x,double y,boolean isStop){
         robot.resetMotors();
+        deg/=Q;
         double k = y==0 ? 0:Math.abs(y)/y;
         double ix;
         robot.pushGamepad(x,0.1*k);
