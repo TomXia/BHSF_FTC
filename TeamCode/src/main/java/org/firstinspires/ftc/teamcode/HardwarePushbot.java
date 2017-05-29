@@ -82,17 +82,17 @@ public class HardwarePushbot
     }
     public  void TargetPosition(Telemetry TP)
     {
-        TP.addData("P of L1","%d",l1.getCurrentPosition());
-        TP.addData("P of L2","%d",l2.getCurrentPosition());
-        TP.addData("P of R1","%d",r1.getCurrentPosition());
-        TP.addData("P of R2","%d",r2.getCurrentPosition());
+        TP.addData("P of L1","%d",l1.getCurrentPosition()*subAuto.Q);
+        TP.addData("P of L2","%d",l2.getCurrentPosition()*subAuto.Q);
+        TP.addData("P of R1","%d",r1.getCurrentPosition()*subAuto.Q);
+        TP.addData("P of R2","%d",r2.getCurrentPosition()*subAuto.Q);
     }
     public  void TargetPosition(int TP)
     {
-        l1.setTargetPosition(-TP);
-        l2.setTargetPosition(TP);
-        r1.setTargetPosition(TP);
-        r2.setTargetPosition(-TP);
+        l1.setTargetPosition((int) (-TP*subAuto.Q));
+        l2.setTargetPosition((int) (TP*subAuto.Q));
+        r1.setTargetPosition((int) (TP*subAuto.Q));
+        r2.setTargetPosition((int)(-TP*subAuto.Q));
     }
 
     /* Initialize standard Hardware interfaces */

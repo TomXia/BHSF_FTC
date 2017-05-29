@@ -27,7 +27,7 @@ public class subAuto_tan extends subAuto {
         robot.resetMotors();
         robot.pushGamepad(0,-0.5 + destColour*1.0);
         while(opmode == null || opmode.opModeIsActive()){
-            if(Math.abs(robot.l2.getCurrentPosition()) >= distance_goBucket_goSh) break;
+            if(Math.abs(robot.l2.getCurrentPosition()*Q) >= distance_goBucket_goSh) break;
         }
         robot.pushGamepad(0,0);
         shootBall(2);

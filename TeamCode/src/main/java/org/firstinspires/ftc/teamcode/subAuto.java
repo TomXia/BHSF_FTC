@@ -22,7 +22,7 @@ public class subAuto{
     public double qSpeed;
     public BeaconExtension beacon = null;
     public int scanresault,nores;
-    public final int Q = 1;
+    public final static double Q = 1.0;////////////////////
     public int distance_pushLight_goShootGo = 4500;
     public int distance_pushLight_goShootTurn = 900;
     public int distance_pushLight_goLightGo = 3700;
@@ -186,21 +186,20 @@ public class subAuto{
         robot.resetMotors();
         int k=0;
         while(opmode.opModeIsActive()) {
-            t.addData("deg","%d",robot.l2.getCurrentPosition() - k);
-            k=robot.l2.getCurrentPosition();
+            t.addData("deg","%d",robot.l2.getCurrentPosition()*Q - k);
+            k=(int)(robot.l2.getCurrentPosition()*Q);
         }
     }
     public void pushDeg(int deg,double x,double y,boolean isStop){
         robot.resetMotors();
-        deg/=Q;
         double k = y==0 ? 0:Math.abs(y)/y;
         double ix;
         robot.pushGamepad(x,0.1*k);
         while (opmode == null || opmode.opModeIsActive()) {
-            ix=Math.abs((double)robot.l2.getCurrentPosition())/(double)deg;
+            ix=Math.abs((double)robot.l2.getCurrentPosition()*Q)/(double)deg;
             if(ix>1) ix=1;
             robot.pushGamepad(x,k*Math.min(-4.5*ix*ix+4.5*ix+0.09,Math.abs(y)));
-            if(Math.abs(robot.l2.getCurrentPosition()) >= deg) break;
+            if(Math.abs(robot.l2.getCurrentPosition()*Q) >= deg) break;
         }
         if(isStop) robot.pushGamepad(0,0);
     }
@@ -228,7 +227,7 @@ public class subAuto{
                     isMotorsRunning = true;
                     robot.pushGamepad(0, -0.25);
                 }
-                if (Math.abs(robot.l2.getCurrentPosition()) >= 300 ) {
+                if (Math.abs(robot.l2.getCurrentPosition()*Q) >= 300 ) {
                     isMotorsRunning = false;
                     robot.pushGamepad(0,0);
                     break;
@@ -237,7 +236,7 @@ public class subAuto{
 //                t.addData("nores","%d",nores);
 //                t.update();
             }
-            deg += robot.l2.getCurrentPosition();
+            deg += robot.l2.getCurrentPosition()*Q;
             robot.resetMotors();
 
         while(!Founded && opmode.opModeIsActive()) {
@@ -256,7 +255,7 @@ public class subAuto{
                 isMotorsRunning = true;
                 robot.pushGamepad(0, 0.25);
             }
-            if (Math.abs(robot.l2.getCurrentPosition()) >= 700) {
+            if (Math.abs(robot.l2.getCurrentPosition()*Q) >= 700) {
                 isMotorsRunning = false;
                 robot.pushGamepad(0,0);
                 break;
@@ -266,7 +265,7 @@ public class subAuto{
 ///            t.update();
         }
         robot.pushGamepad(0,0);
-        deg+=robot.l2.getCurrentPosition();
+        deg+=robot.l2.getCurrentPosition()*Q;
 
         if(Math.abs(deg) >= 50) pushDeg(Math.abs(deg),0,(Math.abs(deg)/deg)*(-0.35),true);
         return  Founded;
@@ -316,7 +315,7 @@ public class subAuto{
         robot.resetMotors();
         robot.pushGamepad(0,-0.18);
         while(opmode == null || opmode.opModeIsActive()){
-            if(Math.abs(robot.l2.getCurrentPosition()) >= 150) break;
+            if(Math.abs(robot.l2.getCurrentPosition()*Q) >= 150) break;
         }
         robot.pushGamepad(0,s);
         while(robot.ods.getLightDetected() < 0.45 && opmode.opModeIsActive()){
@@ -345,7 +344,7 @@ public class subAuto{
             robot.pushGamepad(0.4,0);
 
         while (opmode == null || opmode.opModeIsActive()) {
-            if(Math.abs(robot.r1.getCurrentPosition()) >= (destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goLightTurn : RED_distance_pushLight_goLightTurn) ) break;
+            if(Math.abs(robot.r1.getCurrentPosition()*Q) >= (destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goLightTurn : RED_distance_pushLight_goLightTurn) ) break;
         }
         //if(destColour == BEACON_COLOUR_RED) pushDeg(1200,0,0.6,true);
     }

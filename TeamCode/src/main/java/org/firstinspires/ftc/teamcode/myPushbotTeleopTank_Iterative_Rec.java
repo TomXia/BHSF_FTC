@@ -153,10 +153,10 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         }*/
         //telemetry.addData("motor: ","%d",robot.l1.getCurrentPosition());
         telemetry.addData("speed:","%f",robot.l1.getPower());
-        telemetry.addData("deg L1: ","%d", robot.l1.getCurrentPosition());
-        telemetry.addData("deg L2: ","%d", robot.l2.getCurrentPosition());
-        telemetry.addData("deg R1: ","%d", robot.r1.getCurrentPosition());
-        telemetry.addData("deg R2: ","%d", robot.r2.getCurrentPosition());
+        telemetry.addData("deg L1: ","%f", robot.l1.getCurrentPosition()*subAuto.Q);
+        telemetry.addData("deg L2: ","%f", robot.l2.getCurrentPosition()*subAuto.Q);
+        telemetry.addData("deg R1: ","%f", robot.r1.getCurrentPosition()*subAuto.Q);
+        telemetry.addData("deg R2: ","%f", robot.r2.getCurrentPosition()*subAuto.Q);
         telemetry.addData("LightSensorL: ","%f",robot.le.getLightDetected());
         telemetry.addData("LightSensorR:","%f",robot.re.getLightDetected());
         telemetry.addData("ULSS","%f",robot.ultrasonic.getPosition());
