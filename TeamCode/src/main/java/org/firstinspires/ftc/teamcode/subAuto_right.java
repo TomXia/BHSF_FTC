@@ -13,9 +13,9 @@ import org.lasarobotics.vision.opmode.LinearVisionOpMode;
 public class subAuto_right extends subAuto {
     private int distance_First_goShoot = 3900;
     private int distance_pushBall_go = 4000;
-    private int distance_Right_goShoot = 1750;
-    private int distance_pushBall_back = 4000;
-    private int distance_pushBall_red = 3000;
+    private int distance_Right_goShoot = 1400;
+    private int distance_pushBall_back = 2500;
+    private int distance_pushBall_red = 2500;
     subAuto_right(HardwarePushbot  r, LinearVisionOpMode op, double q){
         super(r,op,q);
     }

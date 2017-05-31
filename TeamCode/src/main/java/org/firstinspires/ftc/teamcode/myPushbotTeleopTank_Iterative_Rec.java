@@ -80,8 +80,6 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
     private BlockingQueue que;
     private Gamepad bgp;
     private ElapsedTime et;
-    private DataOutputStream out;
-    private FileOutputStream fos = null;
     public Long last = 0l;
     subAuto sua;
                                                          // could also use HardwarePushbotMatrix class.
@@ -101,13 +99,6 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
         robot.init(hardwareMap);
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        try {
-            fos = hardwareMap.appContext.openFileOutput("Temp.txt", Context.MODE_WORLD_READABLE);
-        }catch (FileNotFoundException e){
-            telemetry.addData("Failed while","create");
-            e.printStackTrace();
-        }
-        out = new DataOutputStream(fos);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Driver");    //
         sua.t=telemetry;
@@ -172,13 +163,6 @@ public class myPushbotTeleopTank_Iterative_Rec extends OpMode{
      */
     @Override
     public void stop() {
-        try {
-            fos.close();
-            out.close();
-        }catch (IOException e){
-            telemetry.addData("Failed while","close");
-            e.printStackTrace();
-        }
 
         robot.stop();
     }

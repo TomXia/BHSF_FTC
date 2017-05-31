@@ -132,7 +132,7 @@ public class PushBeacon_back extends LinearVisionOpMode {
         Thread.sleep(100);
 
         sub.degree();
-        sub.pushDeg(1000,0,0.25,false);
+        sub.pushDeg(1500,0,0.25,false);
         sub.ultrasonicgo(false);
         sub.degree();
 

@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+
 import org.lasarobotics.vision.opmode.LinearVisionOpMode;
 import org.lasarobotics.vision.opmode.extensions.BeaconExtension;
 
@@ -13,7 +14,7 @@ import org.lasarobotics.vision.opmode.extensions.BeaconExtension;
 public class subAuto{
     final static int BEACON_COLOUR_BLUE = 0;
     final static int BEACON_COLOUR_RED = 1;
-    public int destColour = BEACON_COLOUR_BLUE;
+    public int destColour = BEACON_COLOUR_RED;
     public Telemetry t;
     Boolean dest,analysis=true;
     HardwarePushbot robot;
@@ -23,15 +24,15 @@ public class subAuto{
     public BeaconExtension beacon = null;
     public int scanresault,nores;
     public final static double Q = 40.0/24.0;////////////////////
-    public int distance_pushLight_goShootGo = 4500;
-    public int distance_pushLight_goShootTurn = 900;
-    public int distance_pushLight_goLightGo = 3700;
-    public int distance_pushLight_goLightTurn = 2055;
+    public int distance_pushLight_goShootGo = 3800;
+    public int distance_pushLight_goShootTurn = 750;
+    public int distance_pushLight_goLightGo = 2350;
+    public int distance_pushLight_goLightTurn = 1855;
 
-    public int RED_distance_pushLight_goShootGo = 3500;
-    public int RED_distance_pushLight_goShootTurn = 1000;
-    public int RED_distance_pushLight_goLightGo = 4900;
-    public int RED_distance_pushLight_goLightTurn = 990;
+    public int RED_distance_pushLight_goShootGo = 3650;
+    public int RED_distance_pushLight_goShootTurn = 650;
+    public int RED_distance_pushLight_goLightGo = 4700;
+    public int RED_distance_pushLight_goLightTurn = 350;
 
 
 
@@ -74,11 +75,12 @@ public class subAuto{
         double delta;
         double x=0, y=0;
         double k;
+        double ave=0.35;
         if(isForward) {
-            while (opmode.opModeIsActive() && robot.ods.getLightDetected() < 0.45) {//
+            while (opmode.opModeIsActive() && robot.ods.getLightDetected() < 0.25) {//
                 a = (robot.ulsf.getUltrasonicLevel());
                 b = (robot.ulsb.getUltrasonicLevel());
-                delta = 17 - a;
+                delta = 19 - a;
                 if (Math.abs(delta) > 10) {
                     if (delta > 0)
                         delta = 10;
@@ -92,14 +94,14 @@ public class subAuto{
                         k = -0.2;
                     }
                     if (delta > 0) {
-                        x = 0.3 - k;
-                        y = 0.3 + k;
+                        x = 0.6*ave - k/1.5;
+                        y = 0.6*ave + k/1.5;
                     } else if(delta==0) {
-                        x=0.6;
-                        y=0.6;
+                        x=ave;
+                        y=ave;
                     }else {
-                        x = 0.3 + k;
-                        y = 0.3 - k;
+                        x = 0.6*ave + k/1.5;
+                        y = 0.6*ave - k/1.5;
                     }
 
 
@@ -108,7 +110,7 @@ public class subAuto{
                 if (a == 0 || a >= 150 || b == 0 || b >= 150) {
                     robot.pushOnebyOne(0, 0);
                 } else if (a == 24 || b == 24) {
-                    robot.pushOnebyOne(0.5, 0.5);
+                    robot.pushOnebyOne(ave, ave);
                 } else {
                     robot.pushOnebyOne(x, y);
 
@@ -117,10 +119,10 @@ public class subAuto{
             //degree();
         }
         else{
-            while (opmode.opModeIsActive() && robot.ods.getLightDetected() < 0.45) {//
+            while (opmode.opModeIsActive() && robot.ods.getLightDetected() < 0.25) {//
                 a = (robot.ulsf.getUltrasonicLevel());
                 b = (robot.ulsb.getUltrasonicLevel());
-                delta = 18 - b;
+                delta = 20 - b;
                 if (Math.abs(delta) > 10) {
                     if (delta > 0)
                         delta = 10;
@@ -135,14 +137,14 @@ public class subAuto{
                         k = -0.2;
                     }
                     if (delta > 0) {
-                        x = -0.3 + k;
-                        y = -0.3 - k;
+                        x = -0.6*ave + k/1.5;
+                        y = -0.6*ave - k/1.5;
                     } else if(delta==0) {
-                        x=-0.6;
-                        y=-0.6;
+                        x=-ave;
+                        y=-ave;
                     }else {
-                        x = -0.3 - k;
-                        y = -0.3 + k;
+                        x = -0.6*ave - k/1.5;
+                        y = -0.6*ave + k/1.5;
                     }
 
 
@@ -150,7 +152,7 @@ public class subAuto{
                 if (a == 0 || a >= 150 || b == 0 || b >= 150) {
                     robot.pushOnebyOne(0, 0);
                 } else if (a == 24 || b == 24) {
-                    robot.pushOnebyOne(-0.5, -0.5);
+                    robot.pushOnebyOne(-ave, -ave);
                 } else {
                     robot.pushOnebyOne(x, y);
 
@@ -291,7 +293,7 @@ public class subAuto{
 //            t.addData("push","2");
         }
         else{
-            pushDeg(550,0,0.2,true);
+            pushDeg(400,0,0.2,true);
             for(int i=0;i<2;++i) {
                 robot.pushLight.setPosition(1.0);
                 try {
@@ -318,13 +320,13 @@ public class subAuto{
             if(Math.abs(robot.l2.getCurrentPosition()*Q) >= 150) break;
         }
         robot.pushGamepad(0,s);
-        while(robot.ods.getLightDetected() < 0.45 && opmode.opModeIsActive()){
+        while(robot.ods.getLightDetected() < 0.25 && opmode.opModeIsActive()){
         }
         robot.pushGamepad(0,0);
     }
 
     public void pushLight_goShoot(){
-        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goShootGo : RED_distance_pushLight_goShootGo,0,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*(qSpeed)*(-0.7),true);
+        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goShootGo : RED_distance_pushLight_goShootGo,0,(destColour==BEACON_COLOUR_BLUE ? 1 : -0.85)*(qSpeed)*(-0.7),true);
         try{
             Thread.sleep(60);
         }catch (InterruptedException e){

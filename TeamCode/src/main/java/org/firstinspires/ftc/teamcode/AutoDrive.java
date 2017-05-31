@@ -46,7 +46,7 @@ import org.lasarobotics.vision.opmode.LinearVisionOpMode;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="AutoDrive", group="Auto")  // @Autonomous(...) is the other common choice
+@Autonomous(name="AutoDrive_tan", group="Auto")  // @Autonomous(...) is the other common choice
 //@Disabled
 public class AutoDrive extends LinearVisionOpMode  {
 

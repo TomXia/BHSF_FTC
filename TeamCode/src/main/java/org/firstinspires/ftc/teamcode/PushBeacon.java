@@ -174,6 +174,7 @@ public class PushBeacon extends LinearVisionOpMode {
         \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\已用超声波后退取代*/
         sub.ultrasonicgo(false);
         //sub.degreee();
+        sub.degree();
         sub.findTopline(0.18);
 
         /*do {
@@ -181,8 +182,17 @@ public class PushBeacon extends LinearVisionOpMode {
             //'telemetry.addData("times","%d",times);*/
             if (sub.Bea_findBeacon())
                 sub.Bea_pushBeacon();
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        //////////////////////////////////////////////////////////
+        /// /////////////////////////////////////////////
+        robot.ultrasonic.setPosition(1.0);
+        if(sub.destColour==subAuto.BEACON_COLOUR_BLUE){
+            sub.pushDeg(500,0,-0.8,false);
+            sub.pushDeg(500,1.0,0.0,true);
+            sub.pushDeg(4000,0,0.5,false);
+        }else{
+            sub.pushDeg(170,-1.0,0.0,true);
+            sub.pushDeg(12000,0,-0.7,false);
+        }
            /* else
                 break;
         }while(times < 3);*/
