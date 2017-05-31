@@ -13,7 +13,7 @@ import org.lasarobotics.vision.opmode.extensions.BeaconExtension;
 public class subAuto{
     final static int BEACON_COLOUR_BLUE = 0;
     final static int BEACON_COLOUR_RED = 1;
-    final static int destColour = BEACON_COLOUR_BLUE;
+    public int destColour = BEACON_COLOUR_BLUE;
     public Telemetry t;
     Boolean dest,analysis=true;
     HardwarePushbot robot;
@@ -22,7 +22,7 @@ public class subAuto{
     public double qSpeed;
     public BeaconExtension beacon = null;
     public int scanresault,nores;
-    public final static double Q = 1.0;////////////////////
+    public final static double Q = 40.0/24.0;////////////////////
     public int distance_pushLight_goShootGo = 4500;
     public int distance_pushLight_goShootTurn = 900;
     public int distance_pushLight_goLightGo = 3700;

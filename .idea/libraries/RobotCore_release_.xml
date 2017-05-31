@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="RobotCore-release-">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/d1451f9582baaf189b8633df8b758e073c6967bd/output/jars/libs/Vuforia.jar!/" />
-      <root url="jar://$USER_HOME$/.android/build-cache/d1451f9582baaf189b8633df8b758e073c6967bd/output/jars/classes.jar!/" />
-      <root url="jar://$USER_HOME$/.android/build-cache/d1451f9582baaf189b8633df8b758e073c6967bd/output/jars/libs/gson-extras-0.2.1.jar!/" />
-      <root url="jar://$USER_HOME$/.android/build-cache/d1451f9582baaf189b8633df8b758e073c6967bd/output/jars/libs/support-annotations-23.4.0.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/d1451f9582baaf189b8633df8b758e073c6967bd/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/d1451f9582baaf189b8633df8b758e073c6967bd/output/jars/libs/gson-2.8.0.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/1c8d7759657bc94bb200dfdffd26432ddd071c0e/output/jars/libs/gson-extras-0.2.1.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/1c8d7759657bc94bb200dfdffd26432ddd071c0e/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/1c8d7759657bc94bb200dfdffd26432ddd071c0e/output/jars/libs/Vuforia.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/1c8d7759657bc94bb200dfdffd26432ddd071c0e/output/jars/libs/gson-2.8.0.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/1c8d7759657bc94bb200dfdffd26432ddd071c0e/output/jars/libs/support-annotations-23.4.0.jar!/" />
+      <root url="jar://$USER_HOME$/.android/build-cache/1c8d7759657bc94bb200dfdffd26432ddd071c0e/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
