@@ -31,8 +31,7 @@ public class subAuto{
 
     public int RED_distance_pushLight_goShootGo = 3650;
     public int RED_distance_pushLight_goShootTurn = 580;
-    public int RED_distance_pushLight_goLightGo = 62
-    00;
+    public int RED_distance_pushLight_goLightGo = 6100;
     public int RED_distance_pushLight_goLightTurn = 170;
 
 
