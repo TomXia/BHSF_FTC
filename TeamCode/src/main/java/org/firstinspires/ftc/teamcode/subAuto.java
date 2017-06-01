@@ -23,7 +23,7 @@ public class subAuto{
     public double qSpeed;
     public BeaconExtension beacon = null;
     public int scanresault,nores;
-    public final static double Q = 40.0/24.0;////////////////////
+    public final static double Q = 40.0/24.0;////////////////////2`
     public int distance_pushLight_goShootGo = 3800;
     public int distance_pushLight_goShootTurn = 750;
     public int distance_pushLight_goLightGo = 2350;
@@ -31,8 +31,9 @@ public class subAuto{
 
     public int RED_distance_pushLight_goShootGo = 3650;
     public int RED_distance_pushLight_goShootTurn = 580;
-    public int RED_distance_pushLight_goLightGo = 6200;
-    public int RED_distance_pushLight_goLightTurn = 140;
+    public int RED_distance_pushLight_goLightGo = 62
+    00;
+    public int RED_distance_pushLight_goLightTurn = 170;
 
 
 
@@ -332,7 +333,7 @@ public class subAuto{
         }catch (InterruptedException e){
             e.printStackTrace();
         }
-        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goShootTurn : RED_distance_pushLight_goShootTurn ,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*0.4,0,true);
+        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goShootTurn : RED_distance_pushLight_goShootTurn ,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*0.3,0,true);
     }
 
     public void pushLight_goLight(){
@@ -365,14 +366,14 @@ public class subAuto{
             } else {
 
             }
-            if (Math.abs(degree * degree * 0.025) < 0.1) {
+            if (Math.abs(degree * degree * 0.03) < 0.1) {
                 break;
             }
             //robot.pushOnebyOne(degree/30,-degree/30);
             if (degree > 0) {
-                robot.pushOnebyOne(degree * degree * 0.0025, degree * degree * (-0.0025));
+                robot.pushOnebyOne(degree * degree * 0.003, degree * degree * (-0.003));
             } else {
-                robot.pushOnebyOne(degree * degree * (-0.0025), degree * degree * 0.0025);
+                robot.pushOnebyOne(degree * degree * (-0.003), degree * degree * 0.003);
             }
         }
     }
@@ -397,10 +398,10 @@ public class subAuto{
             }
             //robot.pushOnebyOne(degree/30,-degree/30);
             if(degree>0){
-                robot.pushOnebyOne(degree*degree*0.0025,degree*degree*(-0.0025));
+                robot.pushOnebyOne(degree*degree*0.003,degree*degree*(-0.003));
             }
             else{
-                robot.pushOnebyOne(degree*degree*(-0.0025),degree*degree*0.0025);
+                robot.pushOnebyOne(degree*degree*(-0.003),degree*degree*0.003);
             }
         }
         robot.pushOnebyOne(0,0);
