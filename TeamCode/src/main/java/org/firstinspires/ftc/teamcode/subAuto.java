@@ -30,9 +30,9 @@ public class subAuto{
     public int distance_pushLight_goLightTurn = 1855;
 
     public int RED_distance_pushLight_goShootGo = 3650;
-    public int RED_distance_pushLight_goShootTurn = 650;
-    public int RED_distance_pushLight_goLightGo = 4700;
-    public int RED_distance_pushLight_goLightTurn = 350;
+    public int RED_distance_pushLight_goShootTurn = 580;
+    public int RED_distance_pushLight_goLightGo = 6200;
+    public int RED_distance_pushLight_goLightTurn = 140;
 
 
 
@@ -87,7 +87,7 @@ public class subAuto{
                     else
                         delta = -10;
                 }
-                k = Math.sqrt(100 - (Math.abs(delta) - 10) * (Math.abs(delta) - 10)) / 50;
+                k = Math.sqrt(100 - (Math.abs(2*x) - 10) * (Math.abs(2*x) - 10)) / 30;
                     if (k > 0.2) {
                         k = 0.2;
                     } else if (k < -0.2) {
@@ -129,7 +129,7 @@ public class subAuto{
                     else
                         delta = -10;
                 }
-                k = Math.sqrt(100 - (Math.abs(delta) - 10) * (Math.abs(delta) - 10)) / 50;
+                k = Math.sqrt(100 - (Math.abs(2*x) - 10) * (Math.abs(2*x) - 10)) / 30;
 
                     if (k > 0.2) {
                         k = 0.2;

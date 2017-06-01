@@ -32,13 +32,14 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.lasarobotics.vision.android.Cameras;
 import org.lasarobotics.vision.ftc.resq.Beacon;
 import org.lasarobotics.vision.opmode.LinearVisionOpMode;
+import org.lasarobotics.vision.opmode.VisionOpMode;
 import org.lasarobotics.vision.opmode.extensions.CameraControlExtension;
 import org.lasarobotics.vision.util.ScreenOrientation;
 import org.opencv.core.Size;
@@ -55,9 +56,9 @@ import org.opencv.core.Size;
  * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
-//FOR RED
-@Disabled
-@Autonomous(name="PushBeaconR", group="AutoDrive")  // @Autonomous(...) is the other common choice
+//BLUE
+//@Disabled
+@Autonomous(name="PushBeaconBlue", group="AutoDrive")  // @Autonomous(...) is the other common choice
 public class PushBeacon_back extends LinearVisionOpMode {
 
     /* Declare OpMode members. */
@@ -93,6 +94,7 @@ public class PushBeacon_back extends LinearVisionOpMode {
         cameraControl.setAutoExposureCompensation();
         sub.setBeacon(beacon);
         times=0;
+        sub.destColour=subAuto.BEACON_COLOUR_BLUE;
         waitForStart();
         runtime.reset();
         telemetry.addData("ultrasonicf:","%f",robot.ulsf.getUltrasonicLevel());
@@ -117,9 +119,9 @@ public class PushBeacon_back extends LinearVisionOpMode {
             }
             robot.pushOnebyOne(-0.3+delta/30,-0.3-delta/30);
         }*/
-      //  sub.ultrasonicgo(false);
-      //  Thread.sleep(10000);
-       // sub.ultrasonicgo(false);
+        //  sub.ultrasonicgo(false);
+        //  Thread.sleep(10000);
+        // sub.ultrasonicgo(false);
         //try {
         //     Thread.sleep(20000);
         //}catch (InterruptedException e) {
@@ -130,33 +132,76 @@ public class PushBeacon_back extends LinearVisionOpMode {
         sub.pushLight_goLight();
         robot.ultrasonic.setPosition(0.46);
         Thread.sleep(100);
-
+//////////////////////////////////////////////////////////////////////////////////////////
         sub.degree();
-        sub.pushDeg(1500,0,0.25,false);
-        sub.ultrasonicgo(false);
-        sub.degree();
-
-        sub.findTopline(0.2);
-        if (sub.Bea_findBeacon())
-            sub.Bea_pushBeacon();
-
-        sub.pushDeg(350,0,-0.25,false);
-
         sub.ultrasonicgo(true);
-        sub.degree();
-        sub.findTopline(0.3);
+        sub.degreee();
+        sub.findTopline(0.2);
 
+        /*do {
+            times++;
+        'telemetry.addData("times","%d",times);*/
         if (sub.Bea_findBeacon())
             sub.Bea_pushBeacon();
+       /*     else
+                break;
+        }while(times < 3);*/
+/*
+        a = (robot.ulsf.getUltrasonicLevel());
+        b = (robot.ulsb.getUltrasonicLevel());
+        degree=a-b;
+        while(Math.abs(degree)!=0 && opModeIsActive()){
+            a = (robot.ulsf.getUltrasonicLevel());
+            b = (robot.ulsb.getUltrasonicLevel());
+            degree=a-b;
+            if (degree > 20) {
+                degree = 20;
+            }
+            else if (degree < -20) {
+                degree = -20;
+            }
+            robot.pushOnebyOne(degree/30,-degree/30);
+        }、、、、、、、、、、、、、、、、、、、、、、、、、、、、按完第一个灯之后矫正*/
 
+        sub.pushDeg(450,0,0.25,false);
+
+        /*for(double i = 0; i < 0.4; i+=0.001){
+            robot.pushGamepad(0,i);
+        }
+        robot.pushGamepad(0,0.4);
+        while(robot.ods.getLightDetected() < 0.05 && opModeIsActive()){
+        }
+        robot.pushGamepad(0,0);
+        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\已用超声波后退取代*/
+        sub.ultrasonicgo(false);
+        //sub.degreee();
+        sub.degree();
+        //sub.findTopline(0.18);
+
+        /*do {
+            times++;
+            //'telemetry.addData("times","%d",times);*/
+        if (sub.Bea_findBeacon())
+            sub.Bea_pushBeacon();
+        //////////////////////////////////////////////////////////
+        /// /////////////////////////////////////////////
+        robot.ultrasonic.setPosition(1.0);
+        if(sub.destColour==subAuto.BEACON_COLOUR_BLUE){
+            sub.pushDeg(500,0,-0.8,false);
+            sub.pushDeg(500,1.0,0.0,true);
+            sub.pushDeg(4000,0,0.5,false);
+        }else{
+            sub.pushDeg(170,-1.0,0.0,true);
+            sub.pushDeg(12000,0,-0.9,false);
+        }
            /* else
                 break;
         }while(times < 3);*/
         robot.stop();
         return;
 
-            // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
-            // leftMotor.setPower(-gamepad1.left_stick_y);
-            // rightMotor.setPower(-gamepad1.right_stick_y);
+        // eg: Run wheels in tank mode (note: The joystick goes negative when pushed forwards)
+        // leftMotor.setPower(-gamepad1.left_stick_y);
+        // rightMotor.setPower(-gamepad1.right_stick_y);
     }
 }
