@@ -135,7 +135,7 @@ public class PushBeacon extends LinearVisionOpMode {
         sub.degree();
         sub.ultrasonicgo(true);
         sub.degreee();
-        sub.findTopline(0.2);
+        sub.findTopline(0.1);
 
         /*do {
             times++;

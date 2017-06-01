@@ -31,7 +31,7 @@ public class subAuto{
 
     public int RED_distance_pushLight_goShootGo = 3650;
     public int RED_distance_pushLight_goShootTurn = 580;
-    public int RED_distance_pushLight_goLightGo = 6100;
+    public int RED_distance_pushLight_goLightGo = 6050;
     public int RED_distance_pushLight_goLightTurn = 170;
 
 
@@ -75,7 +75,7 @@ public class subAuto{
         double delta;
         double x=0, y=0;
         double k;
-        double ave=0.35;
+        double ave=0.27;
         if(isForward) {
             while (opmode.opModeIsActive() && robot.ods.getLightDetected() < 0.25) {//
                 a = (robot.ulsf.getUltrasonicLevel());
@@ -87,7 +87,7 @@ public class subAuto{
                     else
                         delta = -10;
                 }
-                k = Math.sqrt(100 - (Math.abs(2*x) - 10) * (Math.abs(2*x) - 10)) / 30;
+                k = /*Math.sqrt(100 - (Math.abs(2*x) - 10) * (Math.abs(2*x) - 10)) / 30*/delta*delta/20;
                     if (k > 0.2) {
                         k = 0.2;
                     } else if (k < -0.2) {
@@ -129,7 +129,7 @@ public class subAuto{
                     else
                         delta = -10;
                 }
-                k = Math.sqrt(100 - (Math.abs(2*x) - 10) * (Math.abs(2*x) - 10)) / 30;
+                k = /*Math.sqrt(100 - (Math.abs(2*x) - 10) * (Math.abs(2*x) - 10)) / 30*/delta*delta/20;
 
                     if (k > 0.2) {
                         k = 0.2;
@@ -317,7 +317,7 @@ public class subAuto{
         robot.resetMotors();
         robot.pushGamepad(0,-0.18);
         while(opmode == null || opmode.opModeIsActive()){
-            if(Math.abs(robot.l2.getCurrentPosition()*Q) >= 150) break;
+            if(Math.abs(robot.l2.getCurrentPosition()*Q) >= 250) break;
         }
         robot.pushGamepad(0,s);
         while(robot.ods.getLightDetected() < 0.25 && opmode.opModeIsActive()){
