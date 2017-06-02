@@ -95,6 +95,7 @@ public class PushBeacon_back extends LinearVisionOpMode {
         sub.setBeacon(beacon);
         times=0;
         sub.destColour=subAuto.BEACON_COLOUR_BLUE;
+        sub.dest = sub.destColour==0;
         waitForStart();
         runtime.reset();
         telemetry.addData("ultrasonicf:","%f",robot.ulsf.getUltrasonicLevel());

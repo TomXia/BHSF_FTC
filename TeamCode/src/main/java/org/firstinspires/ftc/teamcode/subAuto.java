@@ -16,7 +16,7 @@ public class subAuto{
     final static int BEACON_COLOUR_RED = 1;
     public int destColour = BEACON_COLOUR_RED;
     public Telemetry t;
-    Boolean dest,analysis=true;
+    public Boolean dest,analysis=true;
     HardwarePushbot robot;
     private shoot_servo reloader;
     public LinearVisionOpMode opmode;
@@ -24,15 +24,16 @@ public class subAuto{
     public BeaconExtension beacon = null;
     public int scanresault,nores;
     public final static double Q = 40.0/24.0;////////////////////2`
-    public int distance_pushLight_goShootGo = 3800;
+    public int distance_pushLight_goShootGo = 3950;
     public int distance_pushLight_goShootTurn = 750;
-    public int distance_pushLight_goLightGo = 2350;
+    public int distance_pushLight_goLightGo = 3800;/////////////////////////////////////////////////////
     public int distance_pushLight_goLightTurn = 1855;
 
     public int RED_distance_pushLight_goShootGo = 3650;
-    public int RED_distance_pushLight_goShootTurn = 580;
-    public int RED_distance_pushLight_goLightGo = 6050;
-    public int RED_distance_pushLight_goLightTurn = 170;
+    public int RED_distance_pushLight_goShootTurn = 620;
+    public int RED_distance_pushLight_goLightGo = 6500;
+    public int RED_distance_pushLight_goLightTurn = 230;
+
 
 
 
@@ -336,7 +337,7 @@ public class subAuto{
     }
 
     public void pushLight_goLight(){
-        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goLightGo : RED_distance_pushLight_goLightGo,0,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*(-0.7)*qSpeed,true);
+        pushDeg(destColour==BEACON_COLOUR_BLUE ? distance_pushLight_goLightGo : RED_distance_pushLight_goLightGo,0,(destColour==BEACON_COLOUR_BLUE ? 1 : -1)*(-0.8)*qSpeed,true);
         robot.setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 

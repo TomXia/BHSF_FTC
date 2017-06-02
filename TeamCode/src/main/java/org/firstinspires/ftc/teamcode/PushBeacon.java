@@ -134,7 +134,7 @@ public class PushBeacon extends LinearVisionOpMode {
 //////////////////////////////////////////////////////////////////////////////////////////
         sub.degree();
         sub.ultrasonicgo(true);
-        sub.degreee();
+        sub.degree();
         sub.findTopline(0.1);
 
         /*do {
@@ -173,6 +173,7 @@ public class PushBeacon extends LinearVisionOpMode {
         robot.pushGamepad(0,0);
         \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\已用超声波后退取代*/
         sub.ultrasonicgo(false);
+        //sub.pushDeg(15,-1.0,0.0,false);
         //sub.degreee();
         sub.degree();
         //sub.findTopline(0.18);
